@@ -25,7 +25,7 @@ public class PortofoliuController
 	public String create(Portofoliu portofoliu, Model model)
 	{
 		model.addAttribute("conventie", new Portofoliu());
-		return "conventie-create";
+		return "portofoliu-create";
 	}
 
 	@PostMapping("/conventie-create-save")
@@ -33,7 +33,7 @@ public class PortofoliuController
 	{
 		if(result.hasErrors())
 		{
-			return "conventie-create";
+			return "portofoliu-create";
 		}
 		
 		portofoliuRepository.save(portofoliu);
@@ -44,7 +44,7 @@ public class PortofoliuController
 	public String read(Model model) 
 	{
 	    model.addAttribute("conventii", portofoliuRepository.findAll());
-	    return "conventie-read";
+	    return "portofoliu-read";
 	}
 	
 	@GetMapping("/conventie-edit/{id}")
@@ -54,7 +54,7 @@ public class PortofoliuController
 	    //.orElseThrow(() -> new IllegalArgumentException("Invalid conventie Id:" + id));
 	    	    
 	    model.addAttribute("conventie", portofoliu);
-	    return "conventie-update";
+	    return "portofoliu-update";
 	}
 	
 	@PostMapping("/conventie-update/{id}")
@@ -63,7 +63,7 @@ public class PortofoliuController
 	    if(result.hasErrors()) 
 	    {
 	        portofoliu.setId(id);
-	        return "conventie-update";
+	        return "portofoliu-update";
 	    }
 	        
 	    portofoliuRepository.save(portofoliu);

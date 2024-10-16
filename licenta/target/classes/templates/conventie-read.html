@@ -19,7 +19,7 @@
 		  </ol>
 		</nav>	
 		<div th:switch="${conventii}">
-		    <h2 th:case="null">Nu este nicio conventie in baza de date!</h2>
+		    <h2 th:case="null">Nu este nicio portofoliu in baza de date!</h2>
 	        <div th:case="*">
 	            <h2>Conventii</h2>
 	            <table class="table table-small">
@@ -52,36 +52,36 @@
 	                    </tr>
 	                </thead>
 	                <tbody>
-		                <tr th:each="conventie : ${conventii}">
-		                    <td scope="col" th:text="${conventie.id}"></td>		                    
-		                    <td><a th:href="@{/conventie-edit/{id}(id=${conventie.id})}">Editeaza</a></td>
-		                    <td><a th:href="@{/conventie-delete/{id}(id=${conventie.id})}">Sterge</a></td>
+		                <tr th:each="portofoliu : ${conventii}">
+		                    <td scope="col" th:text="${portofoliu.id}"></td>
+		                    <td><a th:href="@{/portofoliu-edit/{id}(id=${portofoliu.id})}">Editeaza</a></td>
+		                    <td><a th:href="@{/portofoliu-delete/{id}(id=${portofoliu.id})}">Sterge</a></td>
 		                    	                    
-		                    <td th:text="${conventie.companie.nume}"></td>
-		                    <td th:text="${conventie.student.nume}"></td>
+		                    <td th:text="${portofoliu.companie.nume}"></td>
+		                    <td th:text="${portofoliu.student.nume}"></td>
 		                    
-		                    <td th:text="${conventie.loculDesfasurarii}"></td>
-		                    <td th:text="${conventie.durataInPlanulDeInvatamant}"></td>
-		                    <td th:text="${conventie.dataInceput}"></td>
-		                    <td th:text="${conventie.dataSfarsit}"></td>
+		                    <td th:text="${portofoliu.loculDesfasurarii}"></td>
+		                    <td th:text="${portofoliu.durataInPlanulDeInvatamant}"></td>
+		                    <td th:text="${portofoliu.dataInceput}"></td>
+		                    <td th:text="${portofoliu.dataSfarsit}"></td>
 		                    
-		                    <td th:text="${conventie.numeProiect}"></td>
-		                    <td th:text="${conventie.numeProiect}"></td>
+		                    <td th:text="${portofoliu.numeProiect}"></td>
+		                    <td th:text="${portofoliu.numeProiect}"></td>
 		                    
-		                    <td th:text="${conventie.tutore.nume}"></td>
-		                    <td th:text="${conventie.cadruDidactic.nume}"></td>
+		                    <td th:text="${portofoliu.tutore.nume}"></td>
+		                    <td th:text="${portofoliu.cadruDidactic.nume}"></td>
 
-		                    <td th:text="${conventie.numarCredite}"></td>
-		                    <td th:text="${conventie.indemnizatii}"></td>
-		                    <td th:text="${conventie.avantaje}"></td>
-		                    <td th:text="${conventie.altePrecizari}"></td>
+		                    <td th:text="${portofoliu.numarCredite}"></td>
+		                    <td th:text="${portofoliu.indemnizatii}"></td>
+		                    <td th:text="${portofoliu.avantaje}"></td>
+		                    <td th:text="${portofoliu.altePrecizari}"></td>
 		                    
-		                    <td th:text="${conventie.dataIntocmirii}"></td>
+		                    <td th:text="${portofoliu.dataIntocmirii}"></td>
 		                </tr>
 	            	</tbody>
 	        	</table>
 		    </div>      
-		    <p><a href="/conventie-create">Adauga o conventie noua</a></p>
+		    <p><a href="/portofoliu-create">Adauga o portofoliu noua</a></p>
 		</div>
 	</div>
 
