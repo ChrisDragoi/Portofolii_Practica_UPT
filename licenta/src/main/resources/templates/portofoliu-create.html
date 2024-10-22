@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Portofolii 1.0</title>
+	<title>Creare Portofoliu - Portofolii 1.0</title>
 	<base href="/">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -10,211 +10,135 @@
 </head>
 
 <body>
-	<div class="container">
+<div class="container">
 	<nav aria-label="breadcrumb">
-	  <ol class="breadcrumb">
-	    <li class="breadcrumb-item"><a href="/">Acasa</a></li>
-	    <li class="breadcrumb-item active" aria-current="page">Conventii</li>
-	  </ol>
-	</nav>	
-		
-	<h2>Conventii</h2>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/">Acasă</a></li>
+			<li class="breadcrumb-item active" aria-current="page">Creare Portofoliu</li>
+		</ol>
+	</nav>
+
+	<h2>Creare Portofoliu</h2>
 	<hr>
-	
-	<form action="#" th:action="@{/portofoliu-create-save}" th:object="${portofoliu}" method="post">
-		<div class="row row-cols-4">
-			<div class="col-sm">
-		    	<label for="companie">Companie</label>			    
-	    	</div>
 
-			<div class="col-sm">
-		    	<input type="text" th:field="*{companie}" id="companie" name="companie" placeholder="Companie">
-		    	<span th:if="${#fields.hasErrors('companie')}" th:errors="*{companie}"></span>
-	    	</div>
+	<form action="#" th:action="@{/portofoliu-create-save}" method="post" enctype="multipart/form-data">
 
-			<div class="col-sm">
-		    	<label for="student">Student</label>			    
-	    	</div>
+		<div class="mb-3">
+			<label for="loculDesfasurarii" class="form-label">Locul desfășurării</label>
+			<input type="text" class="form-control" id="loculDesfasurarii" name="loculDesfasurarii" placeholder="Introduceți locul desfășurării" required>
+			<div class="invalid-feedback">
+				Vă rugăm să introduceți locul desfășurării.
+			</div>
+		</div>
 
-			<div class="col-sm">
-	    	</div>
-    	</div>
+		<div class="mb-3">
+			<label for="durataPracticii" class="form-label">Durata practicii (în ore)</label>
+			<input type="number" class="form-control" id="durataPracticii" name="durataPracticii" placeholder="Introduceți durata practicii" required>
+			<div class="invalid-feedback">
+				Vă rugăm să introduceți durata practicii.
+			</div>
+		</div>
 
-		<hr>
-	    
-		<div class="row row-cols-4">
-			<div class="col-sm">
-			    <label for="loculDesfasurarii">Locul desfasurarii</label>
-	    	</div>
-			<div class="col-sm">
-			    <input type="text" th:field="*{loculDesfasurarii}" id="loculDesfasurarii" placeholder="Locul desfasurarii">
-			    <span th:if="${#fields.hasErrors('loculDesfasurarii')}" th:errors="*{loculDesfasurarii}"></span>
-	    	</div>
-		
-			<div class="col-sm">
-			    <label for="durataInPlanulDeInvatamant">Durata in planul de invatamant<br> (240 ore la cti-ro, cti-en, is;<br> 160 ore la info-zi, info-id)</label>
-	    	</div>
-			<div class="col-sm">
-			    <input type="text" th:field="*{durataInPlanulDeInvatamant}" id="durataInPlanulDeInvatamant" placeholder="Durata in planul de invatamant">
-			    <span th:if="${#fields.hasErrors('durataInPlanulDeInvatamant')}" th:errors="*{durataInPlanulDeInvatamant}"></span>
-	    	</div>
-	    </div>
+		<div class="mb-3">
+			<label for="dataInceput" class="form-label">Data început</label>
+			<input type="date" class="form-control" id="dataInceput" name="dataInceput" required>
+			<div class="invalid-feedback">
+				Vă rugăm să selectați data de început.
+			</div>
+		</div>
 
-		<hr>
-		
-		<div class="row row-cols-4">
-			<div class="col-sm">
-			    <label for="dataInceput">Data inceput<br> (de ex. 01.07.2025)</label>
-	    	</div>
-	    	
-			<div class="col-sm">
-			    <input type="text" th:field="*{dataInceput}" id="dataInceput" placeholder="Data inceput">
-			    <span th:if="${#fields.hasErrors('dataInceput')}" th:errors="*{dataInceput}"></span>
-	    	</div>
-		
-			<div class="col-sm">
-			    <label for="dataSfarsit">Data sfarsit<br> (de ex. 01.09.2025)</label>
-	    	</div>
-	    	
-			<div class="col-sm">
-			    <input type="text" th:field="*{dataSfarsit}" id="dataSfarsit" placeholder="Data sfarsit">
-			    <span th:if="${#fields.hasErrors('dataSfarsit')}" th:errors="*{dataSfarsit}"></span>
-	    	</div>
-	    </div>
-		
-		<hr>
-		
-		<div class="row row-cols-4">
-			<div class="col-sm">
-			    <label for="numeProiect">Nume proiect</label>
-	    	</div>
-	    	
-			<div class="col-sm">
-			    <input type="text" th:field="*{numeProiect}" id="numeProiect" placeholder="Nume proiect">
-			    <span th:if="${#fields.hasErrors('numeProiect')}" th:errors="*{numeProiect}"></span>
-	    	</div>
-		
-			<div class="col-sm">
-				&nbsp;
-	    	</div>
-	    	
-			<div class="col-sm">
-				&nbsp;
-	    	</div>
-	    </div>
+		<div class="mb-3">
+			<label for="dataSfarsit" class="form-label">Data sfârșit</label>
+			<input type="date" class="form-control" id="dataSfarsit" name="dataSfarsit" required>
+			<div class="invalid-feedback">
+				Vă rugăm să selectați data de sfârșit.
+			</div>
+		</div>
 
-		<hr>
-		
-		<div class="row row-cols-4">
-			<div class="col-sm">
-			    <label for="tutore">Tutore</label>
-	    	</div>
-	    	
-			<div class="col-sm">
-			    <input type="text" th:field="*{tutore}" id="tutore" placeholder="Tutore">
-			    <span th:if="${#fields.hasErrors('tutore')}" th:errors="*{tutore}"></span>
-	    	</div>
-		
-			<div class="col-sm">
-			    <label for="cadruDidactic">Cadru didactic</label>
-	    	</div>
-	    	
-			<div class="col-sm">
-			    <input type="text" th:field="*{cadruDidactic}" id="cadruDidactic" placeholder="Cadru didactic">
-			    <span th:if="${#fields.hasErrors('cadruDidactic')}" th:errors="*{cadruDidactic}"></span>
-	    	</div>
-	    </div>
+		<div class="mb-3">
+			<label for="orar" class="form-label">Orar</label>
+			<input type="text" class="form-control" id="orar" name="orar" placeholder="Introduceți orarul">
+		</div>
 
-		<hr>
-		
-		<div class="row row-cols-4">
-			<div class="col-sm">
-			    <label for="numarCredite">Numar credite <br> (8 la cti-ro, cti-en, is; <br> 7 la info-zi, info-id)</label>
-	    	</div>
-	    	
-			<div class="col-sm">
-			    <input type="text" th:field="*{numarCredite}" id="numarCredite" placeholder="Numar credite">
-			    <span th:if="${#fields.hasErrors('numarCredite')}" th:errors="*{numarCredite}"></span>
-	    	</div>
-		
-			<div class="col-sm">
-				&nbsp;
-	    	</div>
-	    	
-			<div class="col-sm">
-				&nbsp;
-	    	</div>
-	    </div>
+		<div class="mb-3">
+			<label for="locatiiExtra" class="form-label">Deplasarea în afara locului unde este repartizat practicantul vizează următoarele locații</label>
+			<input type="text" class="form-control" id="locatiiExtra" name="locatiiExtra" placeholder="Introduceți locațiile extra">
+		</div>
 
-		<hr>
+		<div class="mb-3">
+			<label for="competenteNecesare" class="form-label">Competențe necesare angajării</label>
+			<input type="text" class="form-control" id="competenteNecesare" name="competenteNecesare" placeholder="Introduceți competențele necesare">
+		</div>
 
-		<div class="row row-cols-4">
-			<div class="col-sm">
-			    <label for="indemnizatii">Indemnizatii (de ex. 1000 lei pe luna)</label>
-	    	</div>
-	    	
-			<div class="col-sm">
-			    <input type="text" th:field="*{indemnizatii}" id="indemnizatii" placeholder="Indemnizatii">
-			    <span th:if="${#fields.hasErrors('indemnizatii')}" th:errors="*{indemnizatii}"></span>
-	    	</div>
-		
-			<div class="col-sm">
-			    <label for="avantaje">Avantaje (de ex. transport si masa incluse)</label>
-	    	</div>
-	    	
-			<div class="col-sm">
-			    <input type="text" th:field="*{avantaje}" id="avantaje" placeholder="Avantaje">
-			    <span th:if="${#fields.hasErrors('avantaje')}" th:errors="*{avantaje}"></span>
-	    	</div>
-	    </div>
-	    
-		<hr>
+		<div class="mb-3">
+			<label for="complementareInvatamantPractica" class="form-label">Modalități prin care se asigură complementaritatea între pregătirea dobândită de studentul
+				practicant în instituția de învățământ superior și în cadrul stagiului de practică</label>
+			<input type="text" class="form-control" id="complementareInvatamantPractica" name="complementareInvatamantPractica" placeholder="Introduceți informațiile complementare">
+		</div>
 
-		<div class="row row-cols-4">
-			<div class="col-sm">
-			    <label for="altePrecizari">Alte precizari</label>
-	    	</div>
-	    	
-			<div class="col-sm">
-			    <input type="text" th:field="*{altePrecizari}" id="altePrecizari" placeholder="Alte precizari">
-			    <span th:if="${#fields.hasErrors('altePrecizari')}" th:errors="*{altePrecizari}"></span>
-	    	</div>
-		
-			<div class="col-sm">
-				&nbsp;
-	    	</div>
-	    	
-			<div class="col-sm">
-				&nbsp;
-	    	</div>
-	    </div>
+		<div class="mb-3">
+			<label for="tematicaSiSarcini" class="form-label">Tematica și sarcini</label>
+			<textarea class="form-control" id="tematicaSiSarcini" name="tematicaSiSarcini" rows="4" placeholder="Introduceți tematica și sarcinile" required></textarea>
+			<div class="invalid-feedback">
+				Vă rugăm să introduceți tematica și sarcinile.
+			</div>
+		</div>
 
-		<hr>
-		
-		<div class="row row-cols-4">
-			<div class="col-sm">
-			    <label for="dataIntocmirii">Data intocmirii <br> (de ex. 01.07.2024)</label>
-	    	</div>
-	    	
-			<div class="col-sm">
-			    <input type="text" th:field="*{dataIntocmirii}" id="dataIntocmirii" placeholder="Data intocmirii">
-			    <span th:if="${#fields.hasErrors('dataIntocmirii')}" th:errors="*{dataIntocmirii}"></span>
-	    	</div>
-		
-			<div class="col-sm">
-				&nbsp;
-	    	</div>
-	    	
-			<div class="col-sm">
-				&nbsp;
-	    	</div>
-	    </div>
+		<div class="mb-3">
+			<label for="competenteDobandite" class="form-label">Competențe dobândite</label>
+			<input type="text" class="form-control" id="competenteDobandite" name="competenteDobandite" placeholder="Introduceți competențele dobândite">
+		</div>
 
-		<hr>
-		
-	    <input type="submit" value="Salveaza portofoliu">
+		<div class="mb-3">
+			<label for="modDePregatire" class="form-label">Mod de pregătire</label>
+			<input type="text" class="form-control" id="modDePregatire" name="modDePregatire" placeholder="Introduceți modul de pregătire">
+		</div>
+
+		<div class="mb-3">
+			<label for="activitatiPlanificate" class="form-label">Activități planificate</label>
+			<textarea class="form-control" id="activitatiPlanificate" name="activitatiPlanificate" rows="4" placeholder="Introduceți activitățile planificate"></textarea>
+		</div>
+
+		<div class="mb-3">
+			<label for="observatii" class="form-label">Observații</label>
+			<textarea class="form-control" id="observatii" name="observatii" rows="4" placeholder="Introduceți observații"></textarea>
+		</div>
+
+		<div class="mb-3">
+			<label for="semnaturaTutore" class="form-label">Semnătura tutorelui</label>
+			<input type="file" class="form-control" id="semnaturaTutore" name="semnaturaTutore">
+		</div>
+
+		<div class="mb-3">
+			<label for="semnaturaTutorePractica" class="form-label">Semnătura tutorelui de practică</label>
+			<input type="file" class="form-control" id="semnaturaTutorePractica" name="semnaturaTutorePractica">
+		</div>
+
+		<div class="mb-3">
+			<label for="semnaturaStudent" class="form-label">Semnătura studentului</label>
+			<input type="file" class="form-control" id="semnaturaStudent" name="semnaturaStudent">
+		</div>
+
+		<div class="mb-3">
+			<label for="tutorePractica" class="form-label">Tutore practică</label>
+			<input type="text" class="form-control" id="tutorePractica" name="tutorePractica" placeholder="Introduceți numele tutorelui de practică" required>
+			<div class="invalid-feedback">
+				Vă rugăm să introduceți numele tutorelui de practică.
+			</div>
+		</div>
+
+		<div class="mb-3">
+			<label for="tutoreFacultate" class="form-label">Tutore facultate</label>
+			<input type="text" class="form-control" id="tutoreFacultate" name="tutoreFacultate" placeholder="Introduceți numele tutorelui facultate" required>
+			<div class="invalid-feedback">
+				Vă rugăm să introduceți numele tutorelui facultate.
+			</div>
+		</div>
+
+		<button type="submit" class="btn btn-primary">Salvează Portofoliul</button>
 	</form>
-	</div>
-  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
 </html>
