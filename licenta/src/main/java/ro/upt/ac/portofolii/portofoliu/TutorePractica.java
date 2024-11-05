@@ -4,21 +4,21 @@ import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class TutorePractica {
-    private String nume;
-    private String prenume;
-    private String functie;
+    private String nume_p;
+    private String prenume_p;
+    private String functie_p;
     private String drepturiSiResponsabilitati;
 
     public TutorePractica()
     {
     }
 
-    public String getFunctie() {
-        return functie;
+    public String getFunctie_p() {
+        return functie_p;
     }
 
-    public void setFunctie(String functie) {
-        this.functie = functie;
+    public void setFunctie_p(String functie) {
+        this.functie_p = functie;
     }
 
     public String getDrepturiSiResponsabilitati() {
@@ -29,28 +29,28 @@ public class TutorePractica {
         this.drepturiSiResponsabilitati = drepturiSiResponsabilitati;
     }
 
-    public String getNume()
+    public String getNume_p()
     {
-        return nume;
+        return nume_p;
     }
 
-    public void setNume(String nume)
+    public void setNume_p(String nume)
     {
-        this.nume = nume;
+        this.nume_p = nume;
     }
 
-    public String getPrenume()
+    public String getPrenume_p()
     {
-        return prenume;
+        return prenume_p;
     }
 
-    public void setPrenume(String prenume)
+    public void setPrenume_p(String prenume)
     {
-        this.prenume = prenume;
+        this.prenume_p = prenume;
     }
 
     public String toString()
     {
-        return nume+" "+prenume;
+        return nume_p +" "+ prenume_p;
     }
 }

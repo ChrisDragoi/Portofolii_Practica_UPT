@@ -22,18 +22,6 @@
 	<hr>
 
 	<form action="#" th:action="@{/portofoliu-create-save}" method="post" enctype="multipart/form-data">
-		<div class="mb-3">
-			<label for="student" class="form-label">Student</label>
-			<select class="form-select" id="student" name="student" required>
-				<option value="" disabled selected>Selectați studentul</option>
-				<!-- Adăugați aici opțiuni pentru studenți -->
-				<option value="1">Student 1</option>
-				<option value="2">Student 2</option>
-			</select>
-			<div class="invalid-feedback">
-				Vă rugăm să selectați un student.
-			</div>
-		</div>
 
 		<div class="mb-3">
 			<label for="loculDesfasurarii" class="form-label">Locul desfășurării</label>
@@ -73,17 +61,18 @@
 		</div>
 
 		<div class="mb-3">
-			<label for="locatiiExtra" class="form-label">Locații extra</label>
+			<label for="locatiiExtra" class="form-label">Deplasarea în afara locului unde este repartizat practicantul vizează următoarele locații</label>
 			<input type="text" class="form-control" id="locatiiExtra" name="locatiiExtra" placeholder="Introduceți locațiile extra">
 		</div>
 
 		<div class="mb-3">
-			<label for="competenteNecesare" class="form-label">Competențe necesare</label>
+			<label for="competenteNecesare" class="form-label">Competențe necesare angajării</label>
 			<input type="text" class="form-control" id="competenteNecesare" name="competenteNecesare" placeholder="Introduceți competențele necesare">
 		</div>
 
 		<div class="mb-3">
-			<label for="complementareInvatamantPractica" class="form-label">Complementare învățământ practică</label>
+			<label for="complementareInvatamantPractica" class="form-label">Modalități prin care se asigură complementaritatea între pregătirea dobândită de studentul
+				practicant în instituția de învățământ superior și în cadrul stagiului de practică</label>
 			<input type="text" class="form-control" id="complementareInvatamantPractica" name="complementareInvatamantPractica" placeholder="Introduceți informațiile complementare">
 		</div>
 

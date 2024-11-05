@@ -34,8 +34,8 @@ public class Application
 			log.info("starting initialization...");
 
 			Student s1=new Student();
-	        s1.setNume("Bunea");
-	        s1.setPrenume("Sergiu");
+	        s1.setNume("Dragoi");
+	        s1.setPrenume("Christian");
 	        s1.setCnp("1900505010203");
 	        s1.setDataNasterii(Date.valueOf("1990-05-05"));
 	        s1.setLoculNasterii("Caransebes");
@@ -65,12 +65,9 @@ public class Application
 
 			Student stud1=studentRepository.findAll().get(0);
 			TutoreFacultate t1=new TutoreFacultate();
-			t1.setNume_t("Moldovan");
-			t1.setPrenume_t("Ioan");
-			t1.setFunctie_t("manager");
-			t1.setTelefon("0722334455");
-			t1.setEmail("ioan.moldovan@conti.com");
-
+			t1.setNume_f("Moldovan");
+			t1.setPrenume_f("Ioan");
+			t1.setFunctie_f("manager");
 			Portofoliu c1=new Portofoliu();
 			c1.setStudent(stud1);
 			c1.setLoculDesfasurarii("Cladirea A");

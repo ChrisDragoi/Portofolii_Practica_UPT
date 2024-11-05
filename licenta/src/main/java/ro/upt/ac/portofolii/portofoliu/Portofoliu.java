@@ -10,13 +10,13 @@ public class Portofoliu
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-
 	@ManyToOne
 	private Student student;
 	private String loculDesfasurarii;
 	private Integer durataPracticii;
 	private Date dataInceput;
 	private Date dataSfarsit;
+	private Date dataSemnarii;
 	private String orar;
 	private String locatiiExtra;
 	private String competenteNecesare;
@@ -24,9 +24,9 @@ public class Portofoliu
 	private String tematicaSiSarcini;
 	private String competenteDobandite;
 	private String modDePregatire;
-	private  String activitatiPlanificate;
+	private String activitatiPlanificate;
 	private String observatii;
-	private byte[] semnaturaTutore;
+	private byte[] semnaturaTutoreFacultate;
 	private byte[] semnaturaTutorePractica;
 	private byte[] semnaturaStudent;
 	@Embedded
@@ -53,19 +53,23 @@ public class Portofoliu
 	public void setActivitatiPlanificate(String activitatiPlanificate) {
 		this.activitatiPlanificate = activitatiPlanificate;
 	}
-
+	public Date getDataSemnarii() {
+		return dataSemnarii;
+	}
 	public void setObservatii(String observatii) {
 		this.observatii = observatii;
 	}
 
-	public void setSemnaturaTutore(byte[] semnaturaTutore) {
-		this.semnaturaTutore = semnaturaTutore;
+	public void setSemnaturaTutoreFacultate(byte[] semnaturaTutore) {
+		this.semnaturaTutoreFacultate = semnaturaTutore;
 	}
 
 	public void setSemnaturaTutorePractica(byte[] semnaturaTutorePractica) {
 		this.semnaturaTutorePractica = semnaturaTutorePractica;
 	}
-
+	public void setDataSemnarii(Date dataCompletarii) {
+		this.dataSemnarii = dataCompletarii;
+	}
 	public void setSemnaturaStudent(byte[] semnaturaStudent) {
 		this.semnaturaStudent = semnaturaStudent;
 	}
@@ -94,8 +98,8 @@ public class Portofoliu
 		return observatii;
 	}
 
-	public byte[] getSemnaturaTutore() {
-		return semnaturaTutore;
+	public byte[] getSemnaturaTutoreFacultate() {
+		return semnaturaTutoreFacultate;
 	}
 
 	public byte[] getSemnaturaTutorePractica() {
@@ -157,7 +161,12 @@ public class Portofoliu
 	public void setComplementareInvatamantPractica(String complementareInvatamantPractica) {
 		this.complementareInvatamantPractica = complementareInvatamantPractica;
 	}
-
+	public TutoreFacultate getTutoreFacultate() {
+		return tutoreFacultate;
+	}
+	public void setTutoreFacultate(TutoreFacultate tutoreFacultate) {
+		this.tutoreFacultate = tutoreFacultate;
+	}
 	public String getOrar() {
 		return orar;
 	}

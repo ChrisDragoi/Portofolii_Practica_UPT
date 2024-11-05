@@ -13,7 +13,7 @@
 <div class="container">
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="/">Acasa</a></li>
+			<li class="breadcrumb-item"><a href="">Acasa</a></li>
 			<li class="breadcrumb-item active" aria-current="page">Portofolii</li>
 		</ol>
 	</nav>
@@ -40,8 +40,9 @@
 					<th scope="col">Activitati Planificate</th>
 					<th scope="col">Tematica si Sarcini</th>
 					<th scope="col">Observatii</th>
-					<th scope="col">Tutore</th>
+					<th scope="col">Tutore Cadru Didactic</th>
 					<th scope="col">Tutore Practica</th>
+					<th scope="col">Data semnarii</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -62,8 +63,9 @@
 					<td th:text="${portofoliu.activitatiPlanificate}"></td>
 					<td th:text="${portofoliu.tematicaSiSarcini}"></td>
 					<td th:text="${portofoliu.observatii}"></td>
-					<td th:text="${portofoliu.tutoreFacultate.nume}"></td>
-					<td th:text="${portofoliu.tutorePractica.nume}"></td>
+					<td th:text="${portofoliu.tutoreFacultate}"></td>
+					<td th:text="${portofoliu.tutorePractica}"></td>
+					<td th:text="${portofoliu.dataSemnarii}"></td>
 				</tr>
 				</tbody>
 			</table>

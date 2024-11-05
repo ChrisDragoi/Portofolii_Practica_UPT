@@ -5,12 +5,9 @@ import jakarta.persistence.Embeddable;
 @Embeddable
 public class TutoreFacultate
 {
-	private String nume_t;
-	private String prenume_t;
-	private String functie_t;
-	private String telefon;
-	private String email;
-
+	private String nume_f;
+	private String prenume_f;
+	private String functie_f;
 	private String drepturi;
 	
 	public TutoreFacultate()
@@ -25,58 +22,38 @@ public class TutoreFacultate
 		this.drepturi = drepturi;
 	}
 
-	public String getNume_t()
+	public String getNume_f()
 	{
-		return nume_t;
+		return nume_f;
 	}
 
-	public void setNume_t(String nume)
+	public void setNume_f(String nume)
 	{
-		this.nume_t = nume;
+		this.nume_f = nume;
 	}
 
-	public String getPrenume_t()
+	public String getPrenume_f()
 	{
-		return prenume_t;
+		return prenume_f;
 	}
 
-	public void setPrenume_t(String prenume)
+	public void setPrenume_f(String prenume)
 	{
-		this.prenume_t = prenume;
+		this.prenume_f = prenume;
 	}
 
-	public String getFunctie_t()
+	public String getFunctie_f()
 	{
-		return functie_t;
+		return functie_f;
 	}
 
-	public void setFunctie_t(String functie)
+	public void setFunctie_f(String functie)
 	{
-		this.functie_t = functie;
-	}
-
-	public String getTelefon()
-	{
-		return telefon;
-	}
-
-	public void setTelefon(String telefon)
-	{
-		this.telefon = telefon;
-	}
-
-	public String getEmail()
-	{
-		return email;
-	}
-
-	public void setEmail(String email)
-	{
-		this.email = email;
+		this.functie_f = functie;
 	}
 	
 	public String toString()
 	{
-		return nume_t +" "+ prenume_t;
+		return nume_f +" "+ prenume_f;
 	}
 }
