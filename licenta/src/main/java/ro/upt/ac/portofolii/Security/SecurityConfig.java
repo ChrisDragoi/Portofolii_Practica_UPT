@@ -35,7 +35,6 @@ public class SecurityConfig {
                         .formLogin(httpForm -> {
                                 httpForm.loginPage("/login").permitAll();
                         })
-
                         .authorizeHttpRequests(registry ->{
                                 registry.anyRequest().authenticated();
                         })

@@ -38,7 +38,7 @@ public class Application
 	        s1.setNume("Dragoi");
 	        s1.setPrenume("Christian");
 	        s1.setCnp("1900505010203");
-	        s1.setDataNasterii(Date.valueOf("2002-13-09"));
+	        s1.setDataNasterii(Date.valueOf("2002-09-13"));
 	        s1.setLoculNasterii("Caransebes");
 	        s1.setCetatenie("romana");
 	        s1.setSerieCi("KS");

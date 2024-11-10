@@ -129,9 +129,23 @@
 
 		<div class="mb-3">
 			<label for="tutoreFacultate" class="form-label">Tutore facultate</label>
-			<input type="text" class="form-control" id="tutoreFacultate" name="tutoreFacultate" placeholder="Introduceți numele tutorelui facultate" required>
+			<select class="form-select" id="tutoreFacultate" name="tutoreFacultate" required>
+				<option value="" selected disabled>Alegeți tutorele</option>
+				<option value="Tutore 1">CTI-RO: Ciprian-Bogdan Chirilă</option>
+				<option value="Tutore 2">Tutore 2</option>
+				<option value="Tutore 3">Tutore 3</option>
+				<option value="Tutore 4">Tutore 4</option>
+			</select>
 			<div class="invalid-feedback">
-				Vă rugăm să introduceți numele tutorelui facultate.
+				Vă rugăm să alegeți tutorele de la facultate.
+			</div>
+		</div>
+
+		<div class="mb-3">
+			<label for="dataSemnare" class="form-label">Data semnării</label>
+			<input type="date" class="form-control" id="dataSemnare" name="dataSemnare" required>
+			<div class="invalid-feedback">
+				Vă rugăm să selectați data semnării.
 			</div>
 		</div>
 
