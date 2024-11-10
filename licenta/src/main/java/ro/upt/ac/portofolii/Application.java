@@ -34,21 +34,22 @@ public class Application
 			log.info("starting initialization...");
 
 			Student s1=new Student();
+			s1.setPassword("test");
 	        s1.setNume("Dragoi");
 	        s1.setPrenume("Christian");
 	        s1.setCnp("1900505010203");
-	        s1.setDataNasterii(Date.valueOf("1990-05-05"));
+	        s1.setDataNasterii(Date.valueOf("2002-13-09"));
 	        s1.setLoculNasterii("Caransebes");
 	        s1.setCetatenie("romana");
-	        s1.setSerieCi("TZ");
+	        s1.setSerieCi("KS");
 	        s1.setNumarCi("112233");
-	        s1.setAdresa("Calea Lipovei 10, Timisoara");
-	        s1.setAnUniversitar("2023-2024");
+	        s1.setAdresa("Strada Mures 115, Timisoara");
+	        s1.setAnUniversitar("2024-2025");
 	        s1.setFacultate("AC");
-	        s1.setSpecializare("cti-en");
-	        s1.setAnDeStudiu(3);
-	        s1.setEmail("sergiu.bunea@student.upt.ro");
-	        s1.setTelefon("0700112233");
+	        s1.setSpecializare("cti-ro");
+	        s1.setAnDeStudiu(4);
+	        s1.setEmail("christian.dragoi@student.upt.ro");
+	        s1.setTelefon("0730504327");
 	        repository.save(s1);
 
 			log.info("ending initialization...");
@@ -57,27 +58,27 @@ public class Application
 	@Autowired
 	StudentRepository studentRepository;
 
-	@Bean
-	public CommandLineRunner loadDataPortofolii(PortofoliuRepository repository)
-	{
-	    return (args) -> {
-			log.info("starting initialization...");
-
-			Student stud1=studentRepository.findAll().get(0);
-			TutoreFacultate t1=new TutoreFacultate();
-			t1.setNume_f("Moldovan");
-			t1.setPrenume_f("Ioan");
-			t1.setFunctie_f("manager");
-			Portofoliu c1=new Portofoliu();
-			c1.setStudent(stud1);
-			c1.setLoculDesfasurarii("Cladirea A");
-			c1.setDataInceput(Date.valueOf("2024-07-01"));
-			c1.setDataSfarsit(Date.valueOf("2024-09-01"));
-			c1.setTutore(t1);
-
-	        repository.save(c1);
-
-			log.info("ending initialization...");
-	    };
-	}
+//	@Bean
+//	public CommandLineRunner loadDataPortofolii(PortofoliuRepository repository)
+//	{
+//	    return (args) -> {
+//			log.info("starting initialization...");
+//
+//			Student stud1=studentRepository.findAll().get(0);
+//			TutoreFacultate t1=new TutoreFacultate();
+//			t1.setNume_f("Moldovan");
+//			t1.setPrenume_f("Ioan");
+//			t1.setFunctie_f("manager");
+//			Portofoliu c1=new Portofoliu();
+//			c1.setStudent(stud1);
+//			c1.setLoculDesfasurarii("Cladirea A");
+//			c1.setDataInceput(Date.valueOf("2024-07-01"));
+//			c1.setDataSfarsit(Date.valueOf("2024-09-01"));
+//			c1.setTutore(t1);
+//
+//	        repository.save(c1);
+//
+//			log.info("ending initialization...");
+//	    };
+//	}
 }

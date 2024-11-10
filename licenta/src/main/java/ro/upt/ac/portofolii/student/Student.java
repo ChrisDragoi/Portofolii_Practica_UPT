@@ -14,6 +14,12 @@ public class Student
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
+	private String password;
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	private String nume;
 	private String prenume;
 	private String cnp;
