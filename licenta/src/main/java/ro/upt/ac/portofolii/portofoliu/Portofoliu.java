@@ -32,7 +32,7 @@ public class Portofoliu
 	@Embedded
 	private TutorePractica tutorePractica;
 	@Embedded
-	private TutoreFacultate tutoreFacultate;
+	private CadruDidactic cadruDidactic;
 	
 	public Portofoliu()
 	{
@@ -161,11 +161,11 @@ public class Portofoliu
 	public void setComplementareInvatamantPractica(String complementareInvatamantPractica) {
 		this.complementareInvatamantPractica = complementareInvatamantPractica;
 	}
-	public TutoreFacultate getTutoreFacultate() {
-		return tutoreFacultate;
+	public CadruDidactic getTutoreFacultate() {
+		return cadruDidactic;
 	}
-	public void setTutoreFacultate(TutoreFacultate tutoreFacultate) {
-		this.tutoreFacultate = tutoreFacultate;
+	public void setTutoreFacultate(CadruDidactic cadruDidactic) {
+		this.cadruDidactic = cadruDidactic;
 	}
 	public String getOrar() {
 		return orar;
@@ -212,13 +212,13 @@ public class Portofoliu
 	{
 		this.dataSfarsit = dataSfarsit;
 	}
-	public TutoreFacultate getTutore()
+	public CadruDidactic getTutore()
 	{
-		return tutoreFacultate;
+		return cadruDidactic;
 	}
-	public void setTutore(TutoreFacultate tutoreFacultate)
+	public void setTutore(CadruDidactic cadruDidactic)
 	{
-		this.tutoreFacultate = tutoreFacultate;
+		this.cadruDidactic = cadruDidactic;
 	}
 
 }

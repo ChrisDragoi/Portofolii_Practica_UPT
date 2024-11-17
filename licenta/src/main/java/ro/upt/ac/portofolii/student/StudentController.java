@@ -14,7 +14,7 @@ public class StudentController
 {
 	@Autowired
 	StudentRepository studentRepository;
-		
+
 	@GetMapping("/student-create")
 	public String create(Student student)
 	{
@@ -31,44 +31,44 @@ public class StudentController
 		studentRepository.save(student);
 		return "redirect:/student-read";
 	}
-	
+
 	@GetMapping("/student-read")
-	public String read(Model model) 
+	public String read(Model model)
 	{
-	    model.addAttribute("studenti", studentRepository.findAll());
-	    return "student-read";
+		model.addAttribute("studenti", studentRepository.findAll());
+		return "student-read";
 	}
-	
+
 	@GetMapping("/student-edit/{id}")
-	public String edit(@PathVariable("id") int id, Model model) 
+	public String edit(@PathVariable("id") int id, Model model)
 	{
-	    Student student = studentRepository.findById(id);
-	    //.orElseThrow(() -> new IllegalArgumentException("Invalid student Id:" + id));
-	    
-	    model.addAttribute("student", student);
-	    return "student-update";
+		Student student = studentRepository.findById(id);
+		//.orElseThrow(() -> new IllegalArgumentException("Invalid student Id:" + id));
+
+		model.addAttribute("student", student);
+		return "student-update";
 	}
-	
+
 	@PostMapping("/student-update/{id}")
-	public String update(@PathVariable("id") int id, @Validated Student student, BindingResult result, Model model) 
+	public String update(@PathVariable("id") int id, @Validated Student student, BindingResult result)
 	{
-	    if(result.hasErrors()) 
-	    {
-	        student.setId(id);
-	        return "student-update";
-	    }
-	        
-	    studentRepository.save(student);
-	    return "redirect:/student-read";
+		if(result.hasErrors())
+		{
+			student.setId(id);
+			return "student-update";
+		}
+
+		studentRepository.save(student);
+		return "redirect:/student-read";
 	}
-	
+
 	@GetMapping("/student-delete/{id}")
-	public String delete(@PathVariable("id") int id, Model model) 
+	public String delete(@PathVariable("id") int id)
 	{
-	    Student student = studentRepository.findById(id);
-	    //.orElseThrow(() -> new IllegalArgumentException("Invalid student Id:" + id));
-	    
-	    studentRepository.delete(student);
-	    return "redirect:/student-read";
-	}	
+		Student student = studentRepository.findById(id);
+		//.orElseThrow(() -> new IllegalArgumentException("Invalid student Id:" + id));
+
+		studentRepository.delete(student);
+		return "redirect:/student-read";
+	}
 }

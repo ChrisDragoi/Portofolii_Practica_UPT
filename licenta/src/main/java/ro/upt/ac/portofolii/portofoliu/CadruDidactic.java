@@ -3,14 +3,14 @@ package ro.upt.ac.portofolii.portofoliu;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
-public class TutoreFacultate
+public class CadruDidactic
 {
 	private String nume_f;
 	private String prenume_f;
 	private String functie_f;
 	private String drepturi;
 	
-	public TutoreFacultate()
+	public CadruDidactic()
 	{
 	}
 

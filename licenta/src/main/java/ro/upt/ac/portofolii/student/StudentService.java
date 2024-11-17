@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,5 +20,13 @@ public class StudentService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found with email: " + email);
         }
         return (UserDetails) student.get();
+    }
+
+    public Optional<List<Student>> loadAllStudents() {
+        Optional<List<Student>> students = Optional.of(studentRepository.findAll());
+        if (students.isEmpty()) {
+            throw new UsernameNotFoundException("User not found");
+        }else return students;
+
     }
 }

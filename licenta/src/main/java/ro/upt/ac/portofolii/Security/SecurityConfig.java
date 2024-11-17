@@ -17,26 +17,37 @@ import ro.upt.ac.portofolii.student.StudentService;
 @AllArgsConstructor
 public class SecurityConfig {
 
-
         private final StudentService studentDetailsService;
+
         @Bean
-        public AuthenticationProvider authenticationProvider(){
+        public AuthenticationProvider authenticationProvider() {
                 DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
                 provider.setUserDetailsService(studentDetailsService);
-                //provider.setPasswordEncoder(passwordEncoder());
+                provider.setPasswordEncoder(passwordEncoder());
                 return provider;
         }
-//        @Bean
-//        public PasswordEncoder passwordEncoder() {
-//                return new BCryptPasswordEncoder();
-//        }
-        public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
+
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+                return new BCryptPasswordEncoder();
+        }
+
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
                 return httpSecurity
-                        .formLogin(httpForm -> {
-                                httpForm.loginPage("/login").permitAll();
-                        })
-                        .authorizeHttpRequests(registry ->{
+                        .authorizeHttpRequests(registry -> {
+                                registry.requestMatchers("/login").permitAll();
                                 registry.anyRequest().authenticated();
+                        })
+                        .formLogin(httpForm -> {
+                                httpForm.loginPage("/login")
+                                        .defaultSuccessUrl("/index", true) // Destinația implicită după autentificare
+                                        .permitAll();
+                        })
+                        .logout(logout -> {
+                                logout.logoutUrl("/logout")
+                                        .logoutSuccessUrl("/login")
+                                        .permitAll();
                         })
                         .build();
         }

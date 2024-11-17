@@ -1,11 +1,14 @@
 package ro.upt.ac.portofolii.student;
 
 import java.sql.Date;
+import java.util.Collection;
+import java.util.Collections;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 public class Student 
@@ -199,5 +202,33 @@ public class Student
 	public void setTelefon(String telefon)
 	{
 		this.telefon = telefon;
-	}	
+	}
+
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return Collections.emptyList();
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public String getUsername() {
+		return email;
+	}
+
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	public boolean isEnabled() {
+		return true;
+	}
 }
