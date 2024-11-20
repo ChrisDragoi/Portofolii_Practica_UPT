@@ -177,19 +177,18 @@ public class Application
 			Student s1=studentRepository.findAll().get(0);
 			CadruDidactic cd1=cadruDidacticRepository.findAll().get(0);
 			Tutore t1=tutoreRepository.findAll().get(0);
-			
-			
+					
 			Portofoliu p1=new Portofoliu();
 			p1.setStudent(s1);
 			p1.setLoculDesfasurarii("Cladirea A");
 			p1.setDataInceput(Date.valueOf("2024-07-01"));
 			p1.setDataSfarsit(Date.valueOf("2024-09-01"));
 			p1.setTutore(t1);
+			p1.setCadruDidactic(cd1);
 
 	        repository.save(p1);
 
 			log.info("ending initialization...");
 	    };
 	}
-	
 }
