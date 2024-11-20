@@ -16,13 +16,7 @@ public class Student
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-
-	private String password;
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
+	
 	private String nume;
 	private String prenume;
 	private String cnp;
@@ -38,6 +32,8 @@ public class Student
 	private int anDeStudiu;
 	private String email;
 	private String telefon;
+	
+	private String password;
 	
 	public Student()
 	{
@@ -230,5 +226,9 @@ public class Student
 
 	public boolean isEnabled() {
 		return true;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }

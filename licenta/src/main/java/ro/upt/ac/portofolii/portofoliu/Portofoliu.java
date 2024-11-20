@@ -2,7 +2,9 @@ package ro.upt.ac.portofolii.portofoliu;
 
 import java.sql.Date;
 import jakarta.persistence.*;
+import ro.upt.ac.portofolii.cadruDidactic.CadruDidactic;
 import ro.upt.ac.portofolii.student.Student;
+import ro.upt.ac.portofolii.tutore.Tutore;
 
 @Entity
 public class Portofoliu
@@ -10,8 +12,14 @@ public class Portofoliu
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+
 	@ManyToOne
 	private Student student;
+	@ManyToOne
+	private Tutore tutore;
+	@ManyToOne
+	private CadruDidactic cadruDidactic;
+	
 	private String loculDesfasurarii;
 	private Integer durataPracticii;
 	private Date dataInceput;
@@ -26,14 +34,11 @@ public class Portofoliu
 	private String modDePregatire;
 	private String activitatiPlanificate;
 	private String observatii;
+	
 	private byte[] semnaturaTutoreFacultate;
 	private byte[] semnaturaTutorePractica;
 	private byte[] semnaturaStudent;
-	@Embedded
-	private TutorePractica tutorePractica;
-	@Embedded
-	private CadruDidactic cadruDidactic;
-	
+		
 	public Portofoliu()
 	{
 	}
@@ -74,8 +79,8 @@ public class Portofoliu
 		this.semnaturaStudent = semnaturaStudent;
 	}
 
-	public void setTutorePractica(TutorePractica tutorePractica) {
-		this.tutorePractica = tutorePractica;
+	public void setTutore(Tutore tutore) {
+		this.tutore = tutore;
 	}
 
 	public String getTematicaSiSarcini() {
@@ -110,8 +115,9 @@ public class Portofoliu
 		return semnaturaStudent;
 	}
 
-	public TutorePractica getTutorePractica() {
-		return tutorePractica;
+	public Tutore getTutore() 
+	{
+		return tutore;
 	}
 
 	public int getId()
@@ -142,44 +148,58 @@ public class Portofoliu
 		this.student = student;
 	}
 
-	public void setDurataPracticii(Integer durataPracticii) {
+	public void setDurataPracticii(Integer durataPracticii) 
+	{
 		this.durataPracticii = durataPracticii;
 	}
 
-	public void setOrar(String orar) {
+	public void setOrar(String orar) 
+	{
 		this.orar = orar;
 	}
 
-	public void setLocatiiExtra(String locatiiExtra) {
+	public void setLocatiiExtra(String locatiiExtra) 
+	{
 		this.locatiiExtra = locatiiExtra;
 	}
 
-	public void setCompetenteNecesare(String competenteNecesare) {
+	public void setCompetenteNecesare(String competenteNecesare) 
+	{
 		this.competenteNecesare = competenteNecesare;
 	}
 
-	public void setComplementareInvatamantPractica(String complementareInvatamantPractica) {
+	public void setComplementareInvatamantPractica(String complementareInvatamantPractica) 
+	{
 		this.complementareInvatamantPractica = complementareInvatamantPractica;
 	}
-	public CadruDidactic getTutoreFacultate() {
+	
+	public CadruDidactic getCadruDidactic() 
+	{
 		return cadruDidactic;
 	}
-	public void setTutoreFacultate(CadruDidactic cadruDidactic) {
+	
+	public void setCadruDidactic(CadruDidactic cadruDidactic) 
+	{
 		this.cadruDidactic = cadruDidactic;
 	}
-	public String getOrar() {
+	
+	public String getOrar() 
+	{
 		return orar;
 	}
 
-	public String getLocatiiExtra() {
+	public String getLocatiiExtra() 
+	{
 		return locatiiExtra;
 	}
 
-	public String getCompetenteNecesare() {
+	public String getCompetenteNecesare() 
+	{
 		return competenteNecesare;
 	}
 
-	public String getComplementareInvatamantPractica() {
+	public String getComplementareInvatamantPractica() 
+	{
 		return complementareInvatamantPractica;
 	}
 
@@ -211,14 +231,5 @@ public class Portofoliu
 	public void setDataSfarsit(Date dataSfarsit)
 	{
 		this.dataSfarsit = dataSfarsit;
-	}
-	public CadruDidactic getTutore()
-	{
-		return cadruDidactic;
-	}
-	public void setTutore(CadruDidactic cadruDidactic)
-	{
-		this.cadruDidactic = cadruDidactic;
-	}
-
+	}	
 }

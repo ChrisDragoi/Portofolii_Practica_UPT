@@ -1,4 +1,4 @@
-package ro.upt.ac.portofolii.Security;
+package ro.upt.ac.portofolii.security;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -12,11 +12,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import ro.upt.ac.portofolii.student.StudentService;
 
+/*
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
-public class SecurityConfig {
-
+public class SecurityConfig 
+{
         private final StudentService studentDetailsService;
 
         @Bean
@@ -52,3 +53,4 @@ public class SecurityConfig {
                         .build();
         }
 }
+*/
