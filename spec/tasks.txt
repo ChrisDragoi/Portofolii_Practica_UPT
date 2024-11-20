@@ -1,5 +1,7 @@
 20.11.2024
 
+Gestiunea portofoliilor de practica pentru studenti
+
 - de facut template pentru tutori
 
 - de completat app cu creare manuala de entitati portofolii, tutori, studenti
@@ -7,6 +9,4 @@
 - componeta separata de generat parole cu MD5 sau alternative la un CSV
 
 - se testeaza cu functie main() separata de tip console log app
-
-
 
