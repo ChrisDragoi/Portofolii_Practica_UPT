@@ -40,7 +40,7 @@ public class PortofoliuController
 		return "redirect:/portofoliu-read";
 	}
 	
-	@GetMapping("/portofoliou-read")
+	@GetMapping("/portofoliu-read")
 	public String read(Model model) 
 	{
 	    model.addAttribute("portofolii", portofoliuRepository.findAll());

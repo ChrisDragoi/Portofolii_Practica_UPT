@@ -8,7 +8,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 public class Student 
@@ -198,10 +197,6 @@ public class Student
 	public void setTelefon(String telefon)
 	{
 		this.telefon = telefon;
-	}
-
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return Collections.emptyList();
 	}
 
 	public String getPassword() {
