@@ -2,7 +2,7 @@
 
 Gestiunea portofoliilor de practica pentru studenti
 
-- de facut template pentru tutori
+- de facut template pentru tutori -> DONE
 
 - de completat app cu creare manuala de entitati portofolii, tutori, studenti
 

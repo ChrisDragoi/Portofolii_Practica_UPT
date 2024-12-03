@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Portofolii 1.0 - Tutori</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+
+<body>
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Acasa</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Tutori</li>
+        </ol>
+    </nav>
+    <div th:switch="${tutores}">
+        <h2 th:case="null">Nu este niciun tutore in baza de date!</h2>
+        <div th:case="*">
+            <h2>Tutori</h2>
+            <table class="table table-small">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Editeaza</th>
+                    <th scope="col">Sterge</th>
+
+                    <th scope="col">Nume</th>
+                    <th scope="col">Prenume</th>
+                    <th scope="col">Functie</th>
+                    <th scope="col">Telefon</th>
+                    <th scope="col">Email</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="tutore : ${tutores}">
+                    <td scope="col" th:text="${tutore.id}"></td>
+                    <td><a th:href="@{/tutore-edit/{id}(id=${tutore.id})}">Editeaza</a></td>
+                    <td><a th:href="@{/tutore-delete/{id}(id=${tutore.id})}">Sterge</a></td>
+                    <td th:text="${tutore.nume}"></td>
+                    <td th:text="${tutore.prenume}"></td>
+                    <td th:text="${tutore.functie}"></td>
+                    <td th:text="${tutore.telefon}"></td>
+                    <td th:text="${tutore.email}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p><a href="/tutore-create">Adauga un tutore nou</a></p>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</body>
+</html>

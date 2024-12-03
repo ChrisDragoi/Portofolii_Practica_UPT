@@ -4,8 +4,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
 public class Tutore 
 {
 	@Id
@@ -17,10 +19,6 @@ public class Tutore
 	private String functie;
 	private String telefon;
 	private String email;
-	
-	public Tutore()
-	{
-	}
 
 	public int getId() 
 	{
