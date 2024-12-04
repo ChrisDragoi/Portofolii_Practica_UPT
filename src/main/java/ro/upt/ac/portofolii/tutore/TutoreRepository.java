@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 public interface TutoreRepository extends JpaRepository<Tutore,Integer>
 {
 	Tutore findById(int id);
+	Tutore findByEmail(String email);
 }

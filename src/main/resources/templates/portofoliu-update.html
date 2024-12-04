@@ -21,128 +21,77 @@
 	<h2>Actualizare Portofoliu</h2>
 	<hr>
 
-	<form action="#" th:action="@{/portofoliu-update-save(id=${portofoliu.id})}" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="id" value="${portofoliu.id}">
+	<form th:action="@{/portofoliu-update/{id}(id=${portofoliu.id})}" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="id" th:value="${portofoliu.id}">
 
 		<div class="mb-3">
 			<label for="student" class="form-label">Student</label>
-			<select class="form-select" id="student" name="student" required>
+			<select class="form-select" id="student" name="student.id" required>
 				<option value="" disabled>Selectați studentul</option>
-				<!-- Adăugați aici opțiuni pentru studenți -->
-				<option value="1" th:selected="${portofoliu.student.id == 1}">Student 1</option>
-				<option value="2" th:selected="${portofoliu.student.id == 2}">Student 2</option>
+				<option th:each="student : ${studenti}" th:value="${student.id}" th:text="${student.nume}" th:selected="${student.id == portofoliu.student.id}"></option>
 			</select>
-			<div class="invalid-feedback">
-				Vă rugăm să selectați un student.
-			</div>
 		</div>
 
 		<div class="mb-3">
 			<label for="loculDesfasurarii" class="form-label">Locul desfășurării</label>
-			<input type="text" class="form-control" id="loculDesfasurarii" name="loculDesfasurarii" placeholder="Introduceți locul desfășurării" value="${portofoliu.loculDesfasurarii}" required>
-			<div class="invalid-feedback">
-				Vă rugăm să introduceți locul desfășurării.
-			</div>
+			<input type="text" class="form-control" id="loculDesfasurarii" name="loculDesfasurarii" th:value="${portofoliu.loculDesfasurarii}" required>
 		</div>
 
 		<div class="mb-3">
 			<label for="durataPracticii" class="form-label">Durata practicii (în ore)</label>
-			<input type="number" class="form-control" id="durataPracticii" name="durataPracticii" placeholder="Introduceți durata practicii" value="${portofoliu.durataPracticii}" required>
-			<div class="invalid-feedback">
-				Vă rugăm să introduceți durata practicii.
-			</div>
+			<input type="number" class="form-control" id="durataPracticii" name="durataPracticii" th:value="${portofoliu.durataPracticii}" required>
 		</div>
 
 		<div class="mb-3">
 			<label for="dataInceput" class="form-label">Data început</label>
-			<input type="date" class="form-control" id="dataInceput" name="dataInceput" value="${portofoliu.dataInceput}" required>
-			<div class="invalid-feedback">
-				Vă rugăm să selectați data de început.
-			</div>
+			<input type="date" class="form-control" id="dataInceput" name="dataInceput" th:value="${portofoliu.dataInceput}" required>
 		</div>
 
 		<div class="mb-3">
 			<label for="dataSfarsit" class="form-label">Data sfârșit</label>
-			<input type="date" class="form-control" id="dataSfarsit" name="dataSfarsit" value="${portofoliu.dataSfarsit}" required>
-			<div class="invalid-feedback">
-				Vă rugăm să selectați data de sfârșit.
-			</div>
+			<input type="date" class="form-control" id="dataSfarsit" name="dataSfarsit" th:value="${portofoliu.dataSfarsit}" required>
 		</div>
 
 		<div class="mb-3">
 			<label for="orar" class="form-label">Orar</label>
-			<input type="text" class="form-control" id="orar" name="orar" placeholder="Introduceți orarul" value="${portofoliu.orar}">
+			<input type="text" class="form-control" id="orar" name="orar" th:value="${portofoliu.orar}">
 		</div>
 
 		<div class="mb-3">
 			<label for="locatiiExtra" class="form-label">Locații extra</label>
-			<input type="text" class="form-control" id="locatiiExtra" name="locatiiExtra" placeholder="Introduceți locațiile extra" value="${portofoliu.locatiiExtra}">
+			<input type="text" class="form-control" id="locatiiExtra" name="locatiiExtra" th:value="${portofoliu.locatiiExtra}">
 		</div>
 
 		<div class="mb-3">
 			<label for="competenteNecesare" class="form-label">Competențe necesare</label>
-			<input type="text" class="form-control" id="competenteNecesare" name="competenteNecesare" placeholder="Introduceți competențele necesare" value="${portofoliu.competenteNecesare}">
-		</div>
-
-		<div class="mb-3">
-			<label for="complementareInvatamantPractica" class="form-label">Complementare învățământ practică</label>
-			<input type="text" class="form-control" id="complementareInvatamantPractica" name="complementareInvatamantPractica" placeholder="Introduceți informațiile complementare" value="${portofoliu.complementareInvatamantPractica}">
+			<input type="text" class="form-control" id="competenteNecesare" name="competenteNecesare" th:value="${portofoliu.competenteNecesare}">
 		</div>
 
 		<div class="mb-3">
 			<label for="tematicaSiSarcini" class="form-label">Tematica și sarcini</label>
-			<textarea class="form-control" id="tematicaSiSarcini" name="tematicaSiSarcini" rows="4" placeholder="Introduceți tematica și sarcinile" required>${portofoliu.tematicaSiSarcini}</textarea>
+			<textarea class="form-control" id="tematicaSiSarcini" name="tematicaSiSarcini" rows="4" th:text="${portofoliu.tematicaSiSarcini}" required></textarea>
+		</div>
+
+		<div class="mb-3">
+			<label for="cadruDidactic" class="form-label">Cadru didactic</label>
+			<select class="form-select" id="cadruDidactic" name="cadruDidactic.id" required>
+				<option value="" disabled>Selectați tutorele facultății</option>
+				<option th:each="cadru : ${cadreDidactice}" th:value="${cadru.id}" th:text="${cadru.nume}" th:selected="${cadru.id == portofoliu.cadruDidactic.id}"></option>
+			</select>
+		</div>
+
+		<div class="mb-3">
+			<label for="tutoreEmail" class="form-label">Email Tutore Practică</label>
+			<input type="email" class="form-control" id="tutoreEmail" name="tutoreEmail"
+				   placeholder="Introduceți adresa de email a tutorelui" required>
 			<div class="invalid-feedback">
-				Vă rugăm să introduceți tematica și sarcinile.
+				Vă rugăm să introduceți o adresă de email validă pentru tutorele de practică.
 			</div>
 		</div>
 
 		<div class="mb-3">
-			<label for="competenteDobandite" class="form-label">Competențe dobândite</label>
-			<input type="text" class="form-control" id="competenteDobandite" name="competenteDobandite" placeholder="Introduceți competențele dobândite" value="${portofoliu.competenteDobandite}">
-		</div>
-
-		<div class="mb-3">
-			<label for="modDePregatire" class="form-label">Mod de pregătire</label>
-			<input type="text" class="form-control" id="modDePregatire" name="modDePregatire" placeholder="Introduceți modul de pregătire" value="${portofoliu.modDePregatire}">
-		</div>
-
-		<div class="mb-3">
-			<label for="activitatiPlanificate" class="form-label">Activități planificate</label>
-			<textarea class="form-control" id="activitatiPlanificate" name="activitatiPlanificate" rows="4" placeholder="Introduceți activitățile planificate">${portofoliu.activitatiPlanificate}</textarea>
-		</div>
-
-		<div class="mb-3">
 			<label for="observatii" class="form-label">Observații</label>
-			<textarea class="form-control" id="observatii" name="observatii" rows="4" placeholder="Introduceți observații">${portofoliu.observatii}</textarea>
-		</div>
-
-		<div class="mb-3">
-			<label for="semnaturaTutore" class="form-label">Semnătura tutorelui</label>
-			<input type="file" class="form-control" id="semnaturaTutore" name="semnaturaTutore">
-			<small class="form-text text-muted">Lăsați gol dacă nu doriți să schimbați semnătura.</small>
-		</div>
-
-		<div class="mb-3">
-			<label for="semnaturaTutorePractica" class="form-label">Semnătura tutorelui de practică</label>
-			<input type="file" class="form-control" id="semnaturaTutorePractica" name="semnaturaTutorePractica">
-			<small class="form-text text-muted">Lăsați gol dacă nu doriți să schimbați semnătura.</small>
-		</div>
-
-		<div class="mb-3">
-			<label for="semnaturaStudent" class="form-label">Semnătura studentului</label>
-			<input type="file" class="form-control" id="semnaturaStudent" name="semnaturaStudent">
-			<small class="form-text text-muted">Lăsați gol dacă nu doriți să schimbați semnătura.</small>
-		</div>
-
-		<div class="mb-3">
-			<label for="tutorePractica" class="form-label">Tutore practică</label>
-			<input type="text" class="form-control" id="tutorePractica" name="tutorePractica" placeholder="Introduceți numele tutorelui de practică" value="${portofoliu.tutorePractica.nume}">
-		</div>
-
-		<div class="mb-3">
-			<label for="cadruDidactic" class="form-label">Tutore facultate</label>
-			<input type="text" class="form-control" id="cadruDidactic" name="cadruDidactic" placeholder="Introduceți numele tutorelui de facultate" value="${portofoliu.cadruDidactic.nume}">
+			<textarea class="form-control" id="observatii" name="observatii" rows="4" th:text="${portofoliu.observatii}"></textarea>
 		</div>
 
 		<button type="submit" class="btn btn-primary">Salvează modificările</button>
