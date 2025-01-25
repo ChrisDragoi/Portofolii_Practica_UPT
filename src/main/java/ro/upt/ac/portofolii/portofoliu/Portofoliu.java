@@ -48,7 +48,7 @@ public class Portofoliu
     private String tematicaSiSarcini;
 
     private String competenteDobandite;
-	//@Setter
+
     private String modDePregatire;
 
     private String activitatiPlanificate;
