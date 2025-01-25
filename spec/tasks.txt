@@ -6,7 +6,7 @@ Gestiunea portofoliilor de practica pentru studenti
 
 - de completat app cu creare manuala de entitati portofolii, tutori, studenti -> DONE
 
-- componeta separata de generat parole cu MD5 sau alternative la un CSV
+- componeta separata de generat parole cu MD5 sau alternative la un CSV -> DONE
 
-- se testeaza cu functie main() separata de tip console log app
+- se testeaza cu functie main() separata de tip console log app -> DONE
 
