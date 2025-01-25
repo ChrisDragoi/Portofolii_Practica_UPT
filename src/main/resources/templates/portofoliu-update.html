@@ -25,14 +25,6 @@
 		<input type="hidden" name="id" th:value="${portofoliu.id}">
 
 		<div class="mb-3">
-			<label for="student" class="form-label">Student</label>
-			<select class="form-select" id="student" name="student.id" required>
-				<option value="" disabled>Selectați studentul</option>
-				<option th:each="student : ${studenti}" th:value="${student.id}" th:text="${student.nume}" th:selected="${student.id == portofoliu.student.id}"></option>
-			</select>
-		</div>
-
-		<div class="mb-3">
 			<label for="loculDesfasurarii" class="form-label">Locul desfășurării</label>
 			<input type="text" class="form-control" id="loculDesfasurarii" name="loculDesfasurarii" th:value="${portofoliu.loculDesfasurarii}" required>
 		</div>
@@ -74,10 +66,13 @@
 
 		<div class="mb-3">
 			<label for="cadruDidactic" class="form-label">Cadru didactic</label>
-			<select class="form-select" id="cadruDidactic" name="cadruDidactic.id" required>
-				<option value="" disabled>Selectați tutorele facultății</option>
-				<option th:each="cadru : ${cadreDidactice}" th:value="${cadru.id}" th:text="${cadru.nume}" th:selected="${cadru.id == portofoliu.cadruDidactic.id}"></option>
+			<select class="form-select" id="cadruDidactic" name="cadruDidactic" required>
+				<option value="" selected disabled>Alegeți cadrul didactic supervizor</option>
+				<option th:each="cadru : ${cadreDidactice}" th:value="${cadru.id}" th:text="${cadru.nume} + ' ' + ${cadru.prenume}"></option>
 			</select>
+			<div class="invalid-feedback">
+				Vă rugăm să alegeți cadrul didactic supervizor.
+			</div>
 		</div>
 
 		<div class="mb-3">

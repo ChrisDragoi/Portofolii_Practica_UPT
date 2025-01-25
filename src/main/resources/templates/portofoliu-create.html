@@ -24,17 +24,6 @@
 	<form action="#" th:action="@{/portofoliu-create-save}" method="post" enctype="multipart/form-data">
 
 		<div class="mb-3">
-			<label for="student" class="form-label">Student</label>
-			<select class="form-select" id="student" name="student" required>
-				<option value="" disabled selected>Selectați studentul</option>
-				<option th:each="student : ${studenti}" th:value="${student.id}" th:text="${student.nume} + ' ' + ${student.prenume}"></option>
-			</select>
-			<div class="invalid-feedback">
-				Vă rugăm să selectați un student.
-			</div>
-		</div>
-
-		<div class="mb-3">
 			<label for="loculDesfasurarii" class="form-label">Locul desfășurării</label>
 			<input type="text" class="form-control" id="loculDesfasurarii" name="loculDesfasurarii" placeholder="Introduceți locul desfășurării" required>
 			<div class="invalid-feedback">
@@ -81,7 +70,7 @@
 				<option th:each="cadru : ${cadreDidactice}" th:value="${cadru.id}" th:text="${cadru.nume} + ' ' + ${cadru.prenume}"></option>
 			</select>
 			<div class="invalid-feedback">
-				Vă rugăm să alegeți tutorele de la facultate.
+				Vă rugăm să alegeți cadrul didactic supervizor.
 			</div>
 		</div>
 

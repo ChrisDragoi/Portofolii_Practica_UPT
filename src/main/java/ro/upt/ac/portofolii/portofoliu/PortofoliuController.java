@@ -86,9 +86,9 @@ public class PortofoliuController
 	public String edit(@PathVariable("id") int id, Model model) 
 	{
 	    Portofoliu portofoliu = portofoliuRepository.findById(id);
-	    //.orElseThrow(() -> new IllegalArgumentException("Invalid conventie Id:" + id));
-	    	    
 	    model.addAttribute("portofoliu", portofoliu);
+
+		model.addAttribute("cadreDidactice", cadruDidacticRepository.findAll());
 	    return "portofoliu-update";
 	}
 	
