@@ -118,7 +118,7 @@ public class Application
 	        cd2.setTelefon("0700123456");
 	        cd2.setEmail("cosmin.cernazanu@upt.ro");
 	        cd2.setSpecializare("cti-en");
-			cd1.setSemnatura("Cernazanu");
+			cd2.setSemnatura("Cernazanu");
 	        repository.save(cd2);
 
 			CadruDidactic cd3=new CadruDidactic();
@@ -128,7 +128,7 @@ public class Application
 	        cd3.setTelefon("0700123456");
 	        cd3.setEmail("sorin.nanu@upt.ro");
 	        cd3.setSpecializare("is");
-			cd1.setSemnatura("Nanu");
+			cd3.setSemnatura("Nanu");
 	        repository.save(cd3);
 
 			CadruDidactic cd4=new CadruDidactic();
@@ -138,7 +138,7 @@ public class Application
 	        cd4.setTelefon("0700123456");
 	        cd4.setEmail("iosif.szeidert@upt.ro");
 	        cd4.setSpecializare("info-zi");
-			cd1.setSemnatura("Szeidert");
+			cd4.setSemnatura("Szeidert");
 	        repository.save(cd4);
 
 			CadruDidactic cd5=new CadruDidactic();
@@ -148,7 +148,7 @@ public class Application
 	        cd5.setTelefon("0700123456");
 	        cd5.setEmail("mihaela.crisan-vida@upt.ro");
 	        cd5.setSpecializare("info-id");
-			cd1.setSemnatura("Crisan-Vida");
+			cd5.setSemnatura("Crisan-Vida");
 	        repository.save(cd5);
 
 			log.info("ending initialization...");
