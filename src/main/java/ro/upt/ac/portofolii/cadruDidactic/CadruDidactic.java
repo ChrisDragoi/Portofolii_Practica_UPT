@@ -20,7 +20,9 @@ public class CadruDidactic
 
 	private String telefon;
 	private String email;
-	
+
+	private String semnatura;
+
 	public CadruDidactic() 
 	{
 	}
@@ -93,5 +95,13 @@ public class CadruDidactic
 	public void setSpecializare(String specializare)
 	{
 		this.specializare = specializare;
+	}
+
+	public String getSemnatura() {
+		return semnatura;
+	}
+
+	public void setSemnatura(String semnatura) {
+		this.semnatura = semnatura;
 	}
 }

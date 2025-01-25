@@ -2,9 +2,9 @@ package ro.upt.ac.portofolii.portofoliu;
 
 import java.sql.Date;
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 import ro.upt.ac.portofolii.cadruDidactic.CadruDidactic;
 import ro.upt.ac.portofolii.student.Student;
 import ro.upt.ac.portofolii.tutore.Tutore;
@@ -56,21 +56,13 @@ public class Portofoliu
 	@Setter
     private String observatii;
 
-	//private byte[] semnaturaTutoreFacultate;
-	//private byte[] semnaturaTutorePractica;
-	//private byte[] semnaturaStudent;
+	@Setter
+	@Getter
+	private String semnaturaStudent;
 
     public Date getDataSemnarii() {
 		return dataSemnarii;
 	}
-
-//	public void setSemnaturaTutoreFacultate(byte[] semnaturaTutore) {
-//		this.semnaturaTutoreFacultate = semnaturaTutore;
-//	}
-
-//	public void setSemnaturaStudent(byte[] semnaturaStudent) {
-//		this.semnaturaStudent = semnaturaStudent;
-//	}
 
     public String getTematicaSiSarcini() {
 		return tematicaSiSarcini;
@@ -91,18 +83,6 @@ public class Portofoliu
 	public String getObservatii() {
 		return observatii;
 	}
-
-//	public byte[] getSemnaturaTutoreFacultate() {
-//		return semnaturaTutoreFacultate;
-//	}
-//
-//	public byte[] getSemnaturaTutorePractica() {
-//		return semnaturaTutorePractica;
-//	}
-//
-//	public byte[] getSemnaturaStudent() {
-//		return semnaturaStudent;
-//	}
 
 	public Tutore getTutore()
 	{
@@ -162,28 +142,13 @@ public class Portofoliu
 		return loculDesfasurarii;
 	}
 
-	public void setLoculDesfasurarii(String loculDesfasurarii)
-	{
-		this.loculDesfasurarii = loculDesfasurarii;
-	}
-
 	public Date getDataInceput()
 	{
 		return dataInceput;
 	}
 
-	public void setDataInceput(Date dataInceput)
-	{
-		this.dataInceput = dataInceput;
-	}
-
 	public Date getDataSfarsit()
 	{
 		return dataSfarsit;
-	}
-
-	public void setDataSfarsit(Date dataSfarsit)
-	{
-		this.dataSfarsit = dataSfarsit;
 	}
 }

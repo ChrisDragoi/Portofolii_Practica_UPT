@@ -19,6 +19,7 @@ public class Tutore
 	private String functie;
 	private String telefon;
 	private String email;
+	private String semnatura;
 
 	public int getId() 
 	{
@@ -83,5 +84,13 @@ public class Tutore
 	public String toString()
 	{
 		return nume+" "+prenume;
+	}
+
+	public String getSemnatura() {
+		return semnatura;
+	}
+
+	public void setSemnatura(String semnatura) {
+		this.semnatura = semnatura;
 	}
 }
