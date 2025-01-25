@@ -54,4 +54,10 @@ public class Portofoliu
     private String activitatiPlanificate;
 
     private String observatii;
+
+	private String semnaturaStudent;
+
+	private String semnaturaTutore;
+
+	private String semnaturaCadruDidactic;
 }
