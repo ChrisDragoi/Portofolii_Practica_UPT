@@ -34,9 +34,6 @@ public class Portofoliu
 	private Integer durataPracticii;
 	private Date dataInceput;
 	private Date dataSfarsit;
-    //	public void setSemnaturaTutorePractica(byte[] semnaturaTutorePractica) {
-    //		this.semnaturaTutorePractica = semnaturaTutorePractica;
-    //	}
 
     private Date dataSemnarii;
 
@@ -57,98 +54,4 @@ public class Portofoliu
     private String activitatiPlanificate;
 
     private String observatii;
-
-	private String semnaturaStudent;
-
-//    public Date getDataSemnarii() {
-//		return dataSemnarii;
-//	}
-//
-//    public String getTematicaSiSarcini() {
-//		return tematicaSiSarcini;
-//	}
-//
-//	public String getCompetenteDobandite() {
-//		return competenteDobandite;
-//	}
-//
-//	public String getModDePregatire() {
-//		return modDePregatire;
-//	}
-//
-//	public String getActivitatiPlanificate() {
-//		return activitatiPlanificate;
-//	}
-//
-//	public String getObservatii() {
-//		return observatii;
-//	}
-//
-//	public Tutore getTutore()
-//	{
-//		return tutore;
-//	}
-//
-//	public int getId()
-//	{
-//		return id;
-//	}
-//
-//    public Integer getDurataPracticii() {
-//		return durataPracticii;
-//	}
-//
-//	public void setDurataPracticii(int durataPracticii) {
-//		this.durataPracticii = durataPracticii;
-//	}
-//
-//	public Student getStudent()
-//	{
-//		return student;
-//	}
-//
-//    public void setDurataPracticii(Integer durataPracticii)
-//	{
-//		this.durataPracticii = durataPracticii;
-//	}
-//
-//    public CadruDidactic getCadruDidactic()
-//	{
-//		return cadruDidactic;
-//	}
-//
-//    public String getOrar()
-//	{
-//		return orar;
-//	}
-//
-//	public String getLocatiiExtra()
-//	{
-//		return locatiiExtra;
-//	}
-//
-//	public String getCompetenteNecesare()
-//	{
-//		return competenteNecesare;
-//	}
-//
-//	public String getComplementareInvatamantPractica()
-//	{
-//		return complementareInvatamantPractica;
-//	}
-//
-//	public String getLoculDesfasurarii()
-//	{
-//		return loculDesfasurarii;
-//	}
-//
-//	public Date getDataInceput()
-//	{
-//		return dataInceput;
-//	}
-//
-//	public Date getDataSfarsit()
-//	{
-//		return dataSfarsit;
-//	}
 }

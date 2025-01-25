@@ -31,8 +31,9 @@ public class Student
 	private int anDeStudiu;
 	private String email;
 	private String telefon;
+	private String semnatura;
 	
-	private String password;
+	//private String password;
 	
 	public Student()
 	{
@@ -199,31 +200,35 @@ public class Student
 		this.telefon = telefon;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getSemnatura() {
+		return semnatura;
 	}
 
-	public String getUsername() {
-		return email;
+	public void setSemnatura(String semnatura) {
+		this.semnatura = semnatura;
 	}
 
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
-	public boolean isAccountNonLocked() {
-		return true;
-	}
-
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-
-	public boolean isEnabled() {
-		return true;
-	}
-	
-	public void setPassword(String password) {
-		this.password = password;
-	}
+	//	public String getPassword() {
+//		return password;
+//	}
+//
+//	public boolean isAccountNonExpired() {
+//		return true;
+//	}
+//
+//	public boolean isAccountNonLocked() {
+//		return true;
+//	}
+//
+//	public boolean isCredentialsNonExpired() {
+//		return true;
+//	}
+//
+//	public boolean isEnabled() {
+//		return true;
+//	}
+//
+//	public void setPassword(String password) {
+//		this.password = password;
+//	}
 }

@@ -45,7 +45,7 @@ public class Application
 			log.info("starting student initialization...");
 
 			Student s1=new Student();
-			s1.setPassword("test");
+			//s1.setPassword("test");
 	        s1.setNume("Dragoi");
 	        s1.setPrenume("Christian");
 	        s1.setCnp("1900505010203");
