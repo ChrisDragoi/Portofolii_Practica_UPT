@@ -49,7 +49,8 @@ public class PortofoliuController
 			return "portofoliu-create";
 		}
 
-		if (portofoliu.getCadruDidactic() == null) {
+		if (portofoliu.getCadruDidactic() == null) 
+		{
 			System.out.println("CadruDidactic ID is missing or null");
 			model.addAttribute("cadreDidactice", cadruDidacticRepository.findAll());
 			model.addAttribute("error", "Trebuie să selectați un cadru didactic.");
@@ -58,7 +59,8 @@ public class PortofoliuController
 
 		// Asociem cadrul didactic la portofoliu
 		CadruDidactic cadru = cadruDidacticRepository.findById(portofoliu.getCadruDidactic().getId());
-		if(cadru == null) {
+		if(cadru == null) 
+		{
 			throw new RuntimeException("Cadru didactic ID not found");
 		}
 		portofoliu.setCadruDidactic(cadru);

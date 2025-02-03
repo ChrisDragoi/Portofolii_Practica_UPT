@@ -31,8 +31,11 @@ public class Portofoliu
 	private CadruDidactic cadruDidactic;
 
 	private String loculDesfasurarii;
+	
 	private Integer durataPracticii;
+	
 	private Date dataInceput;
+	
 	private Date dataSfarsit;
 
     private Date dataSemnarii;

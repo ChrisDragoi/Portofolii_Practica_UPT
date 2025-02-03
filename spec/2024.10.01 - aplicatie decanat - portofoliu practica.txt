@@ -18,7 +18,7 @@ Interfata prodecan
 
 - aplicatia trebuie sa poata crea parole aleatoare pentru fiecare student
 
-- aplicatia trebuie sa poata exporta fisier CSV cu nume, email si parola in clar.
+- aplicatia trebuie sa poata exporta fisier CSV cu nume, email si parola in clar
 
 - acest fisier va fi folosit de prodecan pentru a trimite pe email prin client Thunderbird parolele catre toti studentii individual
 
@@ -28,12 +28,17 @@ Interfata prodecan
 
 - prodecanul trebuie sa poata semna acel portofoliu prin inserarea unei semnaturi JPG in documentul Word, la final, generat de aplicatie
 
+Interfata tutore
+- similar cu student
+- doar semneaza si atat
+
 Interfata student
 
 - login pe baza de email si parola generata
 
-- se porneste de la fisierul de portofoliu din portalul AC (https://ac.upt.ro/practica-licenta/
-) pe care studentul trebuie sa il completeze si pe care prodecanul trebuie sa il semneze
+- se porneste de la fisierul de portofoliu din portalul AC (https://ac.upt.ro/practica-licenta/) pe care studentul trebuie sa il completeze si pe care prodecanul trebuie sa il semneze
+
+- cand se completeaza numele si emailul al tutorelui, acesta este adaugat in baza de date si i se genereaza o parola aleatoare (trimis email)
 
 - se ia fisierul de portofoliu DOC si se extrag campurile pe care in mod normal il completeaza studentul iar pe baza lor se face un formular web
 
