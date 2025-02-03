@@ -29,6 +29,7 @@ Interfata prodecan
 - prodecanul trebuie sa poata semna acel portofoliu prin inserarea unei semnaturi JPG in documentul Word, la final, generat de aplicatie
 
 Interfata tutore
+
 - similar cu student
 - doar semneaza si atat
 
