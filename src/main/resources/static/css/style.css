@@ -1,0 +1,57 @@
+/* Stiluri generale */
+body {
+    background-color: white;
+    font-family: Arial, sans-serif;
+}
+
+/* Header */
+header {
+    background-color: #4b0082; /* Indigo */
+    color: white;
+    padding: 15px 0;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    background-color: white;
+}
+
+/* Linkuri stilizate */
+.list-group-item {
+    background-color: white;
+    border-color: #4b0082;
+}
+
+.list-group-item a {
+    color: #4b0082;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.list-group-item a:hover {
+    text-decoration: underline;
+}
+
+/* Footer */
+footer {
+    background-color: #f8f9fa;
+    padding: 10px 0;
+    text-align: center;
+}
+
+/* Link Logout */
+.logout-link {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.logout-link:hover {
+    text-decoration: underline;
+}

@@ -4,17 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Portofolii 1.0</title>
+  <link rel="stylesheet" href="/css/style.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 <body>
+<header class="py-3">
+  <div class="container d-flex justify-content-between align-items-center">
+    <h1 class="h3">Portofolii Practică UPT</h1>
+    <a href="/logout" class="logout-link">Logout</a>
+  </div>
+</header>
 <div class="container">
   <div class="row justify-content-center mt-5">
     <div class="col-md-6">
       <h2 class="text-center">Log in</h2>
       <form action="/login" method="post">
         <div class="mb-3">
-          <label for="email" class="form-label">Adresă de Email</label>
-          <input type="email" class="form-control" id="email" name="email" placeholder="Introdu adresa de email" required>
+          <label for="username" class="form-label">Adresă de Email</label>
+          <input type="text" class="form-control" id="username" name="username" placeholder="Introdu email" required>
+
           <div class="invalid-feedback">
             Vă rugăm să introduceți o adresă de email validă.
           </div>
@@ -33,7 +41,9 @@
     </div>
   </div>
 </div>
-
+<footer class="text-center py-3 mt-4">
+  <p class="mb-0">&copy; 2025 Portofolii Practica UPT. Toate drepturile rezervate.</p>
+</footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
 </html>
