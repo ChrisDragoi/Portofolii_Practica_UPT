@@ -6,7 +6,13 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.csv.QuoteMode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ro.upt.ac.portofolii.security.Role;
+import ro.upt.ac.portofolii.security.User;
+import ro.upt.ac.portofolii.security.UserRepository;
+import ro.upt.ac.portofolii.student.Student;
+import ro.upt.ac.portofolii.student.StudentRepository;
 import ro.upt.ac.portofolii.utils.PasswordGenerator;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -15,10 +21,20 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.sql.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Service
 public class AdminService {
+
+    private final StudentRepository studentRepository;
+    private final UserRepository userRepository;
+
+    public AdminService(StudentRepository studentRepository, UserRepository userRepository) {
+        this.studentRepository = studentRepository;
+        this.userRepository = userRepository;
+    }
 
     public String saveStudentCsv(MultipartFile file, String UPLOAD_DIR) throws IOException {
         return copyFile(file, UPLOAD_DIR) + uploadStudentsWithCredentialsCsv(UPLOAD_DIR);
@@ -39,7 +55,7 @@ public class AdminService {
         }
         Path filePath = uploadPath.resolve("Students_Details.csv");
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-        return "File " + file.getOriginalFilename() + "was copied to" + filePath + "\n";
+        return "File " + file.getOriginalFilename() + " was copied to " + filePath + "\n";
     }
     private String uploadStudentsWithCredentialsCsv(String UPLOAD_DIR) throws IOException {
         Path sourceFile = Paths.get(UPLOAD_DIR, "Students_Details.csv");
@@ -65,6 +81,7 @@ public class AdminService {
             CSVParser csvParser = new CSVParser(reader, csvFormat);
 
             for (CSVRecord record : csvParser) {
+                addStudentToDB(record);
                 String nume = record.get(0);
                 String prenume = record.get(1);
                 String email = record.get(13);
@@ -72,8 +89,42 @@ public class AdminService {
 
                 writer.write(String.join(",", nume, prenume, email, password));
                 writer.newLine();
+                addStudentUser(email, password);
             }
         }
         return "Generated credentials in " + outputFile;
+    }
+    private void addStudentToDB(CSVRecord record) {
+        System.out.println("starting student initialization...");
+
+			Student s1=new Student();
+	        s1.setNume(record.get(0));
+	        s1.setPrenume(record.get(1));
+	        s1.setCnp(record.get(2));
+	        s1.setDataNasterii(Date.valueOf(record.get(3)));
+	        s1.setLoculNasterii(record.get(4));
+	        s1.setCetatenie(record.get(5));
+	        s1.setSerieCi(record.get(6));
+	        s1.setNumarCi(record.get(7));
+	        s1.setAdresa(record.get(8));
+	        s1.setAnUniversitar(record.get(9));
+	        s1.setFacultate(record.get(10));
+	        s1.setSpecializare(record.get(11));
+	        s1.setAnDeStudiu(Integer.parseInt(record.get(12)));
+	        s1.setEmail(record.get(13));
+	        s1.setTelefon(record.get(14));
+			//s1.setSemnatura(record.get(15));
+
+        studentRepository.save(s1);
+
+        System.out.println("ending initialization...");
+    }
+    private void addStudentUser(String email, String password) {
+        User user=new User(email,password, Role.STUDENT);
+        userRepository.save(user);
+    }
+
+    public List<Student> getAllStudents() {
+        return studentRepository.findAll();
     }
 }
