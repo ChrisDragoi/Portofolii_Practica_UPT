@@ -8,16 +8,27 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import ro.upt.ac.portofolii.admin.AdminService;
+import ro.upt.ac.portofolii.security.User;
+import ro.upt.ac.portofolii.security.UserRepository;
+
+import java.io.IOException;
+import java.util.Optional;
 
 @Controller
 public class StudentController
 {
 	@Autowired
 	StudentRepository studentRepository;
+	@Autowired
+    UserRepository userRepository;
+	@Autowired
+	AdminService adminService;
 
-	@GetMapping("/student-create")
-	public String create(Student student)
+    @GetMapping("/student-create")
+	public String create(Model model)
 	{
+		model.addAttribute("student", new Student());
 		return "student-create";
 	}
 
@@ -29,6 +40,12 @@ public class StudentController
 			return "student-create";
 		}
 		studentRepository.save(student);
+		try {
+			adminService.addStudentCredentialsToCSV(student);
+		} catch (IOException e) {
+			model.addAttribute("error_message", "Eroare la salvarea în fișier CSV!");
+			return "student-create";
+		}
 		return "redirect:/student-read";
 	}
 
@@ -63,11 +80,17 @@ public class StudentController
 	}
 
 	@GetMapping("/student-delete/{id}")
-	public String delete(@PathVariable("id") int id)
-	{
+	public String delete(@PathVariable("id") int id) throws IOException {
 		Student student = studentRepository.findById(id);
 		//.orElseThrow(() -> new IllegalArgumentException("Invalid student Id:" + id));
 
+		Optional<User> user=userRepository.findByEmail(student.getEmail());
+		if(user.isEmpty()){
+			throw new RuntimeException("User not found");
+		}
+		User u = user.get();
+		userRepository.delete(u);
+		adminService.deleteStudentFolder(student.getNume(),student.getPrenume());
 		studentRepository.delete(student);
 		return "redirect:/student-read";
 	}

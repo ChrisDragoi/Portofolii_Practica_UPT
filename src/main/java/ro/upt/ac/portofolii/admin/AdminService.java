@@ -17,10 +17,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
@@ -94,7 +91,7 @@ public class AdminService {
         }
         return "Generated credentials in " + outputFile;
     }
-    private void addStudentToDB(CSVRecord record) {
+    private void addStudentToDB(CSVRecord record) throws IOException {
         System.out.println("starting student initialization...");
 
 			Student s1=new Student();
@@ -116,6 +113,7 @@ public class AdminService {
 			//s1.setSemnatura(record.get(15));
 
         studentRepository.save(s1);
+        createStudentFolder(s1.getNume(),s1.getPrenume());
 
         System.out.println("ending initialization...");
     }
@@ -127,4 +125,55 @@ public class AdminService {
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
+
+    public void addStudentCredentialsToCSV(Student student) throws IOException {
+        Path filePath = Paths.get("upload", "Students_Credentials.csv");
+
+        boolean fileExists = Files.exists(filePath);
+
+        String password = new PasswordGenerator().generateRandomPassword();
+
+        try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
+            if (!fileExists) {
+                writer.write("Nume,Prenume,Email,Password");
+                writer.newLine();
+            }
+
+            writer.write(String.join(",", student.getNume(), student.getPrenume(), student.getEmail(), password));
+            writer.newLine();
+        }
+
+        addStudentUser(student.getEmail(), password);
+        createStudentFolder(student.getNume(), student.getPrenume());
+    }
+
+    private void createStudentFolder(String nume, String prenume) throws IOException {
+        String folderName = nume+prenume;
+        Path studentDir = Paths.get("studenti", folderName);
+
+        if (!Files.exists(studentDir)) {
+            Files.createDirectories(studentDir);
+            System.out.println("Folder creat: " + studentDir);
+        } else {
+            System.out.println("Folderul exista deja: " + studentDir);
+        }
+    }
+    public void deleteStudentFolder(String nume, String prenume) throws IOException {
+        String folderName = nume + prenume;
+        Path studentDir = Paths.get("studenti", folderName);
+
+        if (Files.exists(studentDir) && Files.isDirectory(studentDir)) {
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(studentDir)) {
+                for (Path file : stream) {
+                    Files.delete(file);
+                }
+            }
+            Files.delete(studentDir);
+            System.out.println("Folder și conținut șters: " + studentDir);
+        } else {
+            System.out.println("Folderul nu există sau nu este director: " + studentDir);
+        }
+    }
+
+
 }

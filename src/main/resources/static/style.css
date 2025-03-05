@@ -50,3 +50,13 @@ footer {
 .logout-link:hover {
     text-decoration: underline;
 }
+
+.table-light {
+    background-color: #f8f9fa !important;
+}
+
+thead.bg-custom {
+    background-color: #6f42c1 !important;
+    color: white !important;
+}
+
