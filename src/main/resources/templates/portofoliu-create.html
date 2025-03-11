@@ -56,6 +56,26 @@
 		</div>
 
 		<div class="mb-3">
+			<label for="orar" class="form-label">Orar</label>
+			<input type="text" class="form-control" id="orar" name="orar" th:value="${portofoliu.orar}">
+		</div>
+
+		<div class="mb-3">
+			<label for="locatiiExtra" class="form-label">Locații extra</label>
+			<input type="text" class="form-control" id="locatiiExtra" name="locatiiExtra" th:value="${portofoliu.locatiiExtra}">
+		</div>
+
+		<div class="mb-3">
+			<label for="competenteNecesare" class="form-label">Competențe necesare</label>
+			<input type="text" class="form-control" id="competenteNecesare" name="competenteNecesare" th:value="${portofoliu.competenteNecesare}">
+		</div>
+
+		<div class="mb-3">
+			<label for="tematicaSiSarcini" class="form-label">Tematica și sarcini</label>
+			<textarea class="form-control" id="tematicaSiSarcini" name="tematicaSiSarcini" rows="4" th:text="${portofoliu.tematicaSiSarcini}" required></textarea>
+		</div>
+
+		<div class="mb-3">
 			<label for="tutoreEmail" class="form-label">Email Tutore Practică</label>
 			<input type="email" class="form-control" id="tutoreEmail" name="tutoreEmail" placeholder="Introduceți adresa de email a tutorelui de practică" required>
 			<div class="invalid-feedback">
@@ -82,14 +102,6 @@
 			</select>
 			<div class="invalid-feedback">
 				Vă rugăm să alegeți un student.
-			</div>
-		</div>
-
-		<div class="mb-3">
-			<label for="tematicaSiSarcini" class="form-label">Tematica și sarcini</label>
-			<textarea class="form-control" id="tematicaSiSarcini" name="tematicaSiSarcini" rows="4" placeholder="Introduceți tematica și sarcinile" required></textarea>
-			<div class="invalid-feedback">
-				Vă rugăm să introduceți tematica și sarcinile.
 			</div>
 		</div>
 

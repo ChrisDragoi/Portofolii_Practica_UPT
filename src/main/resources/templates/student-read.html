@@ -24,7 +24,7 @@
 	</nav>
 
 	<h2 class="mb-4">Lista Studenților</h2>
-	<div class="card shadow-sm p-3 mb-4">
+	<div class="card shadow-sm p-4 border-0 rounded-3">
 		<div class="card-body">
 			<div th:if="${#lists.isEmpty(studenti)}">
 				<h3 class="text-danger text-center">Nu există studenți în baza de date!</h3>
@@ -43,12 +43,10 @@
 			</div>
 			<div th:if="${not #lists.isEmpty(studenti)}">
 				<div class="table-responsive">
-					<table class="table table-light table-striped table-hover text-center align-middle">
-						<thead class="bg-custom text-white">
-						<tr>
+					<table class="table table-bordered table-striped text-center align-middle">
+						<thead class="table-light">
 							<th>#</th>
-							<th>Editează</th>
-							<th>Șterge</th>
+							<th>Actiuni</th>
 							<th>Nume</th>
 							<th>Prenume</th>
 							<th>CNP</th>
@@ -70,8 +68,10 @@
 						<tbody>
 						<tr th:each="student : ${studenti}">
 							<td th:text="${student.id}"></td>
-							<td><a class="btn btn-outline-primary btn-sm" th:href="@{/student-edit/{id}(id=${student.id})}">Editează</a></td>
-							<td><a class="btn btn-outline-danger btn-sm" th:href="@{/student-delete/{id}(id=${student.id})}">Șterge</a></td>
+							<td>
+								<a class="btn btn-outline-primary btn-sm" th:href="@{/student-edit/{id}(id=${student.id})}">Editează</a>
+								<a class="btn btn-outline-danger btn-sm" th:href="@{/student-delete/{id}(id=${student.id})}">Șterge</a>
+							</td>
 							<td th:text="${student.nume}"></td>
 							<td th:text="${student.prenume}"></td>
 							<td th:text="${student.cnp}"></td>

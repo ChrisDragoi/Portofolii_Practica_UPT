@@ -60,3 +60,35 @@ thead.bg-custom {
     color: white !important;
 }
 
+.table-responsive {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    table-layout: auto;
+}
+
+th, td {
+    padding: 10px;
+    white-space: nowrap;
+}
+
+th {
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+td {
+    text-align: center;
+}
+
+.table thead th {
+    font-size: 14px;
+}
+
+.table tbody td {
+    font-size: 13px;
+}
+
+
