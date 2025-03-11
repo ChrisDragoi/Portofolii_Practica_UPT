@@ -3,6 +3,6 @@ package ro.upt.ac.portofolii.security;
 public enum Role {
     ADMIN,
     STUDENT,
-    TUTOR,
+    TUTORE,
     CADRU_DIDACTIC
 }

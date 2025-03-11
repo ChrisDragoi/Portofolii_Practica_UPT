@@ -8,23 +8,29 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ro.upt.ac.portofolii.cadruDidactic.CadruDidactic;
 import ro.upt.ac.portofolii.cadruDidactic.CadruDidacticRepository;
+import ro.upt.ac.portofolii.student.Student;
 import ro.upt.ac.portofolii.student.StudentRepository;
 import ro.upt.ac.portofolii.tutore.Tutore;
 import ro.upt.ac.portofolii.tutore.TutoreRepository;
+import ro.upt.ac.portofolii.tutore.TutoreService;
 
 @Controller
 public class PortofoliuController
 {
 	@Autowired
-	PortofoliuRepository portofoliuRepository;
+	private PortofoliuRepository portofoliuRepository;
 
 	@Autowired
-	CadruDidacticRepository cadruDidacticRepository;
+	private CadruDidacticRepository cadruDidacticRepository;
 
     @Autowired
     private StudentRepository studentRepository;
+
+    @Autowired
+    private TutoreService tutoreService;
     @Autowired
     private TutoreRepository tutoreRepository;
 
@@ -37,13 +43,14 @@ public class PortofoliuController
 	@GetMapping("/portofoliu-create")
 	public String create(Portofoliu portofoliu, Model model)
 	{
-		model.addAttribute("portofoliu", new Portofoliu());
+		model.addAttribute("portofoliu", portofoliu);
 		model.addAttribute("cadreDidactice", cadruDidacticRepository.findAll());
+		model.addAttribute("studenti", studentRepository.findAll());
 		return "portofoliu-create";
 	}
 
 	@PostMapping("/portofoliu-create-save")
-	public String createSave(@Validated Portofoliu portofoliu, BindingResult result, Model model) {
+	public String createSave(@Validated Portofoliu portofoliu, @RequestParam("tutoreEmail") String tutoreEmail, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			System.out.println("Validation errors: " + result.getAllErrors());
 			return "portofoliu-create";
@@ -57,7 +64,14 @@ public class PortofoliuController
 			return "portofoliu-create";
 		}
 
-		// Asociem cadrul didactic la portofoliu
+		if (portofoliu.getStudent() == null)
+		{
+			System.out.println("CadruDidactic ID is missing or null");
+			model.addAttribute("studenti", studentRepository.findAll());
+			model.addAttribute("error", "Trebuie sa selectați un student.");
+			return "portofoliu-create";
+		}
+
 		CadruDidactic cadru = cadruDidacticRepository.findById(portofoliu.getCadruDidactic().getId());
 		if(cadru == null) 
 		{
@@ -65,15 +79,23 @@ public class PortofoliuController
 		}
 		portofoliu.setCadruDidactic(cadru);
 
-		//Tutore tutore = tutoreRepository.findByEmail(portofoliu.getTutore().getEmail());
-		portofoliu.setTutore(tutoreRepository.findById(3));
+		Student student = studentRepository.findById(portofoliu.getStudent().getId());
+		if(student == null)
+		{
+			throw new RuntimeException("Student ID not found");
+		}
+		portofoliu.setStudent(student);
 
-		portofoliu.setStudent(studentRepository.findById(1));
+		Tutore t = tutoreRepository.findByEmail(tutoreEmail);
+		if(t == null){
+			Tutore tutore = tutoreService.create(tutoreEmail);
+			portofoliu.setTutore(tutore);
+		}else{
+			portofoliu.setTutore(t);
+		}
 
-		// Salvăm portofoliul
 		portofoliuRepository.save(portofoliu);
 
-		// Redirecționăm către pagina de afișare a portofoliilor
 		return "redirect:/portofoliu-read";
 	}
 
@@ -95,7 +117,7 @@ public class PortofoliuController
 	}
 	
 	@PostMapping("/portofoliu-update/{id}")
-	public String update(@PathVariable("id") int id, @Validated Portofoliu portofoliu, BindingResult result, Model model)
+	public String update(@PathVariable("id") int id, @Validated Portofoliu portofoliu, BindingResult result)
 	{
 	    if(result.hasErrors()) 
 	    {
@@ -108,10 +130,9 @@ public class PortofoliuController
 	}
 	
 	@GetMapping("/portofoliu-delete/{id}")
-	public String delete(@PathVariable("id") int id, Model model) 
+	public String delete(@PathVariable("id") int id)
 	{
 	    Portofoliu portofoliu = portofoliuRepository.findById(id);
-	    //.orElseThrow(() -> new IllegalArgumentException("Invalid portofoliu Id:" + id));
 	    
 	    portofoliuRepository.delete(portofoliu);
 	    return "redirect:/portofoliu-read";
