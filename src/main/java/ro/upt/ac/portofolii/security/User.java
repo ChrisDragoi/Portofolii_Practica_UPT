@@ -3,6 +3,7 @@ package ro.upt.ac.portofolii.security;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "users")
@@ -14,6 +15,7 @@ public class User {
     private Long id;
 
     private String email;
+    @Setter
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -24,5 +26,6 @@ public class User {
         this.role = role;
         this.password = password;
     }
+
 }
 

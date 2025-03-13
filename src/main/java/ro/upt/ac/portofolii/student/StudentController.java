@@ -1,6 +1,7 @@
 package ro.upt.ac.portofolii.student;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,9 +9,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ro.upt.ac.portofolii.admin.AdminService;
+import ro.upt.ac.portofolii.portofoliu.PortofoliuRepository;
 import ro.upt.ac.portofolii.security.User;
 import ro.upt.ac.portofolii.security.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -24,8 +29,12 @@ public class StudentController
     UserRepository userRepository;
 	@Autowired
 	AdminService adminService;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+    @Autowired
+    private StudentService studentService;
 
-    @GetMapping("/student-create")
+	@GetMapping("/student-create")
 	public String create(Model model)
 	{
 		model.addAttribute("student", new Student());
@@ -88,10 +97,42 @@ public class StudentController
 		if(user.isEmpty()){
 			throw new RuntimeException("User not found");
 		}
+		studentService.deleteStudentsPortofolios(id);
 		User u = user.get();
-		userRepository.delete(u);
 		adminService.deleteStudentFolder(student.getNume(),student.getPrenume());
 		studentRepository.delete(student);
+		userRepository.delete(u);
 		return "redirect:/student-read";
+	}
+
+	@GetMapping("/student/change-password/{id}")
+	public String showChangePasswordPage(@PathVariable("id") int id, Model model) {
+		Optional<Student> student = Optional.ofNullable(studentRepository.findById(id));
+
+		if (student.isPresent()) {
+			model.addAttribute("student", student.get());
+			return "change-password";
+		}
+
+		return "redirect:/student-read";
+	}
+
+	@PostMapping("/student/change-password/{id}")
+	public String changePassword(@PathVariable("id") int id, @RequestParam("newPassword") String newPassword, RedirectAttributes redirectAttributes) {
+		//String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Student student = studentRepository.findById(id);
+		//.orElseThrow(() -> new IllegalArgumentException("Invalid student Id:" + id));
+
+		Optional<User> user=userRepository.findByEmail(student.getEmail());
+		if(user.isEmpty()){
+			throw new RuntimeException("User not found");
+		}else {
+			User u = user.get();
+			u.setPassword(passwordEncoder.encode(newPassword));
+			userRepository.save(u);
+			redirectAttributes.addFlashAttribute("success", "Password updated successfully. Please login again.");
+			return "redirect:/logout";
+		}
+		//return "redirect:/student/change-password";
 	}
 }

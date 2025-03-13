@@ -25,9 +25,9 @@
 	</nav>
 
 	<div class="card shadow-sm p-4 border-0 rounded-3">
-		<h2 class="mb-4 text-center text-primary">Editare Student</h2>
-		<form th:action="@{/student-update}" th:object="${student}" method="post" class="needs-validation" novalidate>
-			<input type="hidden" th:field="*{id}" />
+		<h2 class="mb-4">Editare Student</h2>
+		<form th:action="@{'/student-update/' + ${student.id}}" th:object="${student}" method="post" class="needs-validation" novalidate>
+		<input type="hidden" th:field="*{id}" />
 
 			<div class="mb-3">
 				<label class="form-label fw-bold">Nume:</label>
@@ -49,13 +49,60 @@
 				<input type="email" class="form-control" th:field="*{email}" required>
 			</div>
 
-			<div class="d-flex justify-content-center mt-4">
-				<button type="submit" class="btn btn-primary px-4">Salvează</button>
-				<a href="/student-read" class="btn btn-secondary ms-3 px-4">Anulează</a>
+			<div class="mb-3">
+				<label class="form-label fw-bold">Serie CI:</label>
+				<input type="text" class="form-control" th:field="*{serieCi}" required>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label fw-bold">Număr CI:</label>
+				<input type="text" class="form-control" th:field="*{numarCi}" required>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label fw-bold">CNP:</label>
+				<input type="text" class="form-control" th:field="*{cnp}" required>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label fw-bold">Locul nașterii:</label>
+				<input type="text" class="form-control" th:field="*{loculNasterii}" required>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label fw-bold">Cetățenie:</label>
+				<input type="text" class="form-control" th:field="*{cetatenie}" required>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label fw-bold">Adresa:</label>
+				<input type="text" class="form-control" th:field="*{adresa}" required>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label fw-bold">An universitar:</label>
+				<input type="text" class="form-control" th:field="*{anUniversitar}" required>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label fw-bold">Facultate:</label>
+				<input type="text" class="form-control" th:field="*{facultate}" required>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label fw-bold">Specializare:</label>
+				<input type="text" class="form-control" th:field="*{specializare}" required>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label fw-bold">An de studiu:</label>
+				<input type="number" class="form-control" th:field="*{anDeStudiu}" required>
 			</div>
 		</form>
+		<a th:href="@{'/student/change-password/' + ${student.id}}" class="button">Change Password</a>
 	</div>
 </div>
+
 
 <footer class="text-center py-4 mt-5 bg-light border-top shadow-sm">
 	<p class="mb-0 text-muted">&copy; 2025 Portofolii Practică UPT. Toate drepturile rezervate.</p>

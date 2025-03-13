@@ -25,7 +25,7 @@
 	</nav>
 
 	<div class="card shadow-sm p-4 border-0 rounded-3">
-		<h2 class="mb-4 text-center text-primary">Formular Adăugare Student</h2>
+		<h2 class="mb-4">Formular Adăugare Student</h2>
 		<form th:action="@{/student-create-save}" th:object="${student}" method="post" class="needs-validation" novalidate>
 			<div class="mb-3">
 				<label class="form-label fw-bold">Nume:</label>
@@ -45,6 +45,56 @@
 			<div class="mb-3">
 				<label class="form-label fw-bold">Email:</label>
 				<input type="email" class="form-control" th:field="*{email}" required>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label fw-bold">Serie CI:</label>
+				<input type="text" class="form-control" th:field="*{serieCi}" required>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label fw-bold">Număr CI:</label>
+				<input type="text" class="form-control" th:field="*{numarCi}" required>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label fw-bold">CNP:</label>
+				<input type="text" class="form-control" th:field="*{cnp}" required>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label fw-bold">Locul nașterii:</label>
+				<input type="text" class="form-control" th:field="*{loculNasterii}" required>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label fw-bold">Cetățenie:</label>
+				<input type="text" class="form-control" th:field="*{cetatenie}" required>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label fw-bold">Adresa:</label>
+				<input type="text" class="form-control" th:field="*{adresa}" required>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label fw-bold">An universitar:</label>
+				<input type="text" class="form-control" th:field="*{anUniversitar}" required>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label fw-bold">Facultate:</label>
+				<input type="text" class="form-control" th:field="*{facultate}" required>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label fw-bold">Specializare:</label>
+				<input type="text" class="form-control" th:field="*{specializare}" required>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label fw-bold">An de studiu:</label>
+				<input type="number" class="form-control" th:field="*{anDeStudiu}" required>
 			</div>
 
 			<div class="d-flex justify-content-center mt-4">
