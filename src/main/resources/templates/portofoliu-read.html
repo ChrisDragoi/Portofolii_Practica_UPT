@@ -17,12 +17,7 @@
 </header>
 
 <div class="container mt-4">
-	<nav aria-label="breadcrumb">
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="/" class="text-primary">Acasă</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Portofolii</li>
-		</ol>
-	</nav>
+	<div th:replace="~{nav :: breadcrumb (currentPage='Lista Portofoliilor')}"></div>
 
 	<h2 class="mb-4 text-center">Lista Portofoliilor</h2>
 
@@ -64,12 +59,13 @@
 					<tr th:each="portofoliu : ${portofolii}">
 						<td th:text="${portofoliu.id}"></td>
 						<td>
-							<a class="btn btn-outline-primary btn-sm" th:href="@{/portofoliu/edit/{id}(id=${portofoliu.id})}">Editare</a>
-							<a class="btn btn-outline-danger btn-sm" th:href="@{/portofoliu/delete/{id}(id=${portofoliu.id})}" onclick="return confirm('Ești sigur că vrei să ștergi acest portofoliu?');">Ștergere</a>
+							<a class="btn btn-outline-primary btn-sm" th:href="@{/portofoliu-update/{id}(id=${portofoliu.id})}">Editare</a>
+							<a class="btn btn-outline-warning btn-sm" th:href="@{/portofoliu-view/{id}(id=${portofoliu.id})}">Vizualizare</a>
+							<a class="btn btn-outline-danger btn-sm" th:href="@{/portofoliu-delete/{id}(id=${portofoliu.id})}" onclick="return confirm('Ești sigur că vrei să ștergi acest portofoliu?');">Ștergere</a>
 						</td>
-						<td th:text="${portofoliu.student.nume}"></td>
-						<td th:text="${portofoliu.tutore.nume}"></td>
-						<td th:text="${portofoliu.cadruDidactic.nume}"></td>
+						<td th:text="${portofoliu.student.nume + ' ' + portofoliu.student.prenume}"></td>
+						<td th:text="${portofoliu.tutore.nume + ' ' + portofoliu.tutore.prenume}"></td>
+						<td th:text="${portofoliu.cadruDidactic.nume + ' ' + portofoliu.cadruDidactic.prenume}"></td>
 						<td th:text="${portofoliu.loculDesfasurarii}"></td>
 						<td th:text="${portofoliu.durataPracticii}"></td>
 						<td th:text="${portofoliu.dataInceput}"></td>

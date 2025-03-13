@@ -11,12 +11,7 @@
 
 <body>
 <div class="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Acasa</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Tutori</li>
-        </ol>
-    </nav>
+    <div th:replace="~{nav :: breadcrumb (currentPage='Adaugă Tutore')}"></div>
 
     <h2>Tutori</h2>
     <hr>

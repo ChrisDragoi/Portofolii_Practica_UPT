@@ -1,0 +1,13 @@
+<!-- Breadcrumb -->
+<div th:fragment="breadcrumb (currentPage)">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-light p-3 rounded shadow-sm">
+            <li class="breadcrumb-item">
+                <a th:href="@{/}" class="text-primary text-decoration-none">
+                    Acasă
+                </a>
+            </li>
+            <li class="breadcrumb-item active" th:text="${currentPage}"></li>
+        </ol>
+    </nav>
+</div>

@@ -16,12 +16,7 @@
 </header>
 
 <div class="container mt-4">
-	<nav aria-label="breadcrumb">
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="/" class="text-primary">Acasă</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Studenți</li>
-		</ol>
-	</nav>
+	<div th:replace="~{nav :: breadcrumb (currentPage='Lista Studenților')}"></div>
 
 	<h2 class="mb-4">Lista Studenților</h2>
 	<div class="card shadow-sm p-4 border-0 rounded-3">
@@ -64,6 +59,7 @@
 							<th>Email</th>
 							<th>Telefon</th>
 							<th>Semnătură</th>
+							<th>Portofolii</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -89,6 +85,12 @@
 							<td th:text="${student.email}"></td>
 							<td th:text="${student.telefon}"></td>
 							<td th:text="${student.semnatura}"></td>
+							<td>
+								<a class="btn btn-outline-dark btn-sm px-3 shadow-sm" th:href="@{/student-portofoliu-read/{id}(id=${student.id})}">
+									<i class="bi bi-folder2-open"></i> Portofolii
+								</a>
+
+							</td>
 						</tr>
 						</tbody>
 					</table>

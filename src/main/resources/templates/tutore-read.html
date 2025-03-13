@@ -11,12 +11,8 @@
 
 <body>
 <div class="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Acasa</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Tutori</li>
-        </ol>
-    </nav>
+    <div th:replace="~{nav :: breadcrumb (currentPage='Lista Tutorelor')}"></div>
+
     <div th:switch="${tutores}">
         <h2 th:case="null">Nu este niciun tutore in baza de date!</h2>
         <div th:case="*">

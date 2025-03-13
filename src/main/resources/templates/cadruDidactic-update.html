@@ -11,14 +11,9 @@
 
 <body>
 	<div class="container">
-	<nav aria-label="breadcrumb">
-	  <ol class="breadcrumb">
-	    <li class="breadcrumb-item"><a href="/">Acasa</a></li>
-	    <li class="breadcrumb-item active" aria-current="page">Cadre didactice</li>
-	  </ol>
-	</nav>	
+		<div th:replace="~{nav :: breadcrumb (currentPage='Editează Cadru Didactic')}"></div>
 
-	<h2>Cadre didactice</h2>
+		<h2>Cadre didactice</h2>
 	<hr>
 	
 	<form action="#" th:action="@{/cadruDidactic-update/{id}(id=${cadruDidactic.id})}" th:object="${cadruDidactic}" method="post">

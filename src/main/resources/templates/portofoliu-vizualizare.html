@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ro" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vizualizare Portofoliu</title>
+</head>
+<body>
+
+<h2 class="text-center">Portofoliu Practică</h2>
+
+<!-- PDF Viewer -->
+<iframe th:src="@{/portofoliu-generate-pdf/{id}(id=${portofoliuId})}" width="100%" height="600px"></iframe>
+
+<!-- Buton de descărcare PDF -->
+<div class="text-center mt-3">
+    <a th:href="@{/portofoliu-download-pdf/{id}(id=${portofoliuId})}" class="btn btn-success">Descarcă PDF</a>
+</div>
+
+</body>
+</html>

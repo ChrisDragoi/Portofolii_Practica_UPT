@@ -11,12 +11,7 @@
 
 <body>
 <div class="container">
-	<nav aria-label="breadcrumb">
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="/">Acasă</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Actualizare Portofoliu</li>
-		</ol>
-	</nav>
+	<div th:replace="~{nav :: breadcrumb (currentPage='Editează Portofoliu')}"></div>
 
 	<h2>Actualizare Portofoliu</h2>
 	<hr>
@@ -26,22 +21,34 @@
 
 		<div class="mb-3">
 			<label for="loculDesfasurarii" class="form-label">Locul desfășurării</label>
-			<input type="text" class="form-control" id="loculDesfasurarii" name="loculDesfasurarii" th:value="${portofoliu.loculDesfasurarii}" required>
+			<input type="text" class="form-control" id="loculDesfasurarii" name="loculDesfasurarii" placeholder="Introduceți locul desfășurării" required>
+			<div class="invalid-feedback">
+				Vă rugăm să introduceți locul desfășurării.
+			</div>
 		</div>
 
 		<div class="mb-3">
 			<label for="durataPracticii" class="form-label">Durata practicii (în ore)</label>
-			<input type="number" class="form-control" id="durataPracticii" name="durataPracticii" th:value="${portofoliu.durataPracticii}" required>
+			<input type="number" class="form-control" id="durataPracticii" name="durataPracticii" placeholder="Introduceți durata practicii" required>
+			<div class="invalid-feedback">
+				Vă rugăm să introduceți durata practicii.
+			</div>
 		</div>
 
 		<div class="mb-3">
 			<label for="dataInceput" class="form-label">Data început</label>
-			<input type="date" class="form-control" id="dataInceput" name="dataInceput" th:value="${portofoliu.dataInceput}" required>
+			<input type="date" class="form-control" id="dataInceput" name="dataInceput" required>
+			<div class="invalid-feedback">
+				Vă rugăm să selectați data de început.
+			</div>
 		</div>
 
 		<div class="mb-3">
 			<label for="dataSfarsit" class="form-label">Data sfârșit</label>
-			<input type="date" class="form-control" id="dataSfarsit" name="dataSfarsit" th:value="${portofoliu.dataSfarsit}" required>
+			<input type="date" class="form-control" id="dataSfarsit" name="dataSfarsit" required>
+			<div class="invalid-feedback">
+				Vă rugăm să selectați data de sfârșit.
+			</div>
 		</div>
 
 		<div class="mb-3">
@@ -60,8 +67,28 @@
 		</div>
 
 		<div class="mb-3">
+			<label for="complementareInvatamantPractica" class="form-label">Competențe necesare din instituția de învățământ</label>
+			<input type="text" class="form-control" id="complementareInvatamantPractica" name="complementareInvatamantPractica" th:value="${portofoliu.complementareInvatamantPractica}">
+		</div>
+
+		<div class="mb-3">
 			<label for="tematicaSiSarcini" class="form-label">Tematica și sarcini</label>
-			<textarea class="form-control" id="tematicaSiSarcini" name="tematicaSiSarcini" rows="4" th:text="${portofoliu.tematicaSiSarcini}" required></textarea>
+			<input type="text" class="form-control" id="tematicaSiSarcini" name="tematicaSiSarcini" rows="4" th:text="${portofoliu.tematicaSiSarcini}" required>
+		</div>
+
+		<div class="mb-3">
+			<label for="competenteDobandite" class="form-label">Competențe dobândite</label>
+			<input type="text" class="form-control" id="competenteDobandite" name="competenteDobandite" th:value="${portofoliu.competenteDobandite}">
+		</div>
+
+		<div class="mb-3">
+			<label for="modDePregatire" class="form-label">Mod de pregătire</label>
+			<input type="text" class="form-control" id="modDePregatire" name="modDePregatire" rows="4" th:text="${portofoliu.modDePregatire}" required>
+		</div>
+
+		<div class="mb-3">
+			<label for="activitatiPlanificate" class="form-label">Activități planificate</label>
+			<input type="text" class="form-control" id="activitatiPlanificate" name="activitatiPlanificate" rows="4" th:text="${portofoliu.activitatiPlanificate}" required>
 		</div>
 
 		<div class="mb-3">
@@ -74,6 +101,7 @@
 				Vă rugăm să alegeți cadrul didactic supervizor.
 			</div>
 		</div>
+
 
 		<div class="mb-3">
 			<label for="tutoreEmail" class="form-label">Email Tutore Practică</label>

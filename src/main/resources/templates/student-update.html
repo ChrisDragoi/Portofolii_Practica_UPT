@@ -16,13 +16,7 @@
 </header>
 
 <div class="container mt-4">
-	<nav aria-label="breadcrumb">
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="/" class="text-primary">Acasă</a></li>
-			<li class="breadcrumb-item"><a href="/student-read" class="text-primary">Studenți</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Editare Student</li>
-		</ol>
-	</nav>
+	<div th:replace="~{nav :: breadcrumb (currentPage='Editează Student')}"></div>
 
 	<div class="card shadow-sm p-4 border-0 rounded-3">
 		<h2 class="mb-4">Editare Student</h2>

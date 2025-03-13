@@ -18,12 +18,7 @@
 
 <body>
 <div class="container">
-	<nav aria-label="breadcrumb">
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="/">Acasă</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Creare Portofoliu</li>
-		</ol>
-	</nav>
+	<div th:replace="~{nav :: breadcrumb (currentPage='Adaugă Portofoliu')}"></div>
 
 	<h2>Creare Portofoliu</h2>
 	<hr>
@@ -78,8 +73,28 @@
 		</div>
 
 		<div class="mb-3">
+			<label for="complementareInvatamantPractica" class="form-label">Competențe necesare din instituția de învățământ</label>
+			<input type="text" class="form-control" id="complementareInvatamantPractica" name="complementareInvatamantPractica" th:value="${portofoliu.complementareInvatamantPractica}">
+		</div>
+
+		<div class="mb-3">
 			<label for="tematicaSiSarcini" class="form-label">Tematica și sarcini</label>
-			<textarea class="form-control" id="tematicaSiSarcini" name="tematicaSiSarcini" rows="4" th:text="${portofoliu.tematicaSiSarcini}" required></textarea>
+			<input type="text" class="form-control" id="tematicaSiSarcini" name="tematicaSiSarcini" rows="4" th:text="${portofoliu.tematicaSiSarcini}" required>
+		</div>
+
+		<div class="mb-3">
+			<label for="competenteDobandite" class="form-label">Competențe dobândite</label>
+			<input type="text" class="form-control" id="competenteDobandite" name="competenteDobandite" th:value="${portofoliu.competenteDobandite}">
+		</div>
+
+		<div class="mb-3">
+			<label for="modDePregatire" class="form-label">Mod de pregătire</label>
+			<input type="text" class="form-control" id="modDePregatire" name="modDePregatire" rows="4" th:text="${portofoliu.modDePregatire}" required>
+		</div>
+
+		<div class="mb-3">
+			<label for="activitatiPlanificate" class="form-label">Activități planificate</label>
+			<input type="text" class="form-control" id="activitatiPlanificate" name="activitatiPlanificate" rows="4" th:text="${portofoliu.activitatiPlanificate}" required>
 		</div>
 
 		<div class="mb-3">

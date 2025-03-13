@@ -12,12 +12,8 @@
 
 <body>
 	<div class="container">
-		<nav aria-label="breadcrumb">
-		  <ol class="breadcrumb">
-		    <li class="breadcrumb-item"><a href="/">Acasa</a></li>
-		    <li class="breadcrumb-item active" aria-current="page">Cadre didactice</li>
-		  </ol>
-		</nav>	
+		<div th:replace="~{nav :: breadcrumb (currentPage='Lista Cadrelor Didactice')}"></div>
+
 		<div th:switch="${cadreDidactice}">
 		    <h2 th:case="null">Nu este niciun cadru didactic in baza de date!</h2>
 	        <div th:case="*">
