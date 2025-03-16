@@ -58,8 +58,9 @@
                     <tr th:each="portofoliu : ${portofolii}">
                         <td th:text="${portofoliu.id}"></td>
                         <td>
-                            <a class="btn btn-outline-primary btn-sm" th:href="@{/portofoliu/edit/{id}(id=${portofoliu.id})}">Editare</a>
-                            <a class="btn btn-outline-danger btn-sm" th:href="@{/portofoliu/delete/{id}(id=${portofoliu.id})}" onclick="return confirm('Ești sigur că vrei să ștergi acest portofoliu?');">Ștergere</a>
+                            <a class="btn btn-outline-primary btn-sm" th:href="@{/portofoliu-edit/{id}(id=${portofoliu.id})}">Editare</a>
+                            <a class="btn btn-outline-warning btn-sm" th:href="@{/portofoliu-view/{id}(id=${portofoliu.id})}">Vizualizare</a>
+                            <a class="btn btn-outline-danger btn-sm" th:href="@{/portofoliu-delete/{id}(id=${portofoliu.id})}" onclick="return confirm('Ești sigur că vrei să ștergi acest portofoliu?');">Ștergere</a>
                         </td>
                         <td th:text="${portofoliu.student.nume}"></td>
                         <td th:text="${portofoliu.tutore.nume}"></td>

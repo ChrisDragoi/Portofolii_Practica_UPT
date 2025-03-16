@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Actualizare Portofoliu - Portofolii 1.0</title>
+	<link rel="stylesheet" href="/style.css">
 	<base href="/">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" type="image/x-icon">
@@ -10,6 +11,14 @@
 </head>
 
 <body>
+
+<header class="py-3">
+<div class="container d-flex justify-content-between align-items-center">
+	<h1 class="h3">Portofolii Practică UPT</h1>
+	<a href="/logout" class="text-white text-decoration-none">Logout</a>
+</div>
+</header>
+
 <div class="container">
 	<div th:replace="~{nav :: breadcrumb (currentPage='Editează Portofoliu')}"></div>
 
@@ -120,6 +129,10 @@
 		<button type="submit" class="btn btn-primary">Salvează modificările</button>
 	</form>
 </div>
+
+<footer class="text-center py-4 mt-5 bg-light border-top shadow-sm">
+	<p class="mb-0 text-muted">&copy; 2025 Portofolii Practică UPT. Toate drepturile rezervate.</p>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>

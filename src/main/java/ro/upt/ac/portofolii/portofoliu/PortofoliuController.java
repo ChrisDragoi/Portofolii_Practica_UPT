@@ -18,7 +18,6 @@ import ro.upt.ac.portofolii.tutore.Tutore;
 import ro.upt.ac.portofolii.tutore.TutoreRepository;
 import ro.upt.ac.portofolii.tutore.TutoreService;
 import ro.upt.ac.portofolii.utils.PdfGenerator;
-import ro.upt.ac.portofolii.utils.WordGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -181,25 +180,6 @@ public class PortofoliuController
 
 		model.addAttribute("portofoliuId", id);
 		return "portofoliu-vizualizare";
-	}
-
-	@GetMapping("/portofoliu-generate-docx/{id}")
-	@ResponseBody
-	public ResponseEntity<byte[]> generatePortofoliuDocx(@PathVariable("id") int id) {
-		Portofoliu portofoliu = portofoliuRepository.findById(id);
-
-		if (portofoliu == null) {
-			return ResponseEntity.notFound().build();
-		}
-
-		byte[] pdfBytes = WordGenerator.generatePortofoliuDocx(portofoliu);
-
-        HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_PDF);
-
-		return ResponseEntity.ok()
-				.headers(headers)
-				.body(pdfBytes);
 	}
 
 	@GetMapping("/portofoliu-generate-pdf/{id}")
