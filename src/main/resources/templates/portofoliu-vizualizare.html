@@ -17,7 +17,8 @@
 
 <h2 class="text-center">Portofoliu Practică</h2>
 
-<!-- PDF Viewer -->
+<div th:replace="~{nav :: breadcrumb (currentPage='Portofoliu view')}"></div>
+
 <iframe th:src="@{/portofoliu-generate-pdf/{id}(id=${portofoliuId})}" width="100%" height="600px"></iframe>
 
 <footer class="text-center py-4 mt-5 bg-light border-top shadow-sm">

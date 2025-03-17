@@ -138,22 +138,30 @@ public class PortofoliuController
 	    model.addAttribute("portofoliu", portofoliu);
 
 		model.addAttribute("cadreDidactice", cadruDidacticRepository.findAll());
+
 	    return "portofoliu-update";
 	}
-	
+
 	@PostMapping("/portofoliu-update/{id}")
-	public String update(@PathVariable("id") int id, @Validated Portofoliu portofoliu, BindingResult result)
-	{
-	    if(result.hasErrors()) 
-	    {
-	        portofoliu.setId(id);
-	        return "portofoliu-update";
-	    }
-	        
-	    portofoliuRepository.save(portofoliu);
-	    return "redirect:/portofoliu-read";
+	public String update(@PathVariable("id") int id, @Validated Portofoliu portofoliu, BindingResult result) {
+		if (result.hasErrors()) {
+			portofoliu.setId(id);
+			return "portofoliu-update";
+		}
+
+        Portofoliu existingPortofoliu = portofoliuRepository.findById(id);
+
+		portofoliu.setStudent(existingPortofoliu.getStudent());
+
+		portofoliu.setTutore(existingPortofoliu.getTutore());
+		portofoliu.setCadruDidactic(existingPortofoliu.getCadruDidactic());
+
+		portofoliuRepository.save(portofoliu);
+
+		return "redirect:/portofoliu-read";
 	}
-	
+
+
 	@GetMapping("/portofoliu-delete/{id}")
 	public String delete(@PathVariable("id") int id, RedirectAttributes redirectAttributes)
 	{

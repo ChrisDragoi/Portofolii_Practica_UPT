@@ -6,6 +6,7 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.csv.QuoteMode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ro.upt.ac.portofolii.cadruDidactic.CadruDidactic;
 import ro.upt.ac.portofolii.security.Role;
 import ro.upt.ac.portofolii.security.User;
 import ro.upt.ac.portofolii.security.UserRepository;
@@ -94,26 +95,26 @@ public class AdminService {
     private void addStudentToDB(CSVRecord record) throws IOException {
         System.out.println("starting student initialization...");
 
-			Student s1=new Student();
-	        s1.setNume(record.get(0));
-	        s1.setPrenume(record.get(1));
-	        s1.setCnp(record.get(2));
-	        s1.setDataNasterii(Date.valueOf(record.get(3)));
-	        s1.setLoculNasterii(record.get(4));
-	        s1.setCetatenie(record.get(5));
-	        s1.setSerieCi(record.get(6));
-	        s1.setNumarCi(record.get(7));
-	        s1.setAdresa(record.get(8));
-	        s1.setAnUniversitar(record.get(9));
-	        s1.setFacultate(record.get(10));
-	        s1.setSpecializare(record.get(11));
-	        s1.setAnDeStudiu(Integer.parseInt(record.get(12)));
-	        s1.setEmail(record.get(13));
-	        s1.setTelefon(record.get(14));
+			Student s=new Student();
+	        s.setNume(record.get(0));
+	        s.setPrenume(record.get(1));
+	        s.setCnp(record.get(2));
+	        s.setDataNasterii(Date.valueOf(record.get(3)));
+	        s.setLoculNasterii(record.get(4));
+	        s.setCetatenie(record.get(5));
+	        s.setSerieCi(record.get(6));
+	        s.setNumarCi(record.get(7));
+	        s.setAdresa(record.get(8));
+	        s.setAnUniversitar(record.get(9));
+	        s.setFacultate(record.get(10));
+	        s.setSpecializare(record.get(11));
+	        s.setAnDeStudiu(Integer.parseInt(record.get(12)));
+	        s.setEmail(record.get(13));
+	        s.setTelefon(record.get(14));
 			//s1.setSemnatura(record.get(15));
 
-        studentRepository.save(s1);
-        createStudentFolder(s1.getNume(),s1.getPrenume());
+        studentRepository.save(s);
+        createStudentFolder(s);
 
         System.out.println("ending initialization...");
     }
@@ -144,11 +145,11 @@ public class AdminService {
         }
 
         addStudentUser(student.getEmail(), password);
-        createStudentFolder(student.getNume(), student.getPrenume());
+        createStudentFolder(student);
     }
 
-    private void createStudentFolder(String nume, String prenume) throws IOException {
-        String folderName = nume+prenume;
+    private void createStudentFolder(Student s) throws IOException {
+        String folderName = "student" + s.getId();
         Path studentDir = Paths.get("studenti", folderName);
 
         if (!Files.exists(studentDir)) {
@@ -158,8 +159,9 @@ public class AdminService {
             System.out.println("Folderul exista deja: " + studentDir);
         }
     }
-    public void deleteStudentFolder(String nume, String prenume) throws IOException {
-        String folderName = nume + prenume;
+
+    public void deleteStudentFolder(Student s) throws IOException {
+        String folderName = "student" + s.getId();
         Path studentDir = Paths.get("studenti", folderName);
 
         if (Files.exists(studentDir) && Files.isDirectory(studentDir)) {
@@ -175,5 +177,20 @@ public class AdminService {
         }
     }
 
+    public void deleteProfFolder(CadruDidactic c) throws IOException {
+        String folderName = "prof" + c.getId();
+        Path studentDir = Paths.get("cadreDidactice", folderName);
 
+        if (Files.exists(studentDir) && Files.isDirectory(studentDir)) {
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(studentDir)) {
+                for (Path file : stream) {
+                    Files.delete(file);
+                }
+            }
+            Files.delete(studentDir);
+            System.out.println("Folder și conținut șters: " + studentDir);
+        } else {
+            System.out.println("Folderul nu există sau nu este director: " + studentDir);
+        }
+    }
 }

@@ -17,6 +17,14 @@
 </header>
 
 <body>
+
+<header class="py-3">
+	<div class="container d-flex justify-content-between align-items-center">
+		<h1 class="h3">Portofolii Practică UPT</h1>
+		<a href="/logout" class="text-white text-decoration-none">Logout</a>
+	</div>
+</header>
+
 <div class="container">
 	<div th:replace="~{nav :: breadcrumb (currentPage='Adaugă Portofoliu')}"></div>
 
@@ -79,7 +87,7 @@
 
 		<div class="mb-3">
 			<label for="tematicaSiSarcini" class="form-label">Tematica și sarcini</label>
-			<input type="text" class="form-control" id="tematicaSiSarcini" name="tematicaSiSarcini" rows="4" th:text="${portofoliu.tematicaSiSarcini}" required>
+			<input type="text" class="form-control" id="tematicaSiSarcini" name="tematicaSiSarcini" th:text="${portofoliu.tematicaSiSarcini}" required>
 		</div>
 
 		<div class="mb-3">
@@ -89,12 +97,17 @@
 
 		<div class="mb-3">
 			<label for="modDePregatire" class="form-label">Mod de pregătire</label>
-			<input type="text" class="form-control" id="modDePregatire" name="modDePregatire" rows="4" th:text="${portofoliu.modDePregatire}" required>
+			<input type="text" class="form-control" id="modDePregatire" name="modDePregatire" th:text="${portofoliu.modDePregatire}" required>
 		</div>
 
 		<div class="mb-3">
 			<label for="activitatiPlanificate" class="form-label">Activități planificate</label>
-			<input type="text" class="form-control" id="activitatiPlanificate" name="activitatiPlanificate" rows="4" th:text="${portofoliu.activitatiPlanificate}" required>
+			<input type="text" class="form-control" id="activitatiPlanificate" name="activitatiPlanificate" th:text="${portofoliu.activitatiPlanificate}" required>
+		</div>
+
+		<div class="mb-3">
+			<label for="observatii" class="form-label">Observații</label>
+			<input type="text" class="form-control" id="observatii" name="observatii" th:text="${portofoliu.observatii}" required>
 		</div>
 
 		<div class="mb-3">

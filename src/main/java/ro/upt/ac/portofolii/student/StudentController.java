@@ -1,7 +1,6 @@
 package ro.upt.ac.portofolii.student;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ro.upt.ac.portofolii.admin.AdminService;
-import ro.upt.ac.portofolii.portofoliu.PortofoliuRepository;
 import ro.upt.ac.portofolii.security.User;
 import ro.upt.ac.portofolii.security.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,11 +22,11 @@ import java.util.Optional;
 public class StudentController
 {
 	@Autowired
-	StudentRepository studentRepository;
+	private StudentRepository studentRepository;
 	@Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 	@Autowired
-	AdminService adminService;
+	private AdminService adminService;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
     @Autowired
@@ -99,7 +97,7 @@ public class StudentController
 		}
 		studentService.deleteStudentsPortofolios(id);
 		User u = user.get();
-		adminService.deleteStudentFolder(student.getNume(),student.getPrenume());
+		adminService.deleteStudentFolder(student);
 		studentRepository.delete(student);
 		userRepository.delete(u);
 		return "redirect:/student-read";

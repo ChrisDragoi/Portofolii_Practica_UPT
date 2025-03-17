@@ -2,89 +2,87 @@
 <html lang="ro">
 <head>
 	<meta charset="UTF-8">
-	<title>Portofolii 1.0</title>
-	<base href="/">
+	<title>Portofolii Practică UPT - Editează Cadru Didactic</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="icon" type="image/x-icon" href="favicon.ico">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+	<link rel="stylesheet" href="/style.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-	<div class="container">
-		<div th:replace="~{nav :: breadcrumb (currentPage='Editează Cadru Didactic')}"></div>
 
-		<h2>Cadre didactice</h2>
-	<hr>
-	
-	<form action="#" th:action="@{/cadruDidactic-update/{id}(id=${cadruDidactic.id})}" th:object="${cadruDidactic}" method="post">
-
-		<div class="row row-cols-4">
-			<div class="col-sm">
-		    	<label for="nume">Nume</label>
-	    	</div>
-	    	
-			<div class="col-sm">
-		    	<input type="text" th:field="*{nume}" id="nume" name="nume" placeholder="Nume">
-		    	<span th:if="${#fields.hasErrors('nume')}" th:errors="*{nume}"></span>
-	    	</div>
-	    	
-			<div class="col-sm">
-		    	<label for="nume">Prenume</label>
-	    	</div>
-	    	
-			<div class="col-sm">
-		    	<input type="text" th:field="*{prenume}" id="prenume" name="prenume" placeholder="Prenume">
-		    	<span th:if="${#fields.hasErrors('prenume')}" th:errors="*{prenume}"></span>
-	    	</div>
-    	</div>
-	    
-		<hr>
-		
-		<div class="row row-cols-4">
-			<div class="col-sm">
-			    <label for="reprezentant">Functie</label>
-	    	</div>
-			<div class="col-sm">
-			    <input type="text" th:field="*{functie}" id="functie" placeholder="Functie">
-			    <span th:if="${#fields.hasErrors('functie')}" th:errors="*{functie}"></span>
-	    	</div>
-		
-			<div class="col-sm">
-			    <label for="reprezentant">Specializare</label>
-	    	</div>
-			<div class="col-sm">
-			    <input type="text" th:field="*{specializare}" id="specializare" placeholder="Specializare">
-			    <span th:if="${#fields.hasErrors('specializare')}" th:errors="*{specializare}"></span>
-	    	</div>
-	    </div>
-
-		<hr>
-		
-		<div class="row row-cols-4">
-			<div class="col-sm">
-			    <label for="telefon">Telefon</label>
-	    	</div>
-	    	
-			<div class="col-sm">
-			    <input type="text" th:field="*{telefon}" id="telefon" placeholder="Telefon">
-			    <span th:if="${#fields.hasErrors('telefon')}" th:errors="*{telefon}"></span>
-	    	</div>
-	    	
-			<div class="col-sm">
-			    <label for="adresa">Email</label>
-	    	</div>
-	    	
-			<div class="col-sm">
-			    <input type="text" th:field="*{email}" id="email" placeholder="Email">
-			    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-	    	</div>		
-	    </div>
-		
-		<hr>
-		
-	    <input type="submit" value="Salveaza cadru didactic">
-	</form>
+<header class="py-3">
+	<div class="container d-flex justify-content-between align-items-center">
+		<h1 class="h3">Portofolii Practică UPT</h1>
+		<a href="/logout" class="text-white text-decoration-none">Logout</a>
 	</div>
-  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</header>
+
+<div class="container mt-4">
+	<div th:replace="~{nav :: breadcrumb (currentPage='Editează Cadru Didactic')}"></div>
+
+	<h2 class="mb-4">Editează Cadru Didactic</h2>
+
+	<div class="card shadow-sm p-4 border-0 rounded-3">
+		<div class="card-body">
+			<form action="#" th:action="@{/cadruDidactic-update/{id}(id=${cadruDidactic.id})}" th:object="${cadruDidactic}" method="post">
+				<div class="row g-3">
+					<!-- Nume -->
+					<div class="col-md-6">
+						<label for="nume" class="form-label">Nume</label>
+						<input type="text" class="form-control" th:field="*{nume}" id="nume" placeholder="Nume" required>
+						<div class="text-danger small" th:if="${#fields.hasErrors('nume')}" th:errors="*{nume}"></div>
+					</div>
+
+					<!-- Prenume -->
+					<div class="col-md-6">
+						<label for="prenume" class="form-label">Prenume</label>
+						<input type="text" class="form-control" th:field="*{prenume}" id="prenume" placeholder="Prenume" required>
+						<div class="text-danger small" th:if="${#fields.hasErrors('prenume')}" th:errors="*{prenume}"></div>
+					</div>
+
+					<!-- Funcție -->
+					<div class="col-md-6">
+						<label for="functie" class="form-label">Funcție</label>
+						<input type="text" class="form-control" th:field="*{functie}" id="functie" placeholder="Funcție" required>
+						<div class="text-danger small" th:if="${#fields.hasErrors('functie')}" th:errors="*{functie}"></div>
+					</div>
+
+					<!-- Specializare -->
+					<div class="col-md-6">
+						<label for="specializare" class="form-label">Specializare</label>
+						<input type="text" class="form-control" th:field="*{specializare}" id="specializare" placeholder="Specializare" required>
+						<div class="text-danger small" th:if="${#fields.hasErrors('specializare')}" th:errors="*{specializare}"></div>
+					</div>
+
+					<!-- Telefon -->
+					<div class="col-md-6">
+						<label for="telefon" class="form-label">Telefon</label>
+						<input type="text" class="form-control" th:field="*{telefon}" id="telefon" placeholder="Telefon" required>
+						<div class="text-danger small" th:if="${#fields.hasErrors('telefon')}" th:errors="*{telefon}"></div>
+					</div>
+
+					<!-- Email -->
+					<div class="col-md-6">
+						<label for="email" class="form-label">Email</label>
+						<input type="email" class="form-control" th:field="*{email}" id="email" placeholder="Email" required>
+						<div class="text-danger small" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+					</div>
+				</div>
+
+				<div class="mt-4">
+					<button type="submit" class="btn btn-primary">Salvează Modificările</button>
+					<a href="/cadruDidactic-read" class="btn btn-secondary">Anulează</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<footer class="text-center py-4 mt-5 bg-light">
+	<p>&copy; 2025 Portofolii Practică UPT. Toate drepturile rezervate.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

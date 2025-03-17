@@ -4,12 +4,13 @@ import com.lowagie.text.*;
 import com.lowagie.text.Font;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfWriter;
+import ro.upt.ac.portofolii.cadruDidactic.CadruDidactic;
 import ro.upt.ac.portofolii.portofoliu.Portofoliu;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfPCell;
+import ro.upt.ac.portofolii.student.Student;
+import ro.upt.ac.portofolii.tutore.Tutore;
 
-
-import java.awt.*;
 import java.io.ByteArrayOutputStream;
 
 public class PdfGenerator {
@@ -56,10 +57,19 @@ public class PdfGenerator {
             addSection(document, 10,"Numele și prenumele tutorelui desemnat de întreprindere care va asigura respectarea condițiilor de pregătire și dobândirea de către practicant a competențelor profesionale planificate pentru perioada stagiului de practică:", portofoliu.getTutore().getNume() + " " + portofoliu.getTutore().getPrenume(), boldFont, regularFont, regularFont);
             addSection(document, 11,"Drepturi și responsabilități ale tutorelui de practică desemnat de partenerul de practică:", "Îndrumarea studentului și evaluarea progresului său.",boldFont, regularFont, regularFont);
             addSection(document, 12,"Tematica practicii și sarcinile studentului conform prevederilor din Fișa disciplinei a stagiului de practică:", portofoliu.getTematicaSiSarcini(),boldFont, regularFont, regularFont);
-            addSection(document, 13,"Definirea competențelor care vor fi dobândite pe perioada stagiului de practică:", portofoliu.getCompetenteDobandite(),boldFont, regularFont, regularFont);
+            addSection(document, 13,"Definirea competențelor care vor fi dobândite pe perioada stagiului de practică:", "",boldFont, regularFont, regularFont);
 
 
-            PdfPTable table = getPdfPTable(boldFont, regularFont);
+            PdfPTable table = getPdfPTable1(boldFont, regularFont, portofoliu.getCompetenteNecesare(), portofoliu.getModDePregatire(), portofoliu.getActivitatiPlanificate(), portofoliu.getObservatii());
+
+            document.add(table);
+            addSection(document, 14,"Modalități de evaluare a pregătirii profesionale dobândite de practicant pe perioada stagiului de pregătire practică:", "",boldFont, regularFont, regularFont);
+
+            document.add(new Paragraph(" ", regularFont));
+            p = new Paragraph("Evaluarea practicantului pe perioada stagiului de pregătire practică se va face de către tutore.", regularFont);
+            document.add(p);
+
+            table = getPdfPTable2(boldFont, regularFont, portofoliu);
 
             document.add(table);
 
@@ -71,29 +81,82 @@ public class PdfGenerator {
         }
     }
 
-    private static PdfPTable getPdfPTable(Font boldFont, Font regularFont) {
-        PdfPTable table = new PdfPTable(5);
-        table.setWidthPercentage(100); // Să ocupe lățimea paginii
+    private static PdfPTable getPdfPTable1(
+            Font boldFont,
+            Font regularFont,
+            String competente,
+            String modPregatire,
+            String activitatiPlanificate,
+            String observatii) {
+        PdfPTable table = new PdfPTable(new float[]{1f, 3f});
+        table.setWidthPercentage(100);
         table.setSpacingBefore(10f);
         table.setSpacingAfter(10f);
 
-        String[] headers = {"Competențe", "Modulul de pregătire", "Locul de muncă", "Activități planificate", "Observații"};
-        for (String header : headers) {
-            PdfPCell headerCell = new PdfPCell(new Phrase(header, boldFont));
-            headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            headerCell.setBackgroundColor(new Color(200, 200, 200)); // Fundal gri deschis
-            table.addCell(headerCell);
+        String[][] rows = {
+                {"Competențe", competente},
+                {"Modulul de pregătire", modPregatire},
+                //{"Locul de muncă", ""},
+                {"Activități planificate", activitatiPlanificate},
+                {"Observații", observatii}
+        };
+
+        for (String[] row : rows) {
+            PdfPCell labelCell = new PdfPCell(new Phrase(row[0], boldFont));
+            labelCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            labelCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            labelCell.setPadding(5);
+            table.addCell(labelCell);
+
+            PdfPCell valueCell = new PdfPCell(new Phrase(row[1], regularFont));
+            valueCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            valueCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            valueCell.setPadding(5);
+            table.addCell(valueCell);
         }
 
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 5; j++) {
-                PdfPCell cell = new PdfPCell(new Phrase(" ", regularFont));
-                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                table.addCell(cell);
-            }
-        }
         return table;
     }
+
+    private static PdfPTable getPdfPTable2(
+            Font boldFont,
+            Font regularFont,
+            Portofoliu portofoliu) {
+        Student student = portofoliu.getStudent();
+        CadruDidactic cadruDidactic = portofoliu.getCadruDidactic();
+        Tutore tutore = portofoliu.getTutore();
+        PdfPTable table = new PdfPTable(new float[]{2f, 2f, 2f, 2f});
+        table.setWidthPercentage(100);
+        table.setSpacingBefore(10f);
+        table.setSpacingAfter(10f);
+
+        String[] headers = {"", "Cadru didactic supervizor", "Tutore", "Practicant"};
+        rows(boldFont, table, headers);
+
+        String[][] rows = {
+                {"Nume și prenume", cadruDidactic.getNume() + " " + cadruDidactic.getPrenume(), tutore.getNume() +" "+ tutore.getPrenume(), student.getNume() + " " + student.getPrenume()},
+                {"Funcția", "Cadru didactic supervizor", tutore.getFunctie(), "Student"},
+                {"Data", String.valueOf(portofoliu.getDataSemnarii()), String.valueOf(portofoliu.getDataSemnarii()), String.valueOf(portofoliu.getDataSemnarii())},
+                {"Semnătura", cadruDidactic.getSemnatura(), tutore.getSemnatura(), student.getSemnatura()}
+        };
+
+        for (String[] row : rows) {
+            rows(regularFont, table, row);
+        }
+
+        return table;
+    }
+
+    private static void rows(Font regularFont, PdfPTable table, String[] row) {
+        for (String cellValue : row) {
+            PdfPCell cell = new PdfPCell(new Phrase(cellValue, regularFont));
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            cell.setPadding(5);
+            table.addCell(cell);
+        }
+    }
+
 
     private static void addSection(Document document, int i, String title, String content, Font nrFont, Font titleFont, Font contentFont) throws DocumentException {
         Paragraph p = new Paragraph();
@@ -101,6 +164,7 @@ public class PdfGenerator {
         p.add(new Chunk(title, titleFont));
         p.add(Chunk.NEWLINE);
         p.add(new Chunk(content != null ? content : "-", contentFont));
+        p.add(Chunk.NEWLINE);
         p.add(Chunk.NEWLINE);
 
         document.add(p);

@@ -10,6 +10,7 @@ import ro.upt.ac.portofolii.security.Role;
 import ro.upt.ac.portofolii.security.User;
 import ro.upt.ac.portofolii.security.UserRepository;
 
+import java.io.File;
 import java.util.List;
 
 @Component
@@ -55,8 +56,8 @@ public class DataInitializer {
         cd1.setTelefon("0700123456");
         cd1.setEmail("doru.todinca@upt.ro");
         cd1.setSpecializare("cti-ro");
-        cd1.setSemnatura("Todinca");
-        cadruDidacticRepository.save(cd1);
+        //cd1.setSemnatura("Todinca");
+        makeSign(cadruDidacticRepository.save(cd1));
 
         CadruDidactic cd2=new CadruDidactic();
         cd2.setNume("Cernazanu");
@@ -65,8 +66,8 @@ public class DataInitializer {
         cd2.setTelefon("0700123456");
         cd2.setEmail("cosmin.cernazanu@upt.ro");
         cd2.setSpecializare("cti-en");
-        cd2.setSemnatura("Cernazanu");
-        cadruDidacticRepository.save(cd2);
+        //cd2.setSemnatura("Cernazanu");
+        makeSign(cadruDidacticRepository.save(cd2));
 
         CadruDidactic cd3=new CadruDidactic();
         cd3.setNume("Nanu");
@@ -75,8 +76,8 @@ public class DataInitializer {
         cd3.setTelefon("0700123456");
         cd3.setEmail("sorin.nanu@upt.ro");
         cd3.setSpecializare("is");
-        cd3.setSemnatura("Nanu");
-        cadruDidacticRepository.save(cd3);
+        //cd3.setSemnatura("Nanu");
+        makeSign(cadruDidacticRepository.save(cd3));
 
         CadruDidactic cd4=new CadruDidactic();
         cd4.setNume("Szeidert");
@@ -85,8 +86,8 @@ public class DataInitializer {
         cd4.setTelefon("0700123456");
         cd4.setEmail("iosif.szeidert@upt.ro");
         cd4.setSpecializare("info-zi");
-        cd4.setSemnatura("Szeidert");
-        cadruDidacticRepository.save(cd4);
+        //cd4.setSemnatura("Szeidert");
+        makeSign(cadruDidacticRepository.save(cd4));
 
         CadruDidactic cd5=new CadruDidactic();
         cd5.setNume("Crisan-Vida");
@@ -95,7 +96,30 @@ public class DataInitializer {
         cd5.setTelefon("0700123456");
         cd5.setEmail("mihaela.crisan-vida@upt.ro");
         cd5.setSpecializare("info-id");
-        cd5.setSemnatura("Crisan-Vida");
-        cadruDidacticRepository.save(cd5);
+        //cd5.setSemnatura("Crisan-Vida");
+        makeSign(cadruDidacticRepository.save(cd5));
+    }
+
+    public void makeSign(CadruDidactic cadruDidactic) {
+        String baseDir = "cadreDidactice";
+
+        File cadreDidacticeDir = new File(baseDir);
+        if (!cadreDidacticeDir.exists()) {
+            boolean created = cadreDidacticeDir.mkdir();
+            if (created) {
+                System.out.println("Directorul 'cadreDidactice' a fost creat anterior.");
+            }
+        }
+
+        String profDirPath = baseDir + "/prof" + cadruDidactic.getId();
+        File profDir = new File(profDirPath);
+        if (!profDir.exists()) {
+            boolean created = profDir.mkdir();
+            if (created) {
+                System.out.println("Directorul '" + profDirPath + "' a fost creat.");
+            }
+        }
+        cadruDidactic.setSemnatura(profDirPath);
+        cadruDidacticRepository.save(cadruDidactic);
     }
 }

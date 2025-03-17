@@ -30,15 +30,13 @@
 
 		<div class="mb-3">
 			<label for="loculDesfasurarii" class="form-label">Locul desfășurării</label>
-			<input type="text" class="form-control" id="loculDesfasurarii" name="loculDesfasurarii" placeholder="Introduceți locul desfășurării" required>
-			<div class="invalid-feedback">
-				Vă rugăm să introduceți locul desfășurării.
-			</div>
+			<input type="text" class="form-control" id="loculDesfasurarii" name="orar" th:value="${portofoliu.loculDesfasurarii}">
 		</div>
 
 		<div class="mb-3">
 			<label for="durataPracticii" class="form-label">Durata practicii (în ore)</label>
-			<input type="number" class="form-control" id="durataPracticii" name="durataPracticii" placeholder="Introduceți durata practicii" required>
+			<input type="number" class="form-control" id="durataPracticii" name="durataPracticii"
+				   placeholder="Introduceți durata practicii" th:value="${portofoliu.durataPracticii}" required>
 			<div class="invalid-feedback">
 				Vă rugăm să introduceți durata practicii.
 			</div>
@@ -46,7 +44,8 @@
 
 		<div class="mb-3">
 			<label for="dataInceput" class="form-label">Data început</label>
-			<input type="date" class="form-control" id="dataInceput" name="dataInceput" required>
+			<input type="date" class="form-control" id="dataInceput" name="dataInceput"
+				   th:value="${portofoliu.dataInceput}" required>
 			<div class="invalid-feedback">
 				Vă rugăm să selectați data de început.
 			</div>
@@ -54,11 +53,13 @@
 
 		<div class="mb-3">
 			<label for="dataSfarsit" class="form-label">Data sfârșit</label>
-			<input type="date" class="form-control" id="dataSfarsit" name="dataSfarsit" required>
+			<input type="date" class="form-control" id="dataSfarsit" name="dataSfarsit"
+				   th:value="${portofoliu.dataSfarsit}" required>
 			<div class="invalid-feedback">
 				Vă rugăm să selectați data de sfârșit.
 			</div>
 		</div>
+
 
 		<div class="mb-3">
 			<label for="orar" class="form-label">Orar</label>
@@ -82,7 +83,7 @@
 
 		<div class="mb-3">
 			<label for="tematicaSiSarcini" class="form-label">Tematica și sarcini</label>
-			<input type="text" class="form-control" id="tematicaSiSarcini" name="tematicaSiSarcini" rows="4" th:text="${portofoliu.tematicaSiSarcini}" required>
+			<input type="text" class="form-control" id="tematicaSiSarcini" name="tematicaSiSarcini" th:value="${portofoliu.tematicaSiSarcini}" required>
 		</div>
 
 		<div class="mb-3">
@@ -92,39 +93,44 @@
 
 		<div class="mb-3">
 			<label for="modDePregatire" class="form-label">Mod de pregătire</label>
-			<input type="text" class="form-control" id="modDePregatire" name="modDePregatire" rows="4" th:text="${portofoliu.modDePregatire}" required>
+			<input type="text" class="form-control" id="modDePregatire" name="modDePregatire" th:value="${portofoliu.modDePregatire}" required>
 		</div>
 
 		<div class="mb-3">
 			<label for="activitatiPlanificate" class="form-label">Activități planificate</label>
-			<input type="text" class="form-control" id="activitatiPlanificate" name="activitatiPlanificate" rows="4" th:text="${portofoliu.activitatiPlanificate}" required>
+			<input type="text" class="form-control" id="activitatiPlanificate" name="activitatiPlanificate" th:value="${portofoliu.activitatiPlanificate}" required>
+		</div>
+
+		<div class="mb-3">
+			<label for="observatii" class="form-label">Observații</label>
+			<input type="text" class="form-control" id="observatii" name="observatii" th:value="${portofoliu.observatii}" required>
 		</div>
 
 		<div class="mb-3">
 			<label for="cadruDidactic" class="form-label">Cadru didactic</label>
 			<select class="form-select" id="cadruDidactic" name="cadruDidactic" required>
-				<option value="" selected disabled>Alegeți cadrul didactic supervizor</option>
-				<option th:each="cadru : ${cadreDidactice}" th:value="${cadru.id}" th:text="${cadru.nume} + ' ' + ${cadru.prenume}"></option>
+				<option value="" disabled> Alegeți cadrul didactic supervizor </option>
+				<option th:each="cadru : ${cadreDidactice}"
+						th:value="${cadru.id}"
+						th:text="${cadru.nume} + ' ' + ${cadru.prenume}"
+						th:selected="${cadru.id == portofoliu.cadruDidactic.id}">
+				</option>
 			</select>
 			<div class="invalid-feedback">
 				Vă rugăm să alegeți cadrul didactic supervizor.
 			</div>
 		</div>
 
-
 		<div class="mb-3">
 			<label for="tutoreEmail" class="form-label">Email Tutore Practică</label>
 			<input type="email" class="form-control" id="tutoreEmail" name="tutoreEmail"
-				   placeholder="Introduceți adresa de email a tutorelui" required>
+				   placeholder="Introduceți adresa de email a tutorelui"
+				   th:value="${portofoliu.tutore.getEmail()}" required>
 			<div class="invalid-feedback">
 				Vă rugăm să introduceți o adresă de email validă pentru tutorele de practică.
 			</div>
 		</div>
 
-		<div class="mb-3">
-			<label for="observatii" class="form-label">Observații</label>
-			<textarea class="form-control" id="observatii" name="observatii" rows="4" th:text="${portofoliu.observatii}"></textarea>
-		</div>
 
 		<button type="submit" class="btn btn-primary">Salvează modificările</button>
 	</form>
