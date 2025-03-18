@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ro.upt.ac.portofolii.cadruDidactic.CadruDidactic;
 import ro.upt.ac.portofolii.cadruDidactic.CadruDidacticRepository;
+import ro.upt.ac.portofolii.security.Role;
+import ro.upt.ac.portofolii.security.User;
+import ro.upt.ac.portofolii.security.UserRepository;
 import ro.upt.ac.portofolii.student.Student;
 import ro.upt.ac.portofolii.student.StudentRepository;
 import ro.upt.ac.portofolii.tutore.Tutore;
@@ -38,6 +41,8 @@ public class PortofoliuController
     private TutoreService tutoreService;
     @Autowired
     private TutoreRepository tutoreRepository;
+    @Autowired
+    private UserRepository userRepository;
 
 	@GetMapping("/")
 	public String root()
@@ -94,6 +99,8 @@ public class PortofoliuController
 		Tutore t = tutoreRepository.findByEmail(tutoreEmail);
 		if(t == null){
 			Tutore tutore = tutoreService.create(tutoreEmail);
+			User u = new User(tutoreEmail, "tutore"+tutore.getId(), Role.TUTORE);
+			userRepository.save(u);
 			portofoliu.setTutore(tutore);
 		}else{
 			portofoliu.setTutore(t);
@@ -152,7 +159,6 @@ public class PortofoliuController
         Portofoliu existingPortofoliu = portofoliuRepository.findById(id);
 
 		portofoliu.setStudent(existingPortofoliu.getStudent());
-
 		portofoliu.setTutore(existingPortofoliu.getTutore());
 		portofoliu.setCadruDidactic(existingPortofoliu.getCadruDidactic());
 
@@ -160,7 +166,6 @@ public class PortofoliuController
 
 		return "redirect:/portofoliu-read";
 	}
-
 
 	@GetMapping("/portofoliu-delete/{id}")
 	public String delete(@PathVariable("id") int id, RedirectAttributes redirectAttributes)

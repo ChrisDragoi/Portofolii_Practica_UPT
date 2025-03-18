@@ -2,55 +2,83 @@
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
-    <title>Portofolii 1.0 - Tutori</title>
-    <base href="/">
+    <title>Portofolii Practică UPT - Lista Tutorelor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-<div class="container">
-    <div th:replace="~{nav :: breadcrumb (currentPage='Lista Tutorelor')}"></div>
+<header class="py-3">
+    <div class="container d-flex justify-content-between align-items-center">
+        <h1 class="h3">Portofolii Practică UPT</h1>
+        <a href="/logout" class="text-white text-decoration-none">Logout</a>
+    </div>
+</header>
 
-    <div th:switch="${tutores}">
-        <h2 th:case="null">Nu este niciun tutore in baza de date!</h2>
-        <div th:case="*">
-            <h2>Tutori</h2>
-            <table class="table table-small">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Editeaza</th>
-                    <th scope="col">Sterge</th>
+<div class="container mt-4">
+    <div th:replace="~{nav :: breadcrumb (currentPage='Lista Tutorilor')}"></div>
 
-                    <th scope="col">Nume</th>
-                    <th scope="col">Prenume</th>
-                    <th scope="col">Functie</th>
-                    <th scope="col">Telefon</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Semnatura</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="tutore : ${tutores}">
-                    <td scope="col" th:text="${tutore.id}"></td>
-                    <td><a th:href="@{/tutore-edit/{id}(id=${tutore.id})}">Editeaza</a></td>
-                    <td><a th:href="@{/tutore-delete/{id}(id=${tutore.id})}">Sterge</a></td>
-                    <td th:text="${tutore.nume}"></td>
-                    <td th:text="${tutore.prenume}"></td>
-                    <td th:text="${tutore.functie}"></td>
-                    <td th:text="${tutore.telefon}"></td>
-                    <td th:text="${tutore.email}"></td>
-                    <td th:text="${tutore.semnatura}"></td>
-                </tr>
-                </tbody>
-            </table>
+    <h2 class="mb-4">Lista Tutorilor</h2>
+
+    <div class="card shadow-sm p-4 border-0 rounded-3">
+        <div class="card-body">
+            <div th:if="${#lists.isEmpty(tutori)}" class="text-center">
+                <h4 class="text">Nu există tutori în baza de date!</h4>
+            </div>
+
+            <div th:if="${not #lists.isEmpty(tutori)}">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped text-center align-middle">
+                        <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Acțiuni</th>
+                            <th>Nume</th>
+                            <th>Prenume</th>
+                            <th>Funcție</th>
+                            <th>Telefon</th>
+                            <th>Email</th>
+                            <th>Semnătură</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="tutore : ${tutori}">
+                            <td th:text="${tutore.id}"></td>
+                            <td>
+                                <a class="btn btn-outline-primary btn-sm" th:href="@{/tutore-edit/{id}(id=${tutore.id})}">
+                                    <i class="bi bi-pencil-square"></i> Editează
+                                </a>
+                                <a class="btn btn-outline-danger btn-sm" th:href="@{/tutore-delete/{id}(id=${tutore.id})}">
+                                    <i class="bi bi-trash"></i> Șterge
+                                </a>
+                            </td>
+                            <td th:text="${tutore.nume}"></td>
+                            <td th:text="${tutore.prenume}"></td>
+                            <td th:text="${tutore.functie}"></td>
+                            <td th:text="${tutore.telefon}"></td>
+                            <td th:text="${tutore.email}"></td>
+                            <td th:text="${tutore.semnatura}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <!-- Buton de adăugare tutore nou -->
+            <div class="mt-4">
+                <a class="btn btn-success" href="/tutore-create">Adaugă un tutore nou</a>
+            </div>
         </div>
-        <p><a href="/tutore-create">Adauga un tutore nou</a></p>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+<footer class="text-center py-4 mt-5 bg-light">
+    <p>&copy; 2025 Portofolii Practică UPT. Toate drepturile rezervate.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

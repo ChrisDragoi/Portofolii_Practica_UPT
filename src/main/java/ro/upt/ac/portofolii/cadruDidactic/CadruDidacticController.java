@@ -12,6 +12,7 @@ import ro.upt.ac.portofolii.admin.AdminService;
 import ro.upt.ac.portofolii.security.Role;
 import ro.upt.ac.portofolii.security.User;
 import ro.upt.ac.portofolii.security.UserRepository;
+import ro.upt.ac.portofolii.tutore.Tutore;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,7 +42,7 @@ public class CadruDidacticController
 		{
 			return "cadruDidactic-create";
 		}
-		User user=new User(cadruDidactic.getEmail(),"prof"+cadruDidactic.getId(), Role.STUDENT);
+		User user=new User(cadruDidactic.getEmail(),"prof"+cadruDidactic.getId(), Role.CADRU_DIDACTIC);
 		userRepository.save(user);
 		makeSign(cadruDidacticRepository.save(cadruDidactic));
 
@@ -73,6 +74,11 @@ public class CadruDidacticController
 	        cadruDidactic.setId(id);
 	        return "cadruDidactic-update";
 	    }
+		CadruDidactic existingTutore = cadruDidacticRepository.findById(id);
+
+		if (cadruDidactic.getSemnatura() == null) {
+			cadruDidactic.setSemnatura(existingTutore.getSemnatura());
+		}
 	        
 	    cadruDidacticRepository.save(cadruDidactic);
 	    return "redirect:/cadruDidactic-read";

@@ -44,6 +44,11 @@
 			</div>
 
 			<div class="mb-3">
+				<label class="form-label fw-bold">Telefon:</label>
+				<input type="text" class="form-control" th:field="*{telefon}" required>
+			</div>
+
+			<div class="mb-3">
 				<label class="form-label fw-bold">Serie CI:</label>
 				<input type="text" class="form-control" th:field="*{serieCi}" required>
 			</div>
@@ -92,8 +97,13 @@
 				<label class="form-label fw-bold">An de studiu:</label>
 				<input type="number" class="form-control" th:field="*{anDeStudiu}" required>
 			</div>
+			<div class="mt-4">
+				<button type="submit" class="btn btn-primary">Salvează modificările</button>
+				<a href="/student-read" class="btn btn-secondary">Anulează</a>
+			</div>
+
 		</form>
-		<a th:href="@{'/student/change-password/' + ${student.id}}" class="button">Change Password</a>
+<!--		<a th:href="@{'/student/change-password/' + ${student.id}}" class="button">Change Password</a>-->
 	</div>
 </div>
 

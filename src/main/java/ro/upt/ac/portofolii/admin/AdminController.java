@@ -23,8 +23,8 @@ public class AdminController {
     @PostMapping(value = "/upload-students", consumes ={"multipart/form-data"})
     public String uploadStudentCsv(@RequestParam("file") MultipartFile file, Model model) {
         try {
-            String filePath = adminService.saveStudentCsv(file, "upload");
-            model.addAttribute("success_message", "Fișierul a fost încărcat cu succes!");
+            String filePath = adminService.saveStudentCsv(file, UPLOAD_DIR);
+            model.addAttribute("success_message", "Fișierul a fost încărcat cu succes in " + filePath);
         } catch (IOException e) {
             model.addAttribute("success_message", "Eroare la încărcare: " + e.getMessage());
         }

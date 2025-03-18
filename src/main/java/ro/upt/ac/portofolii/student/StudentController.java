@@ -14,7 +14,7 @@ import ro.upt.ac.portofolii.admin.AdminService;
 import ro.upt.ac.portofolii.security.User;
 import ro.upt.ac.portofolii.security.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
+import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -46,7 +46,7 @@ public class StudentController
 		{
 			return "student-create";
 		}
-		studentRepository.save(student);
+		makeSign(studentRepository.save(student));
 		try {
 			adminService.addStudentCredentialsToCSV(student);
 		} catch (IOException e) {
@@ -80,6 +80,11 @@ public class StudentController
 		{
 			student.setId(id);
 			return "student-update";
+		}
+		Student existingTutore = studentRepository.findById(id);
+
+		if (student.getSemnatura() == null) {
+			student.setSemnatura(existingTutore.getSemnatura());
 		}
 
 		studentRepository.save(student);
@@ -132,5 +137,28 @@ public class StudentController
 			return "redirect:/logout";
 		}
 		//return "redirect:/student/change-password";
+	}
+
+	private void makeSign(Student s) {
+		String baseDir = "studenti";
+
+		File studentiDir = new File(baseDir);
+		if (!studentiDir.exists()) {
+			boolean created = studentiDir.mkdir();
+			if (created) {
+				System.out.println("Directorul 'studenti' a fost creat anterior.");
+			}
+		}
+
+		String profDirPath = baseDir + "/student" + s.getId();
+		File profDir = new File(profDirPath);
+		if (!profDir.exists()) {
+			boolean created = profDir.mkdir();
+			if (created) {
+				System.out.println("Directorul '" + profDirPath + "' a fost creat.");
+			}
+		}
+		s.setSemnatura(profDirPath);
+		studentRepository.save(s);
 	}
 }
