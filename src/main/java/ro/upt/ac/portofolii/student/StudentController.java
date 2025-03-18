@@ -14,8 +14,13 @@ import ro.upt.ac.portofolii.admin.AdminService;
 import ro.upt.ac.portofolii.security.User;
 import ro.upt.ac.portofolii.security.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import java.io.File;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.*;
+
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 @Controller
@@ -107,4 +112,27 @@ public class StudentController
 		userRepository.delete(u);
 		return "redirect:/student-read";
 	}
+
+	@PostMapping(value = "/student/{id}/upload-signature", consumes = {"multipart/form-data"})
+	public String uploadSignature(@PathVariable int id,
+								  @RequestParam("signature") MultipartFile file,
+								  RedirectAttributes redirectAttributes) {
+		try {
+			Path studentDir = Paths.get("studenti", "student" + id);
+			if (!Files.exists(studentDir)) {
+				redirectAttributes.addFlashAttribute("error", "Folderul studentului nu există!");
+				return "redirect:/student-edit/" + id;
+			}
+
+			Path filePath = studentDir.resolve("signature.png");
+			Files.write(filePath, file.getBytes());
+
+			redirectAttributes.addFlashAttribute("success", "Semnătura a fost actualizată cu succes!");
+		} catch (IOException e) {
+			redirectAttributes.addFlashAttribute("error", "Eroare la salvarea semnăturii!");
+		}
+
+		return "redirect:/student-edit/" + id;
+	}
+
 }

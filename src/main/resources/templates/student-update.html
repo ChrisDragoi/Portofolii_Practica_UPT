@@ -97,12 +97,21 @@
 				<label class="form-label fw-bold">An de studiu:</label>
 				<input type="number" class="form-control" th:field="*{anDeStudiu}" required>
 			</div>
+
 			<div class="mt-4">
 				<button type="submit" class="btn btn-primary">Salvează modificările</button>
 				<a href="/student-read" class="btn btn-secondary">Anulează</a>
 			</div>
 
 		</form>
+		<div class="container mt-4">
+			<form th:action="@{'/student/' + ${student.id} + '/upload-signature'}" method="post" enctype="multipart/form-data">
+				<label for="signature">Încarcă semnătura:</label>
+				<input type="file" name="signature" id="signature" accept="image/*" required>
+
+				<button type="submit">Încarcă semnătura</button>
+			</form>
+		</div>
 		<a th:href="@{'/user/change-password/student/' + ${student.id}}" class="button">Change Password</a>
 	</div>
 </div>

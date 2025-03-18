@@ -1,11 +1,9 @@
 package ro.upt.ac.portofolii.admin;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ro.upt.ac.portofolii.student.StudentRepository;
 
 import java.io.IOException;
 import java.util.Scanner;
