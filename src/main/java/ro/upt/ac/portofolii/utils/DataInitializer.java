@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ro.upt.ac.portofolii.cadruDidactic.CadruDidactic;
 import ro.upt.ac.portofolii.cadruDidactic.CadruDidacticRepository;
+import ro.upt.ac.portofolii.cadruDidactic.CadruDidacticService;
 import ro.upt.ac.portofolii.security.Role;
 import ro.upt.ac.portofolii.security.User;
 import ro.upt.ac.portofolii.security.UserRepository;
@@ -19,11 +20,13 @@ public class DataInitializer {
     private final UserRepository userRepository;
     private final CadruDidacticRepository cadruDidacticRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CadruDidacticService cadruDidacticService;
 
-    public DataInitializer(UserRepository userRepository, CadruDidacticRepository cadruDidacticRepository, PasswordEncoder passwordEncoder) {
+    public DataInitializer(UserRepository userRepository, CadruDidacticRepository cadruDidacticRepository, PasswordEncoder passwordEncoder, CadruDidacticService cadruDidacticService) {
         this.userRepository = userRepository;
         this.cadruDidacticRepository = cadruDidacticRepository;
         this.passwordEncoder = passwordEncoder;
+        this.cadruDidacticService = cadruDidacticService;
     }
 
     @Bean
@@ -57,7 +60,7 @@ public class DataInitializer {
         cd1.setEmail("doru.todinca@upt.ro");
         cd1.setSpecializare("cti-ro");
         //cd1.setSemnatura("Todinca");
-        makeSign(cadruDidacticRepository.save(cd1));
+        cadruDidacticService.makeSign(cadruDidacticRepository.save(cd1));
 
         CadruDidactic cd2=new CadruDidactic();
         cd2.setNume("Cernazanu");
@@ -67,7 +70,7 @@ public class DataInitializer {
         cd2.setEmail("cosmin.cernazanu@upt.ro");
         cd2.setSpecializare("cti-en");
         //cd2.setSemnatura("Cernazanu");
-        makeSign(cadruDidacticRepository.save(cd2));
+        cadruDidacticService.makeSign(cadruDidacticRepository.save(cd2));
 
         CadruDidactic cd3=new CadruDidactic();
         cd3.setNume("Nanu");
@@ -77,7 +80,7 @@ public class DataInitializer {
         cd3.setEmail("sorin.nanu@upt.ro");
         cd3.setSpecializare("is");
         //cd3.setSemnatura("Nanu");
-        makeSign(cadruDidacticRepository.save(cd3));
+        cadruDidacticService.makeSign(cadruDidacticRepository.save(cd3));
 
         CadruDidactic cd4=new CadruDidactic();
         cd4.setNume("Szeidert");
@@ -87,7 +90,7 @@ public class DataInitializer {
         cd4.setEmail("iosif.szeidert@upt.ro");
         cd4.setSpecializare("info-zi");
         //cd4.setSemnatura("Szeidert");
-        makeSign(cadruDidacticRepository.save(cd4));
+        cadruDidacticService.makeSign(cadruDidacticRepository.save(cd4));
 
         CadruDidactic cd5=new CadruDidactic();
         cd5.setNume("Crisan-Vida");
@@ -97,29 +100,7 @@ public class DataInitializer {
         cd5.setEmail("mihaela.crisan-vida@upt.ro");
         cd5.setSpecializare("info-id");
         //cd5.setSemnatura("Crisan-Vida");
-        makeSign(cadruDidacticRepository.save(cd5));
+        cadruDidacticService.makeSign(cadruDidacticRepository.save(cd5));
     }
 
-    public void makeSign(CadruDidactic cadruDidactic) {
-        String baseDir = "cadreDidactice";
-
-        File cadreDidacticeDir = new File(baseDir);
-        if (!cadreDidacticeDir.exists()) {
-            boolean created = cadreDidacticeDir.mkdir();
-            if (created) {
-                System.out.println("Directorul 'cadreDidactice' a fost creat anterior.");
-            }
-        }
-
-        String profDirPath = baseDir + "/prof" + cadruDidactic.getId();
-        File profDir = new File(profDirPath);
-        if (!profDir.exists()) {
-            boolean created = profDir.mkdir();
-            if (created) {
-                System.out.println("Directorul '" + profDirPath + "' a fost creat.");
-            }
-        }
-        cadruDidactic.setSemnatura(profDirPath);
-        cadruDidacticRepository.save(cadruDidactic);
-    }
 }

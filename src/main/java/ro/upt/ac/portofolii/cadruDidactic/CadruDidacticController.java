@@ -27,6 +27,8 @@ public class CadruDidacticController
 	private UserRepository userRepository;
 	@Autowired
 	private AdminService adminService;
+	@Autowired
+	private CadruDidacticService cadruDidacticService;
 		
 	@GetMapping("/cadruDidactic-create")
 	public String create( Model model)
@@ -44,7 +46,7 @@ public class CadruDidacticController
 		}
 		User user=new User(cadruDidactic.getEmail(),"prof"+cadruDidactic.getId(), Role.CADRU_DIDACTIC);
 		userRepository.save(user);
-		makeSign(cadruDidacticRepository.save(cadruDidactic));
+		cadruDidacticService.makeSign(cadruDidacticRepository.save(cadruDidactic));
 
 		return "redirect:/cadruDidactic-read";
 	}
@@ -98,28 +100,5 @@ public class CadruDidacticController
 		userRepository.delete(u);
 	    cadruDidacticRepository.delete(cadruDidactic);
 	    return "redirect:/cadruDidactic-read";
-	}
-
-	private void makeSign(CadruDidactic cadruDidactic) {
-		String baseDir = "cadreDidactice";
-
-		File cadreDidacticeDir = new File(baseDir);
-		if (!cadreDidacticeDir.exists()) {
-			boolean created = cadreDidacticeDir.mkdir();
-			if (created) {
-				System.out.println("Directorul 'cadreDidactice' a fost creat anterior.");
-			}
-		}
-
-		String profDirPath = baseDir + "/prof" + cadruDidactic.getId();
-		File profDir = new File(profDirPath);
-		if (!profDir.exists()) {
-			boolean created = profDir.mkdir();
-			if (created) {
-				System.out.println("Directorul '" + profDirPath + "' a fost creat.");
-			}
-		}
-		cadruDidactic.setSemnatura(profDirPath);
-		cadruDidacticRepository.save(cadruDidactic);
 	}
 }

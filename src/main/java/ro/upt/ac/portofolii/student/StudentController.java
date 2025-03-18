@@ -46,7 +46,7 @@ public class StudentController
 		{
 			return "student-create";
 		}
-		makeSign(studentRepository.save(student));
+		studentService.makeSign(studentRepository.save(student));
 		try {
 			adminService.addStudentCredentialsToCSV(student);
 		} catch (IOException e) {
@@ -106,59 +106,5 @@ public class StudentController
 		studentRepository.delete(student);
 		userRepository.delete(u);
 		return "redirect:/student-read";
-	}
-
-	@GetMapping("/student/change-password/{id}")
-	public String showChangePasswordPage(@PathVariable("id") int id, Model model) {
-		Optional<Student> student = Optional.ofNullable(studentRepository.findById(id));
-
-		if (student.isPresent()) {
-			model.addAttribute("student", student.get());
-			return "change-password";
-		}
-
-		return "redirect:/student-read";
-	}
-
-	@PostMapping("/student/change-password/{id}")
-	public String changePassword(@PathVariable("id") int id, @RequestParam("newPassword") String newPassword, RedirectAttributes redirectAttributes) {
-		//String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		Student student = studentRepository.findById(id);
-		//.orElseThrow(() -> new IllegalArgumentException("Invalid student Id:" + id));
-
-		Optional<User> user=userRepository.findByEmail(student.getEmail());
-		if(user.isEmpty()){
-			throw new RuntimeException("User not found");
-		}else {
-			User u = user.get();
-			u.setPassword(passwordEncoder.encode(newPassword));
-			userRepository.save(u);
-			redirectAttributes.addFlashAttribute("success", "Password updated successfully. Please login again.");
-			return "redirect:/logout";
-		}
-		//return "redirect:/student/change-password";
-	}
-
-	private void makeSign(Student s) {
-		String baseDir = "studenti";
-
-		File studentiDir = new File(baseDir);
-		if (!studentiDir.exists()) {
-			boolean created = studentiDir.mkdir();
-			if (created) {
-				System.out.println("Directorul 'studenti' a fost creat anterior.");
-			}
-		}
-
-		String profDirPath = baseDir + "/student" + s.getId();
-		File profDir = new File(profDirPath);
-		if (!profDir.exists()) {
-			boolean created = profDir.mkdir();
-			if (created) {
-				System.out.println("Directorul '" + profDirPath + "' a fost creat.");
-			}
-		}
-		s.setSemnatura(profDirPath);
-		studentRepository.save(s);
 	}
 }

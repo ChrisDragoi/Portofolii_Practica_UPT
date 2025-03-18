@@ -1,9 +1,11 @@
 package ro.upt.ac.portofolii.admin;
 
+import lombok.AllArgsConstructor;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.csv.QuoteMode;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ro.upt.ac.portofolii.cadruDidactic.CadruDidactic;
@@ -22,15 +24,12 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
+@AllArgsConstructor
 public class AdminService {
 
     private final StudentRepository studentRepository;
     private final UserRepository userRepository;
-
-    public AdminService(StudentRepository studentRepository, UserRepository userRepository) {
-        this.studentRepository = studentRepository;
-        this.userRepository = userRepository;
-    }
+    private final PasswordEncoder passwordEncoder;
 
     public String saveStudentCsv(MultipartFile file, String UPLOAD_DIR) throws IOException {
         return copyFile(file, UPLOAD_DIR) + uploadStudentsWithCredentialsCsv(UPLOAD_DIR);
@@ -141,7 +140,7 @@ public class AdminService {
     }
 
     private void addStudentUser(String email, String password) {
-        User user=new User(email,password, Role.STUDENT);
+        User user=new User(email, passwordEncoder.encode(password), Role.STUDENT);
         userRepository.save(user);
     }
 
