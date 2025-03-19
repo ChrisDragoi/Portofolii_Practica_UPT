@@ -58,7 +58,11 @@
                             <td th:text="${tutore.functie}"></td>
                             <td th:text="${tutore.telefon}"></td>
                             <td th:text="${tutore.email}"></td>
-                            <td th:text="${tutore.semnatura}"></td>
+                            <td>
+                                <img th:if="${tutore.semnatura != null}"
+                                     th:src="@{'/' + ${tutore.semnatura} + '/signature.png'}"
+                                     alt="Semnătura tuorelui" class="img-fluid" style="max-width: 200px;">
+                            </td>
                         </tr>
                         </tbody>
                     </table>

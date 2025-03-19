@@ -1,6 +1,5 @@
 package ro.upt.ac.portofolii.student;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.upt.ac.portofolii.portofoliu.Portofoliu;
 import ro.upt.ac.portofolii.portofoliu.PortofoliuRepository;
@@ -11,11 +10,11 @@ import java.util.List;
 @Service
 public class StudentService {
     private final PortofoliuRepository portofoliuRepository;
-    @Autowired
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
-    public StudentService(PortofoliuRepository portofoliuRepository) {
+    public StudentService(PortofoliuRepository portofoliuRepository, StudentRepository studentRepository) {
         this.portofoliuRepository = portofoliuRepository;
+        this.studentRepository = studentRepository;
     }
 
     public void deleteStudentsPortofolios(int id){
@@ -28,25 +27,22 @@ public class StudentService {
     }
 
     public void makeSign(Student s) {
-        String baseDir = "studenti";
-
+        String baseDir = "src/main/resources/static/studenti/student" + s.getId();
         File studentiDir = new File(baseDir);
+
         if (!studentiDir.exists()) {
-            boolean created = studentiDir.mkdir();
+            boolean created = studentiDir.mkdirs();
             if (created) {
-                System.out.println("Directorul 'studenti' a fost creat anterior.");
+                System.out.println("Directorul 'studenti/student" + s.getId() + "' a fost creat.");
+            } else {
+                System.out.println("Eroare la crearea directorului 'studenti/student" + s.getId() + "'.");
             }
         }
 
-        String profDirPath = baseDir + "/student" + s.getId();
-        File profDir = new File(profDirPath);
-        if (!profDir.exists()) {
-            boolean created = profDir.mkdir();
-            if (created) {
-                System.out.println("Directorul '" + profDirPath + "' a fost creat.");
-            }
-        }
-        s.setSemnatura(profDirPath);
+        String relativePath = "studenti/student" + s.getId();
+        s.setSemnatura(relativePath);
+
         studentRepository.save(s);
     }
+
 }

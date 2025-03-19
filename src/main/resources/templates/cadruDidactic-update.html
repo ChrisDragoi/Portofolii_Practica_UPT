@@ -75,6 +75,14 @@
 				</div>
 				<a th:href="@{'/user/change-password/cadruDidactic/' + ${cadruDidactic.id}}" class="button">Change Password</a>
 			</form>
+			<div class="container mt-4">
+				<form th:action="@{'/cadruDidactic/' + ${cadruDidactic.id} + '/upload-signature'}" method="post" enctype="multipart/form-data">
+					<label for="signature">Încarcă semnătura:</label>
+					<input type="file" name="signature" id="signature" accept="image/*" required>
+
+					<button type="submit">Încarcă semnătura</button>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>

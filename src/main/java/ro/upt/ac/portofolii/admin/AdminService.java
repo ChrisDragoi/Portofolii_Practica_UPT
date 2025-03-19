@@ -14,6 +14,7 @@ import ro.upt.ac.portofolii.security.User;
 import ro.upt.ac.portofolii.security.UserRepository;
 import ro.upt.ac.portofolii.student.Student;
 import ro.upt.ac.portofolii.student.StudentRepository;
+import ro.upt.ac.portofolii.student.StudentService;
 import ro.upt.ac.portofolii.tutore.Tutore;
 import ro.upt.ac.portofolii.utils.PasswordGenerator;
 
@@ -30,6 +31,8 @@ public class AdminService {
     private final StudentRepository studentRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final String baseStudentDir = "src/main/resources/static/studenti";
+    private final StudentService studentService;
 
     public String saveStudentCsv(MultipartFile file, String UPLOAD_DIR) throws IOException {
         return copyFile(file, UPLOAD_DIR) + uploadStudentsWithCredentialsCsv(UPLOAD_DIR);
@@ -110,33 +113,10 @@ public class AdminService {
 	        s.setTelefon(record.get(14));
 			//s1.setSemnatura(record.get(15));
 
-        makeSign(studentRepository.save(s));
+        studentService.makeSign(studentRepository.save(s));
         createStudentFolder(s);
 
         System.out.println("ending initialization...");
-    }
-
-    private void makeSign(Student s) {
-        String baseDir = "studenti";
-
-        File studentiDir = new File(baseDir);
-        if (!studentiDir.exists()) {
-            boolean created = studentiDir.mkdir();
-            if (created) {
-                System.out.println("Directorul 'studenti' a fost creat anterior.");
-            }
-        }
-
-        String profDirPath = baseDir + "/student" + s.getId();
-        File profDir = new File(profDirPath);
-        if (!profDir.exists()) {
-            boolean created = profDir.mkdir();
-            if (created) {
-                System.out.println("Directorul '" + profDirPath + "' a fost creat.");
-            }
-        }
-        s.setSemnatura(profDirPath);
-        studentRepository.save(s);
     }
 
     private void addStudentUser(String email, String password) {
@@ -171,7 +151,7 @@ public class AdminService {
 
     private void createStudentFolder(Student s) throws IOException {
         String folderName = "student" + s.getId();
-        Path studentDir = Paths.get("studenti", folderName);
+        Path studentDir = Paths.get(baseStudentDir, folderName);
 
         if (!Files.exists(studentDir)) {
             Files.createDirectories(studentDir);
@@ -183,7 +163,7 @@ public class AdminService {
 
     public void deleteStudentFolder(Student s) throws IOException {
         String folderName = "student" + s.getId();
-        Path studentDir = Paths.get("studenti", folderName);
+        Path studentDir = Paths.get(baseStudentDir, folderName);
 
         if (Files.exists(studentDir) && Files.isDirectory(studentDir)) {
             try (DirectoryStream<Path> stream = Files.newDirectoryStream(studentDir)) {
@@ -199,8 +179,9 @@ public class AdminService {
     }
 
     public void deleteProfFolder(CadruDidactic c) throws IOException {
-        String folderName = "prof" + c.getId();
-        Path profDir = Paths.get("cadreDidactice", folderName);
+        String folderName = "cadruDidactic" + c.getId();
+        String baseProfDir = "src/main/resources/static/cadreDidactice";
+        Path profDir = Paths.get(baseProfDir, folderName);
 
         if (Files.exists(profDir) && Files.isDirectory(profDir)) {
             try (DirectoryStream<Path> stream = Files.newDirectoryStream(profDir)) {
@@ -216,7 +197,8 @@ public class AdminService {
     }
 
     public void deleteTutoreFolder(Tutore t) throws IOException {
-        String folderName = "tutore" + t.getId();
+        String baseTutoreDir = "src/main/resources/static/tutori";
+        String folderName = baseTutoreDir + t.getId();
         Path tutoreDir = Paths.get("tutori", folderName);
 
         if (Files.exists(tutoreDir) && Files.isDirectory(tutoreDir)) {

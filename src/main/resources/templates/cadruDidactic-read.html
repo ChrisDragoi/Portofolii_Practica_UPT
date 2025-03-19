@@ -55,7 +55,11 @@
 							<td th:text="${cadru.telefon}"></td>
 							<td th:text="${cadru.functie}"></td>
 							<td th:text="${cadru.specializare}"></td>
-							<td th:text="${cadru.semnatura}"></td>
+							<td>
+								<img th:if="${cadru.semnatura != null}"
+									 th:src="@{'/' + ${cadru.semnatura} + '/signature.png'}"
+									 alt="Semnătura cadrului didactic" class="img-fluid" style="max-width: 200px;">
+							</td>
 						</tr>
 						</tbody>
 					</table>

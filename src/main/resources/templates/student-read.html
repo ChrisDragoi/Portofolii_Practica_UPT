@@ -84,7 +84,12 @@
 							<td th:text="${student.anDeStudiu}"></td>
 							<td th:text="${student.email}"></td>
 							<td th:text="${student.telefon}"></td>
-							<td th:text="${student.semnatura}"></td>
+							<td>
+								<img th:if="${student.semnatura != null}"
+									 th:src="@{'/' + ${student.semnatura} + '/signature.png'}"
+									 alt="Semnătura studentului" class="img-fluid" style="max-width: 200px;">
+							</td>
+
 							<td>
 								<a class="btn btn-outline-dark btn-sm px-3 shadow-sm" th:href="@{/student-portofoliu-read/{id}(id=${student.id})}">
 									<i class="bi bi-folder2-open"></i> Portofolii

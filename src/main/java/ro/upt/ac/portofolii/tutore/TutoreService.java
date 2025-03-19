@@ -32,26 +32,23 @@ public class TutoreService {
     public void addTutore(Tutore tutore) {
         makeSign(tutoreRepository.save(tutore));
     }
+
     public Tutore makeSign(Tutore tutore) {
-        String baseDir = "tutori";
-
+        String baseDir = "src/main/resources/static/tutori/tutore" + tutore.getId();
         File tutoriDir = new File(baseDir);
+
         if (!tutoriDir.exists()) {
-            boolean created = tutoriDir.mkdir();
+            boolean created = tutoriDir.mkdirs();
             if (created) {
-                System.out.println("Directorul 'tutori' a fost creat anterior.");
+                System.out.println("Directorul 'tutori/tutore" + tutore.getId() + "' a fost creat.");
+            } else {
+                System.out.println("Eroare la crearea directorului 'tutori/tutore" + tutore.getId() + "'.");
             }
         }
 
-        String tutoreDirPath = baseDir + "/tutore" + tutore.getId();
-        File profDir = new File(tutoreDirPath);
-        if (!profDir.exists()) {
-            boolean created = profDir.mkdir();
-            if (created) {
-                System.out.println("Directorul '" + tutoreDirPath + "' a fost creat.");
-            }
-        }
-        tutore.setSemnatura(tutoreDirPath);
+        String relativePath = "tutori/tutore" + tutore.getId();
+        tutore.setSemnatura(relativePath);
+
         return tutoreRepository.save(tutore);
     }
 }

@@ -9,12 +9,18 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ro.upt.ac.portofolii.admin.AdminService;
 import ro.upt.ac.portofolii.security.Role;
 import ro.upt.ac.portofolii.security.User;
 import ro.upt.ac.portofolii.security.UserRepository;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 @Controller
@@ -100,6 +106,30 @@ public class TutoreController
 		userRepository.delete(u);
 	    tutoreRepository.delete(tutore);
 	    return "redirect:/tutore-read";
+	}
+
+	@PostMapping(value = "/tuore/{id}/upload-signature", consumes = {"multipart/form-data"})
+	public String uploadSignature(@PathVariable int id,
+								  @RequestParam("signature") MultipartFile file,
+								  RedirectAttributes redirectAttributes) {
+		try {
+			String baseDir = "src/main/resources/static/tutori";
+			Path studentDir = Paths.get(baseDir, "tutore" + id);
+			if (!Files.exists(studentDir)) {
+				redirectAttributes.addFlashAttribute("error", "Folderul tutorelui nu există!");
+				return "redirect:/tutore-read";
+			}
+
+			Path filePath = studentDir.resolve("signature.png");
+			Files.write(filePath, file.getBytes());
+			System.out.println("Semnătura a fost salvată la: " + filePath.toAbsolutePath());
+
+			redirectAttributes.addFlashAttribute("success", "Semnătura a fost actualizată cu succes!");
+		} catch (IOException e) {
+			redirectAttributes.addFlashAttribute("error", "Eroare la salvarea semnăturii!");
+		}
+
+		return "redirect:/tutore-read";
 	}
 
 }

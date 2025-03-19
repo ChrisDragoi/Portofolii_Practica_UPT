@@ -37,7 +37,7 @@ public class StudentController
     @Autowired
     private StudentService studentService;
 
-	@GetMapping("/student-create")
+    @GetMapping("/student-create")
 	public String create(Model model)
 	{
 		model.addAttribute("student", new Student());
@@ -118,21 +118,23 @@ public class StudentController
 								  @RequestParam("signature") MultipartFile file,
 								  RedirectAttributes redirectAttributes) {
 		try {
-			Path studentDir = Paths.get("studenti", "student" + id);
+            String baseDir = "src/main/resources/static/studenti";
+            Path studentDir = Paths.get(baseDir, "student" + id);
 			if (!Files.exists(studentDir)) {
 				redirectAttributes.addFlashAttribute("error", "Folderul studentului nu există!");
-				return "redirect:/student-edit/" + id;
+				return "redirect:/student-read";
 			}
 
 			Path filePath = studentDir.resolve("signature.png");
 			Files.write(filePath, file.getBytes());
+			System.out.println("Semnătura a fost salvată la: " + filePath.toAbsolutePath());
 
 			redirectAttributes.addFlashAttribute("success", "Semnătura a fost actualizată cu succes!");
 		} catch (IOException e) {
 			redirectAttributes.addFlashAttribute("error", "Eroare la salvarea semnăturii!");
 		}
 
-		return "redirect:/student-edit/" + id;
+		return "redirect:/student-read";
 	}
 
 }
