@@ -118,34 +118,61 @@ public class PdfGenerator {
         return table;
     }
 
-    private static PdfPTable getPdfPTable2(
-            Font boldFont,
-            Font regularFont,
-            Portofoliu portofoliu) {
-        Student student = portofoliu.getStudent();
-        CadruDidactic cadruDidactic = portofoliu.getCadruDidactic();
-        Tutore tutore = portofoliu.getTutore();
-        PdfPTable table = new PdfPTable(new float[]{2f, 2f, 2f, 2f});
-        table.setWidthPercentage(100);
-        table.setSpacingBefore(10f);
-        table.setSpacingAfter(10f);
+private static PdfPTable getPdfPTable2(Font boldFont, Font regularFont, Portofoliu portofoliu) {
+    Student student = portofoliu.getStudent();
+    CadruDidactic cadruDidactic = portofoliu.getCadruDidactic();
+    Tutore tutore = portofoliu.getTutore();
 
-        String[] headers = {"", "Cadru didactic supervizor", "Tutore", "Practicant"};
-        rows(boldFont, table, headers);
+    PdfPTable table = new PdfPTable(new float[]{2f, 2f, 2f, 2f});
+    table.setWidthPercentage(100);
+    table.setSpacingBefore(10f);
+    table.setSpacingAfter(10f);
 
-        String[][] rows = {
-                {"Nume și prenume", cadruDidactic.getNume() + " " + cadruDidactic.getPrenume(), tutore.getNume() +" "+ tutore.getPrenume(), student.getNume() + " " + student.getPrenume()},
-                {"Funcția", "Cadru didactic supervizor", tutore.getFunctie(), "Student"},
-                {"Data", String.valueOf(portofoliu.getDataSemnarii()), String.valueOf(portofoliu.getDataSemnarii()), String.valueOf(portofoliu.getDataSemnarii())},
-                {"Semnătura", cadruDidactic.getSemnatura(), tutore.getSemnatura(), student.getSemnatura()}
-        };
+    String[] headers = {"", "Cadru Didactic", "Tutore", "Student"};
+    rows(boldFont, table, headers);
 
-        for (String[] row : rows) {
-            rows(regularFont, table, row);
-        }
+    String[][] rows = {
+            {"Nume și Prenume", cadruDidactic.getNume() + " " + cadruDidactic.getPrenume(), tutore.getNume() + " " + tutore.getPrenume(), student.getNume() + " " + student.getPrenume()},
+            {"Funcția", "Cadru Didactic", tutore.getFunctie(), "Student"},
+            {"Data", String.valueOf(portofoliu.getDataSemnarii()), String.valueOf(portofoliu.getDataSemnarii()), String.valueOf(portofoliu.getDataSemnarii())}
+    };
 
-        return table;
+    for (String[] row : rows) {
+        rows(regularFont, table, row);
     }
+
+    // ✅ Adăugăm semnăturile în tabel
+    PdfPCell labelCell = new PdfPCell(new Phrase("Semnătura", boldFont));
+    labelCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+    labelCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+    labelCell.setPadding(5);
+    table.addCell(labelCell);
+
+    // 🔹 Calea semnăturilor (trebuie să fie absolută)
+    String basePath = "src/main/resources/static/";
+    String studentSignaturePath = basePath + student.getSemnatura() + "/signature.png";
+    String tutoreSignaturePath = basePath + tutore.getSemnatura() + "/signature.png";
+    String cadruSignaturePath = basePath + cadruDidactic.getSemnatura() + "/signature.png";
+
+    // 🔹 Adăugăm semnătura în celule (sau lăsăm gol dacă nu există)
+    for (String signaturePath : new String[]{cadruSignaturePath, tutoreSignaturePath, studentSignaturePath}) {
+        Image signatureImage = getSignatureImage(signaturePath);
+        PdfPCell signatureCell;
+        if (signatureImage != null) {
+            signatureImage.scaleToFit(100, 50); // Redimensionăm imaginea
+            signatureCell = new PdfPCell(signatureImage);
+        } else {
+            signatureCell = new PdfPCell(new Phrase("")); // Celulă goală
+        }
+        signatureCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        signatureCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        signatureCell.setPadding(5);
+        table.addCell(signatureCell);
+    }
+
+    return table;
+}
+
 
     private static void rows(Font regularFont, PdfPTable table, String[] row) {
         for (String cellValue : row) {
@@ -175,6 +202,14 @@ public class PdfGenerator {
             return new Font(baseFont, (float) 12, style);
         } catch (Exception e) {
             throw new RuntimeException("Eroare la încărcarea fontului: " + "static/dejavu-sans/DejaVuSans.ttf", e);
+        }
+    }
+
+    private static Image getSignatureImage(String signaturePath) {
+        try {
+            return Image.getInstance(signaturePath);
+        } catch (Exception e) {
+            return null;
         }
     }
 
