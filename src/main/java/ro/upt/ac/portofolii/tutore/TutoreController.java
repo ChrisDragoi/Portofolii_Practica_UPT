@@ -57,28 +57,28 @@ public class TutoreController
 
 		return "redirect:/tutore-read";
 	}
-	
+
 	@GetMapping("/tutore-read")
-	public String read(Model model) 
+	public String read(Model model)
 	{
 	    model.addAttribute("tutori", tutoreRepository.findAll());
 	    return "tutore-read";
 	}
-	
+
 	@GetMapping("/tutore-edit/{id}")
-	public String edit(@PathVariable("id") int id, Model model) 
+	public String edit(@PathVariable("id") int id, Model model)
 	{
 	    Tutore tutore = tutoreRepository.findById(id);
 	    //.orElseThrow(() -> new IllegalArgumentException("Invalid tutore Id:" + id));
-	    
+
 	    model.addAttribute("tutore", tutore);
 	    return "tutore-update";
 	}
-	
+
 	@PostMapping("/tutore-update/{id}")
 	public String update(@PathVariable("id") int id, @Validated Tutore tutore, BindingResult result)
 	{
-	    if(result.hasErrors()) 
+	    if(result.hasErrors())
 	    {
 	        tutore.setId(id);
 	        return "tutore-update";
@@ -88,11 +88,11 @@ public class TutoreController
 		if (tutore.getSemnatura() == null) {
 			tutore.setSemnatura(existingTutore.getSemnatura());
 		}
-	        
+
 	    tutoreRepository.save(tutore);
 	    return "redirect:/tutore-read";
 	}
-	
+
 	@GetMapping("/tutore-delete/{id}")
 	public String delete(@PathVariable("id") int id) throws IOException {
 	    Tutore tutore = tutoreRepository.findById(id);
@@ -108,7 +108,7 @@ public class TutoreController
 	    return "redirect:/tutore-read";
 	}
 
-	@PostMapping(value = "/tuore/{id}/upload-signature", consumes = {"multipart/form-data"})
+	@PostMapping(value = "/tutore/{id}/upload-signature", consumes = {"multipart/form-data"})
 	public String uploadSignature(@PathVariable int id,
 								  @RequestParam("signature") MultipartFile file,
 								  RedirectAttributes redirectAttributes) {

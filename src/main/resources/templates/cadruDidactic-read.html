@@ -58,15 +58,11 @@
 							<td>
 								<img th:if="${cadru.semnatura != null}"
 									 th:src="@{'/' + ${cadru.semnatura} + '/signature.png'}"
-									 alt="Semnătura cadrului didactic" class="img-fluid" style="max-width: 200px;">
+									 alt="Semnătura cadrului didactic lipsește" class="img-fluid" style="max-width: 200px;">
 							</td>
 						</tr>
 						</tbody>
 					</table>
-
-					<div th:if="${success_message}" class="alert alert-success mt-3">
-						<p th:text="${success_message}"></p>
-					</div>
 				</div>
 			</div>
 		</div>

@@ -22,6 +22,7 @@ import ro.upt.ac.portofolii.tutore.TutoreRepository;
 import ro.upt.ac.portofolii.tutore.TutoreService;
 import ro.upt.ac.portofolii.utils.PdfGenerator;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class PortofoliuController
 	{
 		return "index";
 	}
-	
+
 	@GetMapping("/portofoliu-create")
 	public String create(Portofoliu portofoliu, Model model)
 	{
@@ -66,7 +67,7 @@ public class PortofoliuController
 			return "portofoliu-create";
 		}
 
-		if (portofoliu.getCadruDidactic() == null) 
+		if (portofoliu.getCadruDidactic() == null)
 		{
 			System.out.println("CadruDidactic ID is missing or null");
 			model.addAttribute("cadreDidactice", cadruDidacticRepository.findAll());
@@ -83,7 +84,7 @@ public class PortofoliuController
 		}
 
 		CadruDidactic cadru = cadruDidacticRepository.findById(portofoliu.getCadruDidactic().getId());
-		if(cadru == null) 
+		if(cadru == null)
 		{
 			throw new RuntimeException("Cadru didactic ID not found");
 		}
@@ -112,7 +113,7 @@ public class PortofoliuController
 	}
 
 	@GetMapping("/portofoliu-read")
-	public String read(Model model) 
+	public String read(Model model)
 	{
 	    model.addAttribute("portofolii", portofoliuRepository.findAll());
 	    return "portofoliu-read";
@@ -139,7 +140,7 @@ public class PortofoliuController
 	}
 
 	@GetMapping("/portofoliu-edit/{id}")
-	public String edit(@PathVariable("id") int id, Model model) 
+	public String edit(@PathVariable("id") int id, Model model)
 	{
 	    Portofoliu portofoliu = portofoliuRepository.findById(id);
 	    model.addAttribute("portofoliu", portofoliu);
@@ -213,4 +214,72 @@ public class PortofoliuController
 				.headers(headers)
 				.body(pdfBytes);
 	}
+
+	@PostMapping("/portofoliu/sign-student/{id}")
+	public String signStudent(@PathVariable int id, RedirectAttributes redirectAttributes) {
+		Portofoliu portofoliu = portofoliuRepository.findById(id);
+		if (portofoliu == null) {
+			redirectAttributes.addFlashAttribute("error", "Portofoliul nu a fost găsit.");
+			return "redirect:/portofoliu-read";
+		}
+
+		String signaturePath = "src/main/resources/static/" + portofoliu.getStudent().getSemnatura() + "/signature.png";
+		File signatureFile = new File(signaturePath);
+
+		if (!signatureFile.exists()) {
+			redirectAttributes.addFlashAttribute("signStudentError", "Semnătura studentului nu a fost încărcată!");
+			return "redirect:/portofoliu-read";
+		}
+
+		portofoliu.setSemnaturaStudent(true);
+		portofoliuRepository.save(portofoliu);
+		redirectAttributes.addFlashAttribute("success", "Semnătura studentului a fost înregistrată.");
+		return "redirect:/portofoliu-read";
+	}
+
+
+	@PostMapping("/portofoliu/sign-tutore/{id}")
+	public String signTutore(@PathVariable int id, RedirectAttributes redirectAttributes) {
+		Portofoliu portofoliu = portofoliuRepository.findById(id);
+		if (portofoliu == null) {
+			redirectAttributes.addFlashAttribute("error", "Portofoliul nu a fost găsit.");
+			return "redirect:/portofoliu-read";
+		}
+
+		String signaturePath = "src/main/resources/static/" + portofoliu.getTutore().getSemnatura() + "/signature.png";
+		File signatureFile = new File(signaturePath);
+
+		if (!signatureFile.exists()) {
+			redirectAttributes.addFlashAttribute("signTutoreError", "Semnătura tutorelui nu a fost încărcată!");
+			return "redirect:/portofoliu-read";
+		}
+
+		portofoliu.setSemnaturaTutore(true);
+		portofoliuRepository.save(portofoliu);
+		redirectAttributes.addFlashAttribute("success", "Semnătura studentului a fost înregistrată.");
+		return "redirect:/portofoliu-read";
+	}
+
+	@PostMapping("/portofoliu/sign-cadru/{id}")
+	public String signCadru(@PathVariable int id, RedirectAttributes redirectAttributes) {
+		Portofoliu portofoliu = portofoliuRepository.findById(id);
+		if (portofoliu == null) {
+			redirectAttributes.addFlashAttribute("error", "Portofoliul nu a fost găsit.");
+			return "redirect:/portofoliu-read";
+		}
+
+		String signaturePath = "src/main/resources/static/" + portofoliu.getCadruDidactic().getSemnatura() + "/signature.png";
+		File signatureFile = new File(signaturePath);
+
+		if (!signatureFile.exists()) {
+			redirectAttributes.addFlashAttribute("signCadruError", "Semnătura cadrului didactic nu a fost încărcată!");
+			return "redirect:/portofoliu-read";
+		}
+
+		portofoliu.setSemnaturaCadruDidactic(true);
+		portofoliuRepository.save(portofoliu);
+		redirectAttributes.addFlashAttribute("success", "Semnătura studentului a fost înregistrată.");
+		return "redirect:/portofoliu-read";
+	}
+
 }
