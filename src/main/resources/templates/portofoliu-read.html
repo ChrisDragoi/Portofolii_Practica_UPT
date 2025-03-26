@@ -82,12 +82,10 @@
 						<td th:text="${portofoliu.observatii}"></td>
 <!--						<td th:text="${portofoliu.semnaturaStudent ? '✔' : '✘'}"></td>-->
 						<td>
-							<!-- ✅ Mesaj de eroare pentru semnătura studentului -->
-							<p th:if="${signStudentError}" class="text-danger">
+							<p th:if="${signStudentError == portofoliu.id}" class="text-danger">
 								Semnătura studentului nu a fost încărcată!
 							</p>
 
-							<!-- ✅ Formular pentru semnarea portofoliului -->
 							<form th:if="${!portofoliu.semnaturaStudent}"
 								  th:action="@{/portofoliu/sign-student/{id}(id=${portofoliu.id})}"
 								  method="post">
@@ -96,18 +94,15 @@
 								</button>
 							</form>
 
-							<!-- ✅ Dacă semnătura a fost făcută deja, afișăm un ✔ -->
 							<span th:if="${portofoliu.semnaturaStudent}">✔</span>
 
 						</td>
 <!--						<td th:text="${portofoliu.semnaturaTutore ? '✔' : '✘'}"></td>-->
 						<td>
-							<!-- ✅ Mesaj de eroare pentru semnătura studentului -->
-							<p th:if="${signTutoreError}" class="text-danger">
+							<p th:if="${signTutoreError == portofoliu.id}" class="text-danger">
 								Semnătura tutorelui nu a fost încărcată!
 							</p>
 
-							<!-- ✅ Formular pentru semnarea portofoliului -->
 							<form th:if="${!portofoliu.semnaturaTutore}"
 								  th:action="@{/portofoliu/sign-tutore/{id}(id=${portofoliu.id})}"
 								  method="post">
@@ -116,18 +111,15 @@
 								</button>
 							</form>
 
-							<!-- ✅ Dacă semnătura a fost făcută deja, afișăm un ✔ -->
 							<span th:if="${portofoliu.semnaturaTutore}">✔</span>
 
 						</td>
 <!--						<td th:text="${portofoliu.semnaturaCadruDidactic ? '✔' : '✘'}"></td>-->
 						<td>
-							<!-- ✅ Mesaj de eroare pentru semnătura studentului -->
-							<p th:if="${signCadruError}" class="text-danger">
+							<p th:if="${signCadruError == portofoliu.id}" class="text-danger">
 								Semnătura cadrului didactic nu a fost încărcată!
 							</p>
 
-							<!-- ✅ Formular pentru semnarea portofoliului -->
 							<form th:if="${!portofoliu.semnaturaCadruDidactic}"
 								  th:action="@{/portofoliu/sign-cadru/{id}(id=${portofoliu.id})}"
 								  method="post">
@@ -136,7 +128,6 @@
 								</button>
 							</form>
 
-							<!-- ✅ Dacă semnătura a fost făcută deja, afișăm un ✔ -->
 							<span th:if="${portofoliu.semnaturaCadruDidactic}">✔</span>
 
 						</td>

@@ -62,9 +62,9 @@
                             <a class="btn btn-outline-warning btn-sm" th:href="@{/portofoliu-view/{id}(id=${portofoliu.id})}">Vizualizare</a>
                             <a class="btn btn-outline-danger btn-sm" th:href="@{/portofoliu-delete/{id}(id=${portofoliu.id})}" onclick="return confirm('Ești sigur că vrei să ștergi acest portofoliu?');">Ștergere</a>
                         </td>
-                        <td th:text="${portofoliu.student.nume}"></td>
-                        <td th:text="${portofoliu.tutore.nume}"></td>
-                        <td th:text="${portofoliu.cadruDidactic.nume}"></td>
+                        <td th:text="${portofoliu.student.nume + ' ' + portofoliu.student.prenume}"></td>
+                        <td th:text="${portofoliu.tutore.nume + ' ' + portofoliu.tutore.prenume}"></td>
+                        <td th:text="${portofoliu.cadruDidactic.nume + ' ' + portofoliu.cadruDidactic.prenume}"></td>
                         <td th:text="${portofoliu.loculDesfasurarii}"></td>
                         <td th:text="${portofoliu.durataPracticii}"></td>
                         <td th:text="${portofoliu.dataInceput}"></td>
@@ -79,9 +79,57 @@
                         <td th:text="${portofoliu.modDePregatire}"></td>
                         <td th:text="${portofoliu.activitatiPlanificate}"></td>
                         <td th:text="${portofoliu.observatii}"></td>
-                        <td th:text="${portofoliu.semnaturaStudent ? '✔' : '✘'}"></td>
-                        <td th:text="${portofoliu.semnaturaTutore ? '✔' : '✘'}"></td>
-                        <td th:text="${portofoliu.semnaturaCadruDidactic ? '✔' : '✘'}"></td>
+                        <!--						<td th:text="${portofoliu.semnaturaStudent ? '✔' : '✘'}"></td>-->
+                        <td>
+                            <p th:if="${signStudentError == portofoliu.id}" class="text-danger">
+                                Semnătura studentului nu a fost încărcată!
+                            </p>
+
+                            <form th:if="${!portofoliu.semnaturaStudent}"
+                                  th:action="@{/portofoliu/sign-student/{id}(id=${portofoliu.id})}"
+                                  method="post">
+                                <button type="submit" class="btn btn-outline-success btn-sm">
+                                    Semnează
+                                </button>
+                            </form>
+
+                            <span th:if="${portofoliu.semnaturaStudent}">✔</span>
+
+                        </td>
+                        <!--						<td th:text="${portofoliu.semnaturaTutore ? '✔' : '✘'}"></td>-->
+                        <td>
+                            <p th:if="${signTutoreError == portofoliu.id}" class="text-danger">
+                                Semnătura tutorelui nu a fost încărcată!
+                            </p>
+
+                            <form th:if="${!portofoliu.semnaturaTutore}"
+                                  th:action="@{/portofoliu/sign-tutore/{id}(id=${portofoliu.id})}"
+                                  method="post">
+                                <button type="submit" class="btn btn-outline-success btn-sm">
+                                    Semnează
+                                </button>
+                            </form>
+
+                            <span th:if="${portofoliu.semnaturaTutore}">✔</span>
+
+                        </td>
+                        <!--						<td th:text="${portofoliu.semnaturaCadruDidactic ? '✔' : '✘'}"></td>-->
+                        <td>
+                            <p th:if="${signCadruError == portofoliu.id}" class="text-danger">
+                                Semnătura cadrului didactic nu a fost încărcată!
+                            </p>
+
+                            <form th:if="${!portofoliu.semnaturaCadruDidactic}"
+                                  th:action="|@{/portofoliu/sign-cadru/{id}(id=${portofoliu.id})}?studentId=${student.id}|"
+                                  method="post">
+                                <button type="submit" class="btn btn-outline-success btn-sm">
+                                    Semnează
+                                </button>
+                            </form>
+
+                            <span th:if="${portofoliu.semnaturaCadruDidactic}">✔</span>
+
+                        </td>
                     </tr>
                     </tbody>
                 </table>
