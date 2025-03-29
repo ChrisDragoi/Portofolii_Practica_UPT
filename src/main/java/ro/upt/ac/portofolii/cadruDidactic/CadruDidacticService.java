@@ -10,7 +10,7 @@ public class CadruDidacticService {
     @Autowired
     private CadruDidacticRepository cadruDidacticRepository;
     public void makeSign(CadruDidactic s) {
-        String baseDir = "src/main/resources/static/cadreDidactice/cadruDidactic" + s.getId();
+        String baseDir = "semnaturi/cadreDidactice/cadruDidactic" + s.getId();
         File cadruDidacticDir = new File(baseDir);
 
         if (!cadruDidacticDir.exists()) {
@@ -22,8 +22,7 @@ public class CadruDidacticService {
             }
         }
 
-        String relativePath = "cadreDidactice/cadruDidactic" + s.getId();
-        s.setSemnatura(relativePath);
+        s.setSemnatura(baseDir);
 
         cadruDidacticRepository.save(s);
     }

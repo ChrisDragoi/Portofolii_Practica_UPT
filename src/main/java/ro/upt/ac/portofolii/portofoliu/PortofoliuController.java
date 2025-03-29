@@ -223,7 +223,7 @@ public class PortofoliuController
 			return "redirect:/portofoliu-read";
 		}
 
-		String signaturePath = "src/main/resources/static/" + portofoliu.getStudent().getSemnatura() + "/signature.png";
+		String signaturePath = portofoliu.getStudent().getSemnatura() + "/signature.png";
 		File signatureFile = new File(signaturePath);
 
 		if (!signatureFile.exists()) {
@@ -246,7 +246,7 @@ public class PortofoliuController
 			return "redirect:/portofoliu-read";
 		}
 
-		String signaturePath = "src/main/resources/static/" + portofoliu.getTutore().getSemnatura() + "/signature.png";
+		String signaturePath = portofoliu.getTutore().getSemnatura() + "/signature.png";
 		File signatureFile = new File(signaturePath);
 
 		if (!signatureFile.exists()) {
@@ -268,7 +268,7 @@ public class PortofoliuController
 			return redirectTo(studentId);
 		}
 
-		String signaturePath = "src/main/resources/static/" + portofoliu.getCadruDidactic().getSemnatura() + "/signature.png";
+		String signaturePath = portofoliu.getCadruDidactic().getSemnatura() + "/signature.png";
 		File signatureFile = new File(signaturePath);
 
 		if (!signatureFile.exists()) {

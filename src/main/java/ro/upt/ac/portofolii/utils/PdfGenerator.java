@@ -141,20 +141,16 @@ private static PdfPTable getPdfPTable2(Font boldFont, Font regularFont, Portofol
         rows(regularFont, table, row);
     }
 
-    // ✅ Adăugăm semnăturile în tabel
     PdfPCell labelCell = new PdfPCell(new Phrase("Semnătura", boldFont));
     labelCell.setHorizontalAlignment(Element.ALIGN_CENTER);
     labelCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
     labelCell.setPadding(5);
     table.addCell(labelCell);
 
-    // 🔹 Calea semnăturilor (trebuie să fie absolută)
-    String basePath = "src/main/resources/static/";
-    String studentSignaturePath = basePath + student.getSemnatura() + "/signature.png";
-    String tutoreSignaturePath = basePath + tutore.getSemnatura() + "/signature.png";
-    String cadruSignaturePath = basePath + cadruDidactic.getSemnatura() + "/signature.png";
+    String studentSignaturePath = student.getSemnatura() + "/signature.png";
+    String tutoreSignaturePath = tutore.getSemnatura() + "/signature.png";
+    String cadruSignaturePath = cadruDidactic.getSemnatura() + "/signature.png";
 
-    // 🔹 Adăugăm semnătura în celule (sau lăsăm gol dacă nu există)
     for (String signaturePath : new String[]{cadruSignaturePath, tutoreSignaturePath, studentSignaturePath}) {
         Image signatureImage = getSignatureImage(signaturePath);
         PdfPCell signatureCell;

@@ -16,6 +16,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
         registry.addResourceHandler("/semnaturi/**")
                 .addResourceLocations("file:semnaturi/")
-                .setCachePeriod(0);
+                .setCachePeriod(0)
+                .resourceChain(false);
     }
 }

@@ -34,7 +34,7 @@ public class TutoreService {
     }
 
     public Tutore makeSign(Tutore tutore) {
-        String baseDir = "src/main/resources/static/tutori/tutore" + tutore.getId();
+        String baseDir = "semnaturi/tutori/tutore" + tutore.getId();
         File tutoriDir = new File(baseDir);
 
         if (!tutoriDir.exists()) {
@@ -46,8 +46,7 @@ public class TutoreService {
             }
         }
 
-        String relativePath = "tutori/tutore" + tutore.getId();
-        tutore.setSemnatura(relativePath);
+        tutore.setSemnatura(baseDir);
 
         return tutoreRepository.save(tutore);
     }

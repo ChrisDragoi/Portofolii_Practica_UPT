@@ -53,7 +53,7 @@ public class AdminService {
         }
         Path filePath = uploadPath.resolve("Students_Details.csv");
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-        return "File " + file.getOriginalFilename() + " was copied to " + filePath + "\n";
+        return "\nFile " + file.getOriginalFilename() + " was copied to " + filePath + "\n";
     }
     private String uploadStudentsWithCredentialsCsv(String UPLOAD_DIR) throws IOException {
         Path sourceFile = Paths.get(UPLOAD_DIR, "Students_Details.csv");
@@ -90,7 +90,7 @@ public class AdminService {
                 addStudentUser(email, password);
             }
         }
-        return "Generated credentials in " + outputFile;
+        return " and generated credentials in " + outputFile;
     }
     private void addStudentToDB(CSVRecord record) throws IOException {
         System.out.println("starting student initialization...");
@@ -179,35 +179,33 @@ public class AdminService {
 
     public void deleteProfFolder(CadruDidactic c) throws IOException {
         String folderName = "cadruDidactic" + c.getId();
-        String baseProfDir = "src/main/resources/static/cadreDidactice";
+        String baseProfDir = "semnaturi/cadreDidactice";
         Path profDir = Paths.get(baseProfDir, folderName);
 
         if (Files.exists(profDir) && Files.isDirectory(profDir)) {
-            try (DirectoryStream<Path> stream = Files.newDirectoryStream(profDir)) {
-                for (Path file : stream) {
-                    Files.delete(file);
-                }
+            if(Objects.requireNonNull(profDir.toFile().listFiles()).length==0){
+                System.out.println("Folderul contine semnatura si nu va fi sters.");
+                return;
             }
             Files.delete(profDir);
-            System.out.println("Folder și conținut șters: " + profDir);
+            System.out.println("Folder gol si șters: " + profDir);
         } else {
             System.out.println("Folderul nu există sau nu este director: " + profDir);
         }
     }
 
     public void deleteTutoreFolder(Tutore t) throws IOException {
-        String baseTutoreDir = "src/main/resources/static/tutori";
+        String baseTutoreDir = "semnaturi/tutori";
         String folderName = baseTutoreDir + t.getId();
         Path tutoreDir = Paths.get("tutori", folderName);
 
         if (Files.exists(tutoreDir) && Files.isDirectory(tutoreDir)) {
-            try (DirectoryStream<Path> stream = Files.newDirectoryStream(tutoreDir)) {
-                for (Path file : stream) {
-                    Files.delete(file);
-                }
+            if(Objects.requireNonNull(tutoreDir.toFile().listFiles()).length > 0){
+                System.out.println("Folderul contine semnatura si nu va fi sters.");
+                return;
             }
             Files.delete(tutoreDir);
-            System.out.println("Folder și conținut șters: " + tutoreDir);
+            System.out.println("Folder gol si sters: " + tutoreDir);
         } else {
             System.out.println("Folderul nu există sau nu este director: " + tutoreDir);
         }

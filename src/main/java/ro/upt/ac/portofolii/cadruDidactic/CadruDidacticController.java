@@ -1,6 +1,7 @@
 package ro.upt.ac.portofolii.cadruDidactic;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,6 +33,8 @@ public class CadruDidacticController
 	private AdminService adminService;
 	@Autowired
 	private CadruDidacticService cadruDidacticService;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
     @GetMapping("/cadruDidactic-create")
 	public String create( Model model)
@@ -47,7 +50,7 @@ public class CadruDidacticController
 		{
 			return "cadruDidactic-create";
 		}
-		User user=new User(cadruDidactic.getEmail(),"prof"+cadruDidactic.getId(), Role.CADRU_DIDACTIC);
+		User user=new User(cadruDidactic.getEmail(), passwordEncoder.encode("prof"+cadruDidactic.getId()), Role.CADRU_DIDACTIC);
 		userRepository.save(user);
 		cadruDidacticService.makeSign(cadruDidacticRepository.save(cadruDidactic));
 
@@ -110,14 +113,14 @@ public class CadruDidacticController
 								  @RequestParam("signature") MultipartFile file,
 								  RedirectAttributes redirectAttributes) {
 		try {
-            String baseDir = "src/main/resources/static/cadreDidactice";
-            Path studentDir = Paths.get(baseDir, "cadruDidactic" + id);
-			if (!Files.exists(studentDir)) {
+            String baseDir = "semnaturi/cadreDidactice";
+            Path profDir = Paths.get(baseDir, "cadruDidactic" + id);
+			if (!Files.exists(profDir)) {
 				redirectAttributes.addFlashAttribute("error", "Folderul cadrului didactic nu există!");
 				return "redirect:/cadruDidactic-read";
 			}
 
-			Path filePath = studentDir.resolve("signature.png");
+			Path filePath = profDir.resolve("signature.png");
 			Files.write(filePath, file.getBytes());
 			System.out.println("Semnătura a fost salvată la: " + filePath.toAbsolutePath());
 

@@ -22,7 +22,7 @@ public class AdminController {
     public String uploadStudentCsv(@RequestParam("file") MultipartFile file, Model model) {
         try {
             String filePath = adminService.saveStudentCsv(file, UPLOAD_DIR);
-            model.addAttribute("success_message", "Fișierul a fost încărcat cu succes in " + filePath);
+            model.addAttribute("success_message", filePath + "\n");
         } catch (IOException e) {
             model.addAttribute("success_message", "Eroare la încărcare: " + e.getMessage());
         }

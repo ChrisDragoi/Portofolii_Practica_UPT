@@ -113,14 +113,14 @@ public class TutoreController
 								  @RequestParam("signature") MultipartFile file,
 								  RedirectAttributes redirectAttributes) {
 		try {
-			String baseDir = "src/main/resources/static/tutori";
-			Path studentDir = Paths.get(baseDir, "tutore" + id);
-			if (!Files.exists(studentDir)) {
+			String baseDir = "semnaturi/tutori";
+			Path tutoreDir = Paths.get(baseDir, "tutore" + id);
+			if (!Files.exists(tutoreDir)) {
 				redirectAttributes.addFlashAttribute("error", "Folderul tutorelui nu există!");
 				return "redirect:/tutore-read";
 			}
 
-			Path filePath = studentDir.resolve("signature.png");
+			Path filePath = tutoreDir.resolve("signature.png");
 			Files.write(filePath, file.getBytes());
 			System.out.println("Semnătura a fost salvată la: " + filePath.toAbsolutePath());
 
