@@ -31,7 +31,7 @@ public class AdminService {
     private final StudentRepository studentRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final String baseStudentDir = "src/main/resources/static/studenti";
+    private final String baseStudentDir = "semnaturi/studenti/";
     private final StudentService studentService;
 
     public String saveStudentCsv(MultipartFile file, String UPLOAD_DIR) throws IOException {
@@ -144,9 +144,8 @@ public class AdminService {
             writer.write(String.join(",", student.getNume(), student.getPrenume(), student.getEmail(), password));
             writer.newLine();
         }
-
         addStudentUser(student.getEmail(), password);
-        createStudentFolder(student);
+
     }
 
     private void createStudentFolder(Student s) throws IOException {

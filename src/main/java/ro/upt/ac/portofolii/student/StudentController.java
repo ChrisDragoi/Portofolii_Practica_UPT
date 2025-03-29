@@ -118,16 +118,17 @@ public class StudentController
 								  @RequestParam("signature") MultipartFile file,
 								  RedirectAttributes redirectAttributes) {
 		try {
-            String baseDir = "src/main/resources/static/studenti";
+            String baseDir = "semnaturi/studenti/";
             Path studentDir = Paths.get(baseDir, "student" + id);
 			if (!Files.exists(studentDir)) {
+				System.out.println("Eroare la incarcarea semnaturii");
 				redirectAttributes.addFlashAttribute("error", "Folderul studentului nu există!");
 				return "redirect:/student-read";
 			}
 
 			Path filePath = studentDir.resolve("signature.png");
 			Files.write(filePath, file.getBytes());
-			System.out.println("Semnătura a fost salvată la: " + filePath.toAbsolutePath());
+			System.out.println("Semnătura a fost salvată la: " + filePath.toRealPath());
 
 			redirectAttributes.addFlashAttribute("success", "Semnătura a fost actualizată cu succes!");
 		} catch (IOException e) {

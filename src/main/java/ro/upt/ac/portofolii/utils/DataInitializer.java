@@ -12,6 +12,7 @@ import ro.upt.ac.portofolii.security.User;
 import ro.upt.ac.portofolii.security.UserRepository;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Component
@@ -49,6 +50,8 @@ public class DataInitializer {
             } else {
                 System.out.println("Utilizatorii există deja, nu se mai creează.");
             }
+            String semnaturiPath = Paths.get("semnaturi").toRealPath().toString();
+            System.out.println("Folderul 'semnaturi' este expus la /semnaturi/** din: " + semnaturiPath);
         };
     }
     private void addProfessors(){

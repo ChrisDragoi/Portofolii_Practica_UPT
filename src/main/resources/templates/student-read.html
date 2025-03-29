@@ -85,8 +85,7 @@
 							<td th:text="${student.email}"></td>
 							<td th:text="${student.telefon}"></td>
 							<td>
-								<img th:if="${student.semnatura != null}"
-									 th:src="@{'/' + ${student.semnatura} + '/signature.png'}"
+								<img th:src="@{'/' + ${student.semnatura} + '/signature.png'}"
 									 alt="Semnătura studentului" class="img-fluid" style="max-width: 200px;">
 							</td>
 

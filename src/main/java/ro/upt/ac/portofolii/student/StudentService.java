@@ -27,7 +27,7 @@ public class StudentService {
     }
 
     public void makeSign(Student s) {
-        String baseDir = "src/main/resources/static/studenti/student" + s.getId();
+        String baseDir = "semnaturi/studenti/student" + s.getId();
         File studentiDir = new File(baseDir);
 
         if (!studentiDir.exists()) {
@@ -39,8 +39,7 @@ public class StudentService {
             }
         }
 
-        String relativePath = "studenti/student" + s.getId();
-        s.setSemnatura(relativePath);
+        s.setSemnatura(baseDir);
 
         studentRepository.save(s);
     }
