@@ -1,6 +1,9 @@
 package ro.upt.ac.portofolii.security;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -113,5 +116,53 @@ public class LoginController {
             return "redirect:/logout";
         }
         //return "redirect:/student/change-password";
+    }
+
+    @GetMapping("/student/{id}/index")
+    @PreAuthorize("hasRole('STUDENT')")
+    public String studentIndex(@PathVariable int id, Authentication auth, Model model) {
+        String username = auth.getName();
+        User user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+
+        if (user.getId() != id) {
+            return "redirect:/access-denied";
+        }
+
+        Student student = studentRepository.findById(id);
+        model.addAttribute("student", student);
+        return "student-index";
+    }
+
+    @GetMapping("/tutore/{id}/index")
+    @PreAuthorize("hasRole('TUTORE')")
+    public String tutoreIndex(@PathVariable int id, Authentication auth, Model model) {
+        String username = auth.getName();
+        User user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+
+        if (user.getId() != id) {
+            return "redirect:/access-denied";
+        }
+
+        Tutore tutore = tutoreRepository.findById(id);
+        model.addAttribute("tutore", tutore);
+        return "tutore-index";
+    }
+
+    @GetMapping("/cadru/{id}/index")
+    @PreAuthorize("hasRole('CADRU_DIDACTIC')")
+    public String cadruDidacticIndex(@PathVariable int id, Authentication auth, Model model) {
+        String username = auth.getName();
+        User user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+
+        if (user.getId() != id) {
+            return "redirect:/access-denied";
+        }
+
+        CadruDidactic cadru = cadruDidacticRepository.findById(id);
+        model.addAttribute("cadru", cadru);
+        return "cadruDidactic-index";
     }
 }
