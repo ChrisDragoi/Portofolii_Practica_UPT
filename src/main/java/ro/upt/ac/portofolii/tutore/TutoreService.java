@@ -24,7 +24,7 @@ public class TutoreService {
     public Tutore create(String tutoreEmail) {
         Tutore tutore = new Tutore();
         tutore.setEmail(tutoreEmail);
-        User userTutore = new User(tutoreEmail, passwordEncoder.encode(new PasswordGenerator().generateRandomPassword()), Role.TUTORE);
+        Tutore userTutore = new Tutore(tutoreEmail, passwordEncoder.encode(new PasswordGenerator().generateRandomPassword()), Role.TUTORE);
         userRepository.save(userTutore);
 
         return makeSign(tutoreRepository.save(tutore));

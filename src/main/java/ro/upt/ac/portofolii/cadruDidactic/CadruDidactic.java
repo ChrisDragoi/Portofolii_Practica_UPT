@@ -4,13 +4,18 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import ro.upt.ac.portofolii.security.Role;
+import ro.upt.ac.portofolii.security.User;
 
 @Entity
-public class CadruDidactic
-{
-	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+@Getter
+@Setter
+@NoArgsConstructor
+public class CadruDidactic extends User {
 
 	private String nume;
 	private String prenume;
@@ -19,89 +24,13 @@ public class CadruDidactic
 	private String specializare;
 
 	private String telefon;
-	private String email;
+	//private String email;
 
 	private String semnatura;
 
-	public CadruDidactic() 
-	{
+	@Builder
+	public CadruDidactic(String email, String password, Role role){
+		super(email, password, role);
 	}
 
-	public int getId()
-	{
-		return id;
-	}
-
-	public void setId(int id)
-	{
-		this.id = id;
-	}
-
-	public String getNume()
-	{
-		return nume;
-	}
-
-	public void setNume(String nume)
-	{
-		this.nume = nume;
-	}
-
-	public String getPrenume()
-	{
-		return prenume;
-	}
-
-	public void setPrenume(String prenume)
-	{
-		this.prenume = prenume;
-	}
-
-	public String getFunctie()
-	{
-		return functie;
-	}
-
-	public void setFunctie(String functie)
-	{
-		this.functie = functie;
-	}
-
-	public String getTelefon()
-	{
-		return telefon;
-	}
-
-	public void setTelefon(String telefon)
-	{
-		this.telefon = telefon;
-	}
-
-	public String getEmail()
-	{
-		return email;
-	}
-
-	public void setEmail(String email)
-	{
-		this.email = email;
-	}
-
-	public String getSpecializare()
-	{
-		return specializare;
-	}
-
-	public void setSpecializare(String specializare)
-	{
-		this.specializare = specializare;
-	}
-
-	public String getSemnatura() {
-		return semnatura;
-	}
-
-	public void setSemnatura(String semnatura) {
-		this.semnatura = semnatura;
-	}
 }

@@ -51,8 +51,8 @@ public class TutoreController
 		{
 			return "tutore-create";
 		}
-		User u = new User(tutore.getEmail(), passwordEncoder.encode("tutore"+tutore.getId()), Role.TUTORE);
-		userRepository.save(u);
+		//User u = new User(tutore.getEmail(), passwordEncoder.encode("tutore"+tutore.getId()), Role.TUTORE);
+		//userRepository.save(u);
 		tutoreService.addTutore(tutore);
 
 		return "redirect:/tutore-read";

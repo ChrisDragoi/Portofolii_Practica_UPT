@@ -50,7 +50,7 @@ public class CadruDidacticController
 		{
 			return "cadruDidactic-create";
 		}
-		User user=new User(cadruDidactic.getEmail(), passwordEncoder.encode("prof"+cadruDidactic.getId()), Role.CADRU_DIDACTIC);
+		CadruDidactic user = new CadruDidactic(cadruDidactic.getEmail(), passwordEncoder.encode("prof"+cadruDidactic.getId()), Role.CADRU_DIDACTIC);
 		userRepository.save(user);
 		cadruDidacticService.makeSign(cadruDidacticRepository.save(cadruDidactic));
 

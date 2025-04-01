@@ -161,8 +161,8 @@ public class LoginController {
             return "redirect:/access-denied";
         }
 
-        CadruDidactic cadru = cadruDidacticRepository.findById(id);
-        model.addAttribute("cadru", cadru);
+        CadruDidactic tutore = cadruDidacticRepository.findById(id);
+        model.addAttribute("cadru", tutore);
         return "cadruDidactic-index";
     }
 }

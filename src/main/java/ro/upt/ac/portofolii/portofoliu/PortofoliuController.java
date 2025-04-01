@@ -100,7 +100,7 @@ public class PortofoliuController
 		Tutore t = tutoreRepository.findByEmail(tutoreEmail);
 		if(t == null){
 			Tutore tutore = tutoreService.create(tutoreEmail);
-			User u = new User(tutoreEmail, "tutore"+tutore.getId(), Role.TUTORE);
+			Tutore u = new Tutore(tutoreEmail, "tutore"+tutore.getId(), Role.TUTORE);
 			userRepository.save(u);
 			portofoliu.setTutore(tutore);
 		}else{

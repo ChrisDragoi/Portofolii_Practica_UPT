@@ -6,23 +6,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "users")
-@NoArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
 @Getter
-public class User {
+@Setter
+@NoArgsConstructor
+public abstract class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     private String email;
-    @Setter
+
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User(String mail, String password, Role role) {
-        this.email = mail;
+    public User(String email, String password, Role role) {
+        this.email = email;
         this.role = role;
         this.password = password;
     }

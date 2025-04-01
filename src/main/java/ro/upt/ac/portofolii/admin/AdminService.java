@@ -120,7 +120,7 @@ public class AdminService {
     }
 
     private void addStudentUser(String email, String password) {
-        User user=new User(email, passwordEncoder.encode(password), Role.STUDENT);
+        Student user=new Student(email, passwordEncoder.encode(password), Role.STUDENT);
         userRepository.save(user);
     }
 
