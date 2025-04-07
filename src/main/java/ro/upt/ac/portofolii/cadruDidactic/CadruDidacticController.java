@@ -50,8 +50,6 @@ public class CadruDidacticController
 		{
 			return "cadruDidactic-create";
 		}
-		CadruDidactic user = new CadruDidactic(cadruDidactic.getEmail(), passwordEncoder.encode("prof"+cadruDidactic.getId()), Role.CADRU_DIDACTIC);
-		userRepository.save(user);
 		cadruDidacticService.makeSign(cadruDidacticRepository.save(cadruDidactic));
 
 		return "redirect:/cadruDidactic-read";
@@ -95,15 +93,9 @@ public class CadruDidacticController
 	@GetMapping("/cadruDidactic-delete/{id}")
 	public String delete(@PathVariable("id") int id) throws IOException {
 	    CadruDidactic cadruDidactic = cadruDidacticRepository.findById(id);
-	    //.orElseThrow(() -> new IllegalArgumentException("Invalid cadruDidactic Id:" + id));
 
-		Optional<User> user=userRepository.findByEmail(cadruDidactic.getEmail());
-		if(user.isEmpty()){
-			throw new RuntimeException("User not found");
-		}
-		User u = user.get();
 		adminService.deleteProfFolder(cadruDidactic);
-		userRepository.delete(u);
+		cadruDidacticService.removeProfFromPortofolios(id);
 	    cadruDidacticRepository.delete(cadruDidactic);
 	    return "redirect:/cadruDidactic-read";
 	}

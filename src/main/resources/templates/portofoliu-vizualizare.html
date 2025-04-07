@@ -26,7 +26,6 @@
     <div class="card shadow-sm border-0">
         <div class="card-body text-center">
             <h5 class="card-title mb-3">Document PDF - Portofoliu</h5>
-            <!-- ✅ Iframe cu PDF-ul -->
             <div class="ratio ratio-16x9">
                 <iframe th:src="@{/portofoliu-generate-pdf/{id}(id=${portofoliuId})}" width="100%" height="600px" class="border rounded"></iframe>
             </div>

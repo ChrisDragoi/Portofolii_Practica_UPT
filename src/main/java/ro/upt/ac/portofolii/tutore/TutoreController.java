@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ro.upt.ac.portofolii.admin.AdminService;
-import ro.upt.ac.portofolii.security.Role;
-import ro.upt.ac.portofolii.security.User;
 import ro.upt.ac.portofolii.security.UserRepository;
 
 import java.io.IOException;
@@ -34,8 +32,6 @@ public class TutoreController
 	private AdminService adminService;
     @Autowired
     private TutoreService tutoreService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
 	@GetMapping("/tutore-create")
 	public String create(Model model)
@@ -51,9 +47,8 @@ public class TutoreController
 		{
 			return "tutore-create";
 		}
-		//User u = new User(tutore.getEmail(), passwordEncoder.encode("tutore"+tutore.getId()), Role.TUTORE);
-		//userRepository.save(u);
-		tutoreService.addTutore(tutore);
+
+		tutoreService.makeSign(tutoreRepository.save(tutore));
 
 		return "redirect:/tutore-read";
 	}
@@ -83,12 +78,6 @@ public class TutoreController
 	        tutore.setId(id);
 	        return "tutore-update";
 	    }
-		Tutore existingTutore = tutoreRepository.findById(id);
-
-		if (tutore.getSemnatura() == null) {
-			tutore.setSemnatura(existingTutore.getSemnatura());
-		}
-
 	    tutoreRepository.save(tutore);
 	    return "redirect:/tutore-read";
 	}
@@ -97,13 +86,8 @@ public class TutoreController
 	public String delete(@PathVariable("id") int id) throws IOException {
 	    Tutore tutore = tutoreRepository.findById(id);
 	    //.orElseThrow(() -> new IllegalArgumentException("Invalid tutore Id:" + id));
-		Optional<User> user=userRepository.findByEmail(tutore.getEmail());
-		if(user.isEmpty()){
-			throw new RuntimeException("User not found");
-		}
-		User u = user.get();
 		adminService.deleteTutoreFolder(tutore);
-		userRepository.delete(u);
+		tutoreService.removeTutoreFromPortofolios(id);
 	    tutoreRepository.delete(tutore);
 	    return "redirect:/tutore-read";
 	}

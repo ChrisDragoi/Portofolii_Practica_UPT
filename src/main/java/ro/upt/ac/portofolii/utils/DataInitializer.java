@@ -32,7 +32,7 @@ public class DataInitializer {
     @Bean
     public CommandLineRunner initUsers() {
         return args -> {
-            if (userRepository.count() == 0) { // Dacă nu există utilizatori, îi adăugăm
+            if (userRepository.count() == 0) {
                 User admin = Admin.builder().email("prodecan@upt.ro").password(passwordEncoder.encode("admin123")).role(Role.ADMIN).build();
                 userRepository.save(admin);
 
@@ -40,60 +40,60 @@ public class DataInitializer {
                         .email("doru.todinca@upt.ro")
                         .password(passwordEncoder.encode("profesor1"))
                         .role(Role.CADRU_DIDACTIC)
+                        .nume("Todinca")
+                        .prenume("Doru")
+                        .functie("conferentiar")
+                        .specializare("cti-ro")
+                        .telefon("0700123456")
                         .build();
-                professor1.setNume("Todinca");
-                professor1.setPrenume("Doru");
-                professor1.setFunctie("conferentiar");
-                professor1.setTelefon("0700123456");
-                professor1.setSpecializare("cti-ro");
                 cadruDidacticService.makeSign(cadruDidacticRepository.save(professor1));
 
                 CadruDidactic professor2 = CadruDidactic.builder()
                         .email("cosmin.cernazanu@upt.ro")
                         .password(passwordEncoder.encode("profesor2"))
                         .role(Role.CADRU_DIDACTIC)
+                        .nume("Cernazanu")
+                        .prenume("Cosmin")
+                        .functie("conferentiar")
+                        .specializare("cti-en")
+                        .telefon("0700123456")
                         .build();
-                professor2.setNume("Cernazanu");
-                professor2.setPrenume("Cosmin");
-                professor2.setFunctie("conferentiar");
-                professor2.setTelefon("0700123456");
-                professor2.setSpecializare("cti-en");
                 cadruDidacticService.makeSign(cadruDidacticRepository.save(professor2));
 
                 CadruDidactic professor3 = CadruDidactic.builder()
                         .email("sorin.nanu@upt.ro")
                         .password(passwordEncoder.encode("profesor3"))
                         .role(Role.CADRU_DIDACTIC)
+                        .nume("Nanu")
+                        .prenume("Sorin")
+                        .functie("sef de lucrari")
+                        .specializare("is")
+                        .telefon("0700123456")
                         .build();
-                professor3.setNume("Nanu");
-                professor3.setPrenume("Sorin");
-                professor3.setFunctie("sef de lucrari");
-                professor3.setTelefon("0700123456");
-                professor3.setSpecializare("is");
                 cadruDidacticService.makeSign(cadruDidacticRepository.save(professor3));
 
                 CadruDidactic professor4 = CadruDidactic.builder()
                         .email("iosif.szeidert@upt.ro")
                         .password(passwordEncoder.encode("profesor4"))
                         .role(Role.CADRU_DIDACTIC)
+                        .nume("Szeidert")
+                        .prenume("Iosif")
+                        .functie("conferentiar")
+                        .specializare("info-zi")
+                        .telefon("0700123456")
                         .build();
-                professor4.setNume("Szeidert");
-                professor4.setPrenume("Iosif");
-                professor4.setFunctie("conferentiar");
-                professor4.setTelefon("0700123456");
-                professor4.setSpecializare("info-zi");
                 cadruDidacticService.makeSign(cadruDidacticRepository.save(professor4));
 
                 CadruDidactic professor5 = CadruDidactic.builder()
                         .email("mihaela.crisan-vida@upt.ro")
                         .password(passwordEncoder.encode("profesor5"))
                         .role(Role.CADRU_DIDACTIC)
+                        .nume("Crisan-Vida")
+                        .prenume("Mihaela")
+                        .functie("sef de lucrari")
+                        .specializare("info-id")
+                        .telefon("0700123456")
                         .build();
-                professor5.setNume("Crisan-Vida");
-                professor5.setPrenume("Mihaela");
-                professor5.setFunctie("sef de lucrari");
-                professor5.setTelefon("0700123456");
-                professor5.setSpecializare("info-id");
                 cadruDidacticService.makeSign(cadruDidacticRepository.save(professor5));
 
                 System.out.println("Utilizatorii au fost creați în baza de date!");

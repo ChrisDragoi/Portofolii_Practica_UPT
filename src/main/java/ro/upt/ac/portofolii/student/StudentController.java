@@ -29,8 +29,6 @@ public class StudentController
 	@Autowired
 	private StudentRepository studentRepository;
 	@Autowired
-    private UserRepository userRepository;
-	@Autowired
 	private AdminService adminService;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -101,15 +99,9 @@ public class StudentController
 		Student student = studentRepository.findById(id);
 		//.orElseThrow(() -> new IllegalArgumentException("Invalid student Id:" + id));
 
-		Optional<User> user=userRepository.findByEmail(student.getEmail());
-		if(user.isEmpty()){
-			throw new RuntimeException("User not found");
-		}
 		studentService.deleteStudentsPortofolios(id);
-		User u = user.get();
 		adminService.deleteStudentFolder(student);
 		studentRepository.delete(student);
-		userRepository.delete(u);
 		return "redirect:/student-read";
 	}
 

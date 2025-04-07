@@ -64,8 +64,14 @@
 							<a class="btn btn-outline-danger btn-sm" th:href="@{/portofoliu-delete/{id}(id=${portofoliu.id})}" onclick="return confirm('Ești sigur că vrei să ștergi acest portofoliu?');">Ștergere</a>
 						</td>
 						<td th:text="${portofoliu.student.nume + ' ' + portofoliu.student.prenume}"></td>
-						<td th:text="${portofoliu.tutore.nume + ' ' + portofoliu.tutore.prenume}"></td>
-						<td th:text="${portofoliu.cadruDidactic.nume + ' ' + portofoliu.cadruDidactic.prenume}"></td>
+						<td>
+							<span th:if="${portofoliu.tutore != null}" th:text="${portofoliu.tutore.nume + ' ' + portofoliu.tutore.prenume}"></span>
+							<span th:if="${portofoliu.tutore == null}" class="text-muted">Tutore șters</span>
+						</td>
+						<td>
+							<span th:if="${portofoliu.cadruDidactic != null}" th:text="${portofoliu.cadruDidactic.nume + ' ' + portofoliu.cadruDidactic.prenume}"></span>
+							<span th:if="${portofoliu.cadruDidactic == null}" class="text-muted">Cadru șters</span>
+						</td>
 						<td th:text="${portofoliu.loculDesfasurarii}"></td>
 						<td th:text="${portofoliu.durataPracticii}"></td>
 						<td th:text="${portofoliu.dataInceput}"></td>

@@ -79,23 +79,24 @@ public class AdminService {
             CSVParser csvParser = new CSVParser(reader, csvFormat);
 
             for (CSVRecord record : csvParser) {
-                addStudentToDB(record);
+
                 String nume = record.get(0);
                 String prenume = record.get(1);
                 String email = record.get(13);
                 String password = new PasswordGenerator().generateRandomPassword();
+                addStudent(record, password);
 
                 writer.write(String.join(",", nume, prenume, email, password));
                 writer.newLine();
-                addStudentUser(email, password);
             }
         }
         return " and generated credentials in " + outputFile;
     }
-    private void addStudentToDB(CSVRecord record) throws IOException {
+
+    private void addStudent(CSVRecord record, String password) {
         System.out.println("starting student initialization...");
 
-			Student s=new Student();
+			Student s = new Student(record.get(13), passwordEncoder.encode(password), Role.STUDENT);
 	        s.setNume(record.get(0));
 	        s.setPrenume(record.get(1));
 	        s.setCnp(record.get(2));
@@ -109,19 +110,12 @@ public class AdminService {
 	        s.setFacultate(record.get(10));
 	        s.setSpecializare(record.get(11));
 	        s.setAnDeStudiu(Integer.parseInt(record.get(12)));
-	        s.setEmail(record.get(13));
 	        s.setTelefon(record.get(14));
 			//s1.setSemnatura(record.get(15));
 
         studentService.makeSign(studentRepository.save(s));
-        createStudentFolder(s);
 
         System.out.println("ending initialization...");
-    }
-
-    private void addStudentUser(String email, String password) {
-        Student user=new Student(email, passwordEncoder.encode(password), Role.STUDENT);
-        userRepository.save(user);
     }
 
     public List<Student> getAllStudents() {
@@ -144,20 +138,7 @@ public class AdminService {
             writer.write(String.join(",", student.getNume(), student.getPrenume(), student.getEmail(), password));
             writer.newLine();
         }
-        addStudentUser(student.getEmail(), password);
 
-    }
-
-    private void createStudentFolder(Student s) throws IOException {
-        String folderName = "student" + s.getId();
-        Path studentDir = Paths.get(baseStudentDir, folderName);
-
-        if (!Files.exists(studentDir)) {
-            Files.createDirectories(studentDir);
-            System.out.println("Folder creat: " + studentDir);
-        } else {
-            System.out.println("Folderul exista deja: " + studentDir);
-        }
     }
 
     public void deleteStudentFolder(Student s) throws IOException {
@@ -183,9 +164,8 @@ public class AdminService {
         Path profDir = Paths.get(baseProfDir, folderName);
 
         if (Files.exists(profDir) && Files.isDirectory(profDir)) {
-            if(Objects.requireNonNull(profDir.toFile().listFiles()).length==0){
+            if(Objects.requireNonNull(profDir.toFile().listFiles()).length > 0){
                 System.out.println("Folderul contine semnatura si nu va fi sters.");
-                return;
             }
             Files.delete(profDir);
             System.out.println("Folder gol si șters: " + profDir);
@@ -197,12 +177,11 @@ public class AdminService {
     public void deleteTutoreFolder(Tutore t) throws IOException {
         String baseTutoreDir = "semnaturi/tutori";
         String folderName = baseTutoreDir + t.getId();
-        Path tutoreDir = Paths.get("tutori", folderName);
+        Path tutoreDir = Paths.get(baseTutoreDir, folderName);
 
         if (Files.exists(tutoreDir) && Files.isDirectory(tutoreDir)) {
             if(Objects.requireNonNull(tutoreDir.toFile().listFiles()).length > 0){
                 System.out.println("Folderul contine semnatura si nu va fi sters.");
-                return;
             }
             Files.delete(tutoreDir);
             System.out.println("Folder gol si sters: " + tutoreDir);

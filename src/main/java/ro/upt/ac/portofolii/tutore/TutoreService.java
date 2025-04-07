@@ -2,35 +2,27 @@ package ro.upt.ac.portofolii.tutore;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ro.upt.ac.portofolii.security.Role;
-import ro.upt.ac.portofolii.security.User;
-import ro.upt.ac.portofolii.security.UserRepository;
-import ro.upt.ac.portofolii.utils.PasswordGenerator;
-
+import ro.upt.ac.portofolii.portofoliu.Portofoliu;
+import ro.upt.ac.portofolii.portofoliu.PortofoliuRepository;
 import java.io.File;
+import java.util.List;
 
 @Service
 public class TutoreService {
     private final TutoreRepository tutoreRepository;
-    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final PortofoliuRepository portofoliuRepository;
 
-    public TutoreService(TutoreRepository tutoreRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public TutoreService(TutoreRepository tutoreRepository, PasswordEncoder passwordEncoder, PortofoliuRepository portofoliuRepository) {
         this.tutoreRepository = tutoreRepository;
-        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.portofoliuRepository = portofoliuRepository;
     }
 
     public Tutore create(String tutoreEmail) {
         Tutore tutore = new Tutore();
         tutore.setEmail(tutoreEmail);
-        Tutore userTutore = new Tutore(tutoreEmail, passwordEncoder.encode(new PasswordGenerator().generateRandomPassword()), Role.TUTORE);
-        userRepository.save(userTutore);
-
         return makeSign(tutoreRepository.save(tutore));
-    }
-    public void addTutore(Tutore tutore) {
-        makeSign(tutoreRepository.save(tutore));
     }
 
     public Tutore makeSign(Tutore tutore) {
@@ -47,7 +39,19 @@ public class TutoreService {
         }
 
         tutore.setSemnatura(baseDir);
+        tutore.setPassword(passwordEncoder.encode("tutore"+tutore.getId()));
 
         return tutoreRepository.save(tutore);
+    }
+
+    public void removeTutoreFromPortofolios(int id) {
+        List<Portofoliu> portofolii = portofoliuRepository.findAll();
+        for (Portofoliu portofoliu : portofolii) {
+            Tutore tutore = portofoliu.getTutore();
+            if (tutore != null && tutore.getId() == id) {
+                portofoliu.setTutore(null);
+                portofoliuRepository.save(portofoliu);
+            }
+        }
     }
 }
