@@ -20,7 +20,16 @@
 </header>
 
 <div class="container">
-	<div th:replace="~{nav :: breadcrumb (currentPage='Editează Portofoliu')}"></div>
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb bg-light p-3 rounded shadow-sm">
+			<li class="breadcrumb-item">
+				<a href="/" class="text-primary text-decoration-none">
+					Acasă
+				</a>
+			</li>
+			<li class="breadcrumb-item active" aria-current="page">Modificare portofoliu</li>
+		</ol>
+	</nav>
 
 	<h2>Actualizare Portofoliu</h2>
 	<hr>
@@ -30,7 +39,7 @@
 
 		<div class="mb-3">
 			<label for="loculDesfasurarii" class="form-label">Locul desfășurării</label>
-			<input type="text" class="form-control" id="loculDesfasurarii" name="orar" th:value="${portofoliu.loculDesfasurarii}">
+			<input type="text" class="form-control" id="loculDesfasurarii" name="loculDesfasurarii" th:value="${portofoliu.loculDesfasurarii}">
 		</div>
 
 		<div class="mb-3">
@@ -125,7 +134,7 @@
 			<label for="tutoreEmail" class="form-label">Email Tutore Practică</label>
 			<input type="email" class="form-control" id="tutoreEmail" name="tutoreEmail"
 				   placeholder="Introduceți adresa de email a tutorelui"
-				   th:value="${portofoliu.tutore.getEmail()}" required>
+				   th:value="${portofoliu.tutore != null ? portofoliu.tutore.email : ''}" required>
 			<div class="invalid-feedback">
 				Vă rugăm să introduceți o adresă de email validă pentru tutorele de practică.
 			</div>

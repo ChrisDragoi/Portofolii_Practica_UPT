@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ro.upt.ac.portofolii.admin.AdminService;
+import ro.upt.ac.portofolii.portofoliu.Portofoliu;
+import ro.upt.ac.portofolii.portofoliu.PortofoliuRepository;
 import ro.upt.ac.portofolii.security.UserRepository;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,7 +30,7 @@ public class TutoreController
 	@Autowired
 	private TutoreRepository tutoreRepository;
     @Autowired
-    private UserRepository userRepository;
+    private PortofoliuRepository portofoliuRepository;
 	@Autowired
 	private AdminService adminService;
     @Autowired
@@ -116,4 +119,25 @@ public class TutoreController
 		return "redirect:/tutore-read";
 	}
 
+	@PostMapping("/tutore/sign/portofoliu/{id}")
+	public String signTutore(@PathVariable int id, RedirectAttributes redirectAttributes) {
+		Portofoliu portofoliu = portofoliuRepository.findById(id);
+		if (portofoliu == null) {
+			redirectAttributes.addFlashAttribute("error", "Portofoliul nu a fost găsit.");
+			return "redirect:/portofoliu-read";
+		}
+
+		String signaturePath = portofoliu.getTutore().getSemnatura() + "/signature.png";
+		File signatureFile = new File(signaturePath);
+
+		if (!signatureFile.exists()) {
+			redirectAttributes.addFlashAttribute("signTutoreError", id);
+			return "redirect:/portofoliu-read";
+		}
+
+		portofoliu.setSemnaturaTutore(true);
+		portofoliuRepository.save(portofoliu);
+		redirectAttributes.addFlashAttribute("success", "Semnătura tutorelui a fost înregistrată.");
+		return "redirect:/portofoliu-read";
+	}
 }

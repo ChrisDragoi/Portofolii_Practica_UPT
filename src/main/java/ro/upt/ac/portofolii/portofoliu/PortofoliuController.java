@@ -12,17 +12,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ro.upt.ac.portofolii.cadruDidactic.CadruDidactic;
 import ro.upt.ac.portofolii.cadruDidactic.CadruDidacticRepository;
-import ro.upt.ac.portofolii.security.Role;
-import ro.upt.ac.portofolii.security.User;
-import ro.upt.ac.portofolii.security.UserRepository;
 import ro.upt.ac.portofolii.student.Student;
 import ro.upt.ac.portofolii.student.StudentRepository;
 import ro.upt.ac.portofolii.tutore.Tutore;
 import ro.upt.ac.portofolii.tutore.TutoreRepository;
 import ro.upt.ac.portofolii.tutore.TutoreService;
 import ro.upt.ac.portofolii.utils.PdfGenerator;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,19 +26,14 @@ public class PortofoliuController
 {
 	@Autowired
 	private PortofoliuRepository portofoliuRepository;
-
 	@Autowired
 	private CadruDidacticRepository cadruDidacticRepository;
-
     @Autowired
     private StudentRepository studentRepository;
-
     @Autowired
     private TutoreService tutoreService;
     @Autowired
     private TutoreRepository tutoreRepository;
-    @Autowired
-    private UserRepository userRepository;
 
 	@GetMapping("/")
 	public String root()
@@ -51,66 +41,62 @@ public class PortofoliuController
 		return "index";
 	}
 
-	@GetMapping("/portofoliu-create")
-	public String create(Portofoliu portofoliu, Model model)
+	@GetMapping("/portofoliu-create/{id}")
+	public String create(@PathVariable("id") int id, Portofoliu portofoliu, Model model)
 	{
 		model.addAttribute("portofoliu", portofoliu);
 		model.addAttribute("cadreDidactice", cadruDidacticRepository.findAll());
-		model.addAttribute("studenti", studentRepository.findAll());
+		model.addAttribute("student", studentRepository.findById(id));
 		return "portofoliu-create";
 	}
 
 	@PostMapping("/portofoliu-create-save")
-	public String createSave(@Validated Portofoliu portofoliu, @RequestParam("tutoreEmail") String tutoreEmail, BindingResult result, Model model) {
+	public String createSave(@RequestParam("studentId") int studentId,
+							 @Validated Portofoliu portofoliu,
+							 @RequestParam("tutoreEmail") String tutoreEmail,
+							 BindingResult result,
+							 Model model) {
 		if (result.hasErrors()) {
 			System.out.println("Validation errors: " + result.getAllErrors());
-			return "portofoliu-create";
-		}
-
-		if (portofoliu.getCadruDidactic() == null)
-		{
-			System.out.println("CadruDidactic ID is missing or null");
 			model.addAttribute("cadreDidactice", cadruDidacticRepository.findAll());
-			model.addAttribute("error", "Trebuie să selectați un cadru didactic.");
+			model.addAttribute("studenti", studentRepository.findAll());
 			return "portofoliu-create";
 		}
 
-		if (portofoliu.getStudent() == null)
-		{
-			System.out.println("CadruDidactic ID is missing or null");
+		if (portofoliu.getCadruDidactic() == null || portofoliu.getStudent() == null) {
+			model.addAttribute("cadreDidactice", cadruDidacticRepository.findAll());
 			model.addAttribute("studenti", studentRepository.findAll());
-			model.addAttribute("error", "Trebuie sa selectați un student.");
+			model.addAttribute("error", "Trebuie să selectați un cadru didactic și un student.");
 			return "portofoliu-create";
 		}
+
+		Student student = studentRepository.findById(studentId);
+		if (student == null) {
+			throw new RuntimeException("Student inexistent.");
+		}
+
+		portofoliu.setStudent(student);
 
 		CadruDidactic cadru = cadruDidacticRepository.findById(portofoliu.getCadruDidactic().getId());
-		if(cadru == null)
-		{
-			throw new RuntimeException("Cadru didactic ID not found");
+		if (cadru == null) {
+			throw new RuntimeException("Cadru didactic inexistent");
 		}
-		portofoliu.setCadruDidactic(cadru);
 
-		Student student = studentRepository.findById(portofoliu.getStudent().getId());
-		if(student == null)
-		{
-			throw new RuntimeException("Student ID not found");
-		}
+		portofoliu.setCadruDidactic(cadru);
 		portofoliu.setStudent(student);
 
 		Tutore t = tutoreRepository.findByEmail(tutoreEmail);
-		if(t == null){
-			Tutore tutore = tutoreService.create(tutoreEmail);
-			Tutore u = new Tutore(tutoreEmail, "tutore"+tutore.getId(), Role.TUTORE);
-			userRepository.save(u);
-			portofoliu.setTutore(tutore);
-		}else{
+		if (t == null) {
+			portofoliu.setTutore(tutoreService.create(tutoreEmail));
+		} else {
 			portofoliu.setTutore(t);
 		}
 
 		portofoliuRepository.save(portofoliu);
 
-		return "redirect:/portofoliu-read";
+		return "redirect:/student-portofoliu-read/" + student.getId();
 	}
+
 
 	@GetMapping("/portofoliu-read")
 	public String read(Model model)
@@ -151,22 +137,41 @@ public class PortofoliuController
 	}
 
 	@PostMapping("/portofoliu-update/{id}")
-	public String update(@PathVariable("id") int id, @Validated Portofoliu portofoliu, BindingResult result) {
+	public String update(@PathVariable("id") int id,
+						 @Validated Portofoliu portofoliu,
+						 @RequestParam("tutoreEmail") String tutoreEmail,
+						 BindingResult result,
+						 Model model) {
 		if (result.hasErrors()) {
 			portofoliu.setId(id);
 			return "portofoliu-update";
 		}
 
-        Portofoliu existingPortofoliu = portofoliuRepository.findById(id);
+		Portofoliu existingPortofoliu = portofoliuRepository.findById(id);
 
 		portofoliu.setStudent(existingPortofoliu.getStudent());
-		portofoliu.setTutore(existingPortofoliu.getTutore());
-		portofoliu.setCadruDidactic(existingPortofoliu.getCadruDidactic());
 
+		Tutore existingTutore = existingPortofoliu.getTutore();
+		if (existingTutore == null) {
+			portofoliu.setTutore(tutoreService.create(tutoreEmail));
+		} else {
+			portofoliu.setTutore(existingTutore);
+		}
+
+		CadruDidactic cadru = cadruDidacticRepository.findById(portofoliu.getCadruDidactic().getId());
+		if (cadru == null) {
+			model.addAttribute("error", "Cadru didactic nu a fost găsit.");
+			model.addAttribute("cadreDidactice", cadruDidacticRepository.findAll());
+			return "portofoliu-update";
+		}
+		portofoliu.setCadruDidactic(cadru);
+
+		portofoliu.setId(id);
 		portofoliuRepository.save(portofoliu);
 
 		return "redirect:/portofoliu-read";
 	}
+
 
 	@GetMapping("/portofoliu-delete/{id}")
 	public String delete(@PathVariable("id") int id, RedirectAttributes redirectAttributes)
@@ -214,80 +219,4 @@ public class PortofoliuController
 				.headers(headers)
 				.body(pdfBytes);
 	}
-
-	@PostMapping("/portofoliu/sign-student/{id}")
-	public String signStudent(@PathVariable int id, RedirectAttributes redirectAttributes) {
-		Portofoliu portofoliu = portofoliuRepository.findById(id);
-		if (portofoliu == null) {
-			redirectAttributes.addFlashAttribute("error", "Portofoliul nu a fost găsit.");
-			return "redirect:/portofoliu-read";
-		}
-
-		String signaturePath = portofoliu.getStudent().getSemnatura() + "/signature.png";
-		File signatureFile = new File(signaturePath);
-
-		if (!signatureFile.exists()) {
-			redirectAttributes.addFlashAttribute("signStudentError", id);
-			return "redirect:/portofoliu-read";
-		}
-
-		portofoliu.setSemnaturaStudent(true);
-		portofoliuRepository.save(portofoliu);
-		redirectAttributes.addFlashAttribute("success", "Semnătura studentului a fost înregistrată.");
-		return "redirect:/portofoliu-read";
-	}
-
-
-	@PostMapping("/portofoliu/sign-tutore/{id}")
-	public String signTutore(@PathVariable int id, RedirectAttributes redirectAttributes) {
-		Portofoliu portofoliu = portofoliuRepository.findById(id);
-		if (portofoliu == null) {
-			redirectAttributes.addFlashAttribute("error", "Portofoliul nu a fost găsit.");
-			return "redirect:/portofoliu-read";
-		}
-
-		String signaturePath = portofoliu.getTutore().getSemnatura() + "/signature.png";
-		File signatureFile = new File(signaturePath);
-
-		if (!signatureFile.exists()) {
-			redirectAttributes.addFlashAttribute("signTutoreError", id);
-			return "redirect:/portofoliu-read";
-		}
-
-		portofoliu.setSemnaturaTutore(true);
-		portofoliuRepository.save(portofoliu);
-		redirectAttributes.addFlashAttribute("success", "Semnătura tutorelui a fost înregistrată.");
-		return "redirect:/portofoliu-read";
-	}
-
-	@PostMapping("/portofoliu/sign-cadru/{id}")
-	public String signCadru(@PathVariable int id, @RequestParam(value = "studentId", required = false) Integer studentId,RedirectAttributes redirectAttributes) {
-		Portofoliu portofoliu = portofoliuRepository.findById(id);
-		if (portofoliu == null) {
-			redirectAttributes.addFlashAttribute("error", "Portofoliul nu a fost găsit.");
-			return redirectTo(studentId);
-		}
-
-		String signaturePath = portofoliu.getCadruDidactic().getSemnatura() + "/signature.png";
-		File signatureFile = new File(signaturePath);
-
-		if (!signatureFile.exists()) {
-			redirectAttributes.addFlashAttribute("signCadruError", id);
-			return redirectTo(studentId);
-		}
-
-		portofoliu.setSemnaturaCadruDidactic(true);
-		portofoliuRepository.save(portofoliu);
-		redirectAttributes.addFlashAttribute("success", "Semnătura cadrului didactic a fost înregistrată.");
-		return redirectTo(studentId);
-	}
-
-	private String redirectTo(Integer studentId) {
-		if (studentId != null) {
-			return "redirect:/student-portofoliu-read/" + studentId;
-		}
-		return "redirect:/portofoliu-read";
-	}
-
-
 }

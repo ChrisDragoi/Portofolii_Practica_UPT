@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ro.upt.ac.portofolii.admin.AdminService;
-import ro.upt.ac.portofolii.security.User;
-import ro.upt.ac.portofolii.security.UserRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import ro.upt.ac.portofolii.portofoliu.Portofoliu;
+import ro.upt.ac.portofolii.portofoliu.PortofoliuRepository;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 
@@ -21,7 +20,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Optional;
 
 @Controller
 public class StudentController
@@ -31,9 +29,9 @@ public class StudentController
 	@Autowired
 	private AdminService adminService;
 	@Autowired
-	private PasswordEncoder passwordEncoder;
-    @Autowired
     private StudentService studentService;
+	@Autowired
+	private PortofoliuRepository portofoliuRepository;
 
     @GetMapping("/student-create")
 	public String create(Model model)
@@ -84,14 +82,9 @@ public class StudentController
 			student.setId(id);
 			return "student-update";
 		}
-		Student existingTutore = studentRepository.findById(id);
-
-		if (student.getSemnatura() == null) {
-			student.setSemnatura(existingTutore.getSemnatura());
-		}
 
 		studentRepository.save(student);
-		return "redirect:/student-read";
+		return "redirect:/student/"+id+"/index";
 	}
 
 	@GetMapping("/student-delete/{id}")
@@ -115,7 +108,7 @@ public class StudentController
 			if (!Files.exists(studentDir)) {
 				System.out.println("Eroare la incarcarea semnaturii");
 				redirectAttributes.addFlashAttribute("error", "Folderul studentului nu există!");
-				return "redirect:/student-read";
+				return "redirect:/student/"+id+"/index";
 			}
 
 			Path filePath = studentDir.resolve("signature.png");
@@ -127,7 +120,45 @@ public class StudentController
 			redirectAttributes.addFlashAttribute("error", "Eroare la salvarea semnăturii!");
 		}
 
-		return "redirect:/student-read";
+		return "redirect:/student/"+id+"/index";
 	}
 
+	@PostMapping("/student/{sid}/sign/portofoliu/{pid}")
+	public String signStudent(@PathVariable int sid, @PathVariable int pid, RedirectAttributes redirectAttributes) {
+		Portofoliu portofoliu = portofoliuRepository.findById(pid);
+		if (portofoliu == null) {
+			redirectAttributes.addFlashAttribute("error", "Portofoliul nu a fost găsit.");
+			return "redirect:/portofoliu-read";
+		}
+
+		String signaturePath = portofoliu.getStudent().getSemnatura() + "/signature.png";
+		File signatureFile = new File(signaturePath);
+
+		if (!signatureFile.exists()) {
+			redirectAttributes.addFlashAttribute("signStudentError", pid);
+			return "redirect:/student-portofoliu-read/" + sid;
+		}
+
+		portofoliu.setSemnaturaStudent(true);
+		portofoliuRepository.save(portofoliu);
+		redirectAttributes.addFlashAttribute("success", "Semnătura studentului a fost înregistrată.");
+		return "redirect:/student-portofoliu-read/" + sid;
+	}
+
+	@GetMapping("student/{sid}/portofoliu-view/{pid}")
+	public String viewPortofoliu(@PathVariable("sid") int sid, @PathVariable("pid") int pid, Model model) {
+		Portofoliu portofoliu = portofoliuRepository.findById(pid);
+
+		if (portofoliu == null) {
+			model.addAttribute("errorMessage", "Portofoliul nu a fost găsit.");
+			return "redirect:/student-portofoliu-read/" + sid;
+		}
+
+		Student student = portofoliu.getStudent();
+
+		model.addAttribute("portofoliuId", pid);
+		model.addAttribute("student", student);
+
+		return "student-vizualizare-portofoliu";
+	}
 }

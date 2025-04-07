@@ -18,8 +18,16 @@
 </header>
 
 <div class="container mt-4">
-	<div th:replace="~{nav :: breadcrumb (currentPage='Adaugă Cadru Didactic')}"></div>
-
+	<nav aria-label="breadcrumb">
+	<ol class="breadcrumb bg-light p-3 rounded shadow-sm">
+		<li class="breadcrumb-item">
+			<a href="/" class="text-primary text-decoration-none">
+				Acasă
+			</a>
+		</li>
+		<li class="breadcrumb-item active" aria-current="page">Creare cadru didactic</li>
+	</ol>
+	</nav>
 	<h2 class="mb-4">Adaugă un Cadru Didactic</h2>
 
 	<div class="card shadow-sm p-4 border-0 rounded-3">

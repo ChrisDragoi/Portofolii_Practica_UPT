@@ -20,11 +20,10 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-light p-3 rounded shadow-sm">
             <li class="breadcrumb-item">
-                <a href="/" class="text-primary text-decoration-none">
-                    Acasă
-                </a>
+                <a th:href="@{'/student/' + ${student.id} + '/index'}" class="text-primary text-decoration-none">Acasă</a>
+
             </li>
-            <li class="breadcrumb-item active" aria-current="page">Vizualizare portofoliu</li>
+            <li class="breadcrumb-item active" aria-current="page">Portofoliile studentului</li>
         </ol>
     </nav>
 

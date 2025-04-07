@@ -17,7 +17,15 @@
 </header>
 
 <div class="container mt-4">
-    <div th:replace="~{nav :: breadcrumb (currentPage='Portofoliile Studentului')}"></div>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-light p-3 rounded shadow-sm">
+            <li class="breadcrumb-item">
+                <a th:href="@{'/student/' + ${student.id} + '/index'}" class="text-primary text-decoration-none">Acasă</a>
+
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Portofoliile studentului</li>
+        </ol>
+    </nav>
 
     <h2 class="mb-4 text-center">Portofoliile lui <span th:text="${student.nume + ' ' + student.prenume}"></span></h2>
     <div class="card shadow-sm p-4 border-0 rounded-3">
@@ -37,21 +45,21 @@
                         <th>Profesor Coordonator</th>
                         <th>Locul Desfășurării</th>
                         <th>Durata Practicii</th>
-                        <th>Data Început</th>
-                        <th>Data Sfârșit</th>
-                        <th>Data Semnării</th>
+<!--                        <th>Data Început</th>-->
+<!--                        <th>Data Sfârșit</th>-->
+<!--                        <th>Data Semnării</th>-->
                         <th>Orar</th>
-                        <th>Locații Extra</th>
-                        <th>Competențe Necesare</th>
-                        <th>Complementare Învățământ-Practică</th>
+<!--                        <th>Locații Extra</th>-->
+<!--                        <th>Competențe Necesare</th>-->
+<!--                        <th>Complementare Învățământ-Practică</th>-->
                         <th>Tematică și Sarcini</th>
-                        <th>Competențe Dobândite</th>
+<!--                        <th>Competențe Dobândite</th>-->
                         <th>Mod de Pregătire</th>
                         <th>Activități Planificate</th>
-                        <th>Observații</th>
+<!--                        <th>Observații</th>-->
                         <th>Semnătura Student</th>
-                        <th>Semnătura Tutore</th>
-                        <th>Semnătura Cadru Didactic</th>
+<!--                        <th>Semnătura Tutore</th>-->
+<!--                        <th>Semnătura Cadru Didactic</th>-->
                     </tr>
                     </thead>
                     <tbody>
@@ -59,7 +67,11 @@
                         <td th:text="${portofoliu.id}"></td>
                         <td>
                             <a class="btn btn-outline-primary btn-sm" th:href="@{/portofoliu-edit/{id}(id=${portofoliu.id})}">Editare</a>
-                            <a class="btn btn-outline-warning btn-sm" th:href="@{/portofoliu-view/{id}(id=${portofoliu.id})}">Vizualizare</a>
+                            <a class="btn btn-outline-warning btn-sm"
+                               th:href="@{'/student/' + ${student.id} + '/portofoliu-view/' + ${portofoliu.id}}">
+                                Vizualizare
+                            </a>
+
                             <a class="btn btn-outline-danger btn-sm" th:href="@{/portofoliu-delete/{id}(id=${portofoliu.id})}" onclick="return confirm('Ești sigur că vrei să ștergi acest portofoliu?');">Ștergere</a>
                         </td>
                         <td th:text="${portofoliu.student.nume + ' ' + portofoliu.student.prenume}"></td>
@@ -73,26 +85,25 @@
                         </td>
                         <td th:text="${portofoliu.loculDesfasurarii}"></td>
                         <td th:text="${portofoliu.durataPracticii}"></td>
-                        <td th:text="${portofoliu.dataInceput}"></td>
-                        <td th:text="${portofoliu.dataSfarsit}"></td>
-                        <td th:text="${portofoliu.dataSemnarii}"></td>
+<!--                        <td th:text="${portofoliu.dataInceput}"></td>-->
+<!--                        <td th:text="${portofoliu.dataSfarsit}"></td>-->
+<!--                        <td th:text="${portofoliu.dataSemnarii}"></td>-->
                         <td th:text="${portofoliu.orar}"></td>
-                        <td th:text="${portofoliu.locatiiExtra}"></td>
-                        <td th:text="${portofoliu.competenteNecesare}"></td>
-                        <td th:text="${portofoliu.complementareInvatamantPractica}"></td>
+<!--                        <td th:text="${portofoliu.locatiiExtra}"></td>-->
+<!--                        <td th:text="${portofoliu.competenteNecesare}"></td>-->
+<!--                        <td th:text="${portofoliu.complementareInvatamantPractica}"></td>-->
                         <td th:text="${portofoliu.tematicaSiSarcini}"></td>
-                        <td th:text="${portofoliu.competenteDobandite}"></td>
+<!--                        <td th:text="${portofoliu.competenteDobandite}"></td>-->
                         <td th:text="${portofoliu.modDePregatire}"></td>
                         <td th:text="${portofoliu.activitatiPlanificate}"></td>
-                        <td th:text="${portofoliu.observatii}"></td>
-                        <!--						<td th:text="${portofoliu.semnaturaStudent ? '✔' : '✘'}"></td>-->
+<!--                        <td th:text="${portofoliu.observatii}"></td>-->
                         <td>
                             <p th:if="${signStudentError == portofoliu.id}" class="text-danger">
                                 Semnătura studentului nu a fost încărcată!
                             </p>
 
                             <form th:if="${!portofoliu.semnaturaStudent}"
-                                  th:action="@{/portofoliu/sign-student/{id}(id=${portofoliu.id})}"
+                                  th:action="@{/student/{sid}/sign/portofoliu/{pid}(sid=${student.id}, pid=${portofoliu.id})}"
                                   method="post">
                                 <button type="submit" class="btn btn-outline-success btn-sm">
                                     Semnează
@@ -102,48 +113,14 @@
                             <span th:if="${portofoliu.semnaturaStudent}">✔</span>
 
                         </td>
-                        <!--						<td th:text="${portofoliu.semnaturaTutore ? '✔' : '✘'}"></td>-->
-                        <td>
-                            <p th:if="${signTutoreError == portofoliu.id}" class="text-danger">
-                                Semnătura tutorelui nu a fost încărcată!
-                            </p>
-
-                            <form th:if="${!portofoliu.semnaturaTutore}"
-                                  th:action="@{/portofoliu/sign-tutore/{id}(id=${portofoliu.id})}"
-                                  method="post">
-                                <button type="submit" class="btn btn-outline-success btn-sm">
-                                    Semnează
-                                </button>
-                            </form>
-
-                            <span th:if="${portofoliu.semnaturaTutore}">✔</span>
-
-                        </td>
-                        <!--						<td th:text="${portofoliu.semnaturaCadruDidactic ? '✔' : '✘'}"></td>-->
-                        <td>
-                            <p th:if="${signCadruError == portofoliu.id}" class="text-danger">
-                                Semnătura cadrului didactic nu a fost încărcată!
-                            </p>
-
-                            <form th:if="${!portofoliu.semnaturaCadruDidactic}"
-                                  th:action="|@{/portofoliu/sign-cadru/{id}(id=${portofoliu.id})}?studentId=${student.id}|"
-                                  method="post">
-                                <button type="submit" class="btn btn-outline-success btn-sm">
-                                    Semnează
-                                </button>
-                            </form>
-
-                            <span th:if="${portofoliu.semnaturaCadruDidactic}">✔</span>
-
-                        </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-<!--        <div class="mb-4">-->
-<!--            <a class="btn btn-success" href="/portofoliu-create">Adaugă un portofoliu nou</a>-->
-<!--        </div>-->
+        <div class="mb-4">
+            <a class="btn btn-success" href="/portofoliu-create">Adaugă un portofoliu nou</a>
+        </div>
     </div>
 </div>
 

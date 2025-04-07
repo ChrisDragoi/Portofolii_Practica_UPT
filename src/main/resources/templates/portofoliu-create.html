@@ -19,7 +19,16 @@
 </header>
 
 <div class="container">
-	<div th:replace="~{nav :: breadcrumb (currentPage='Adaugă Portofoliu')}"></div>
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb bg-light p-3 rounded shadow-sm">
+			<li class="breadcrumb-item">
+				<a href="/" class="text-primary text-decoration-none">
+					Acasă
+				</a>
+			</li>
+			<li class="breadcrumb-item active" aria-current="page">Creare portofoliu</li>
+		</ol>
+	</nav>
 
 	<h2>Creare Portofoliu</h2>
 	<hr>
@@ -122,24 +131,17 @@
 			</div>
 		</div>
 
-		<div class="mb-3">
-			<label for="student" class="form-label">Student</label>
-			<select class="form-select" id="student" name="student" required>
-				<option value="" selected disabled>Alegeți studentul</option>
-				<option th:each="student : ${studenti}" th:value="${student.id}" th:text="${student.nume} + ' ' + ${student.prenume}"></option>
-			</select>
-			<div class="invalid-feedback">
-				Vă rugăm să alegeți un student.
-			</div>
-		</div>
-
 <!--		<div class="mb-3">-->
-<!--			<label for="dataSemnare" class="form-label">Data semnării</label>-->
-<!--			<input type="date" class="form-control" id="dataSemnare" name="dataSemnare" required>-->
+<!--			<label for="student" class="form-label">Student</label>-->
+<!--			<select class="form-select" id="student" name="student" required>-->
+<!--				<option value="" selected disabled>Alegeți studentul</option>-->
+<!--				<option th:each="student : ${studenti}" th:value="${student.id}" th:text="${student.nume} + ' ' + ${student.prenume}"></option>-->
+<!--			</select>-->
 <!--			<div class="invalid-feedback">-->
-<!--				Vă rugăm să selectați data semnării.-->
+<!--				Vă rugăm să alegeți un student.-->
 <!--			</div>-->
 <!--		</div>-->
+		<input type="hidden" name="studentId" th:value="${student.id}">
 
 		<button type="submit" class="btn btn-primary">Salvează Portofoliul</button>
 	</form>

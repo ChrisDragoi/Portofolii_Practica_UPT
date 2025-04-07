@@ -13,13 +13,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ro.upt.ac.portofolii.admin.AdminService;
+import ro.upt.ac.portofolii.portofoliu.Portofoliu;
+import ro.upt.ac.portofolii.portofoliu.PortofoliuRepository;
 import ro.upt.ac.portofolii.security.Role;
 import ro.upt.ac.portofolii.security.User;
 import ro.upt.ac.portofolii.security.UserRepository;
+
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Controller
@@ -28,13 +34,11 @@ public class CadruDidacticController
 	@Autowired
 	private CadruDidacticRepository cadruDidacticRepository;
 	@Autowired
-	private UserRepository userRepository;
-	@Autowired
 	private AdminService adminService;
 	@Autowired
 	private CadruDidacticService cadruDidacticService;
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private PortofoliuRepository portofoliuRepository;
 
     @GetMapping("/cadruDidactic-create")
 	public String create( Model model)
@@ -122,5 +126,35 @@ public class CadruDidacticController
 		}
 
 		return "redirect:/cadruDidactic-read";
+	}
+
+	@PostMapping("cadruDidactic/sign/portofoliu/{id}")
+	public String signCadru(@PathVariable int id, @RequestParam(value = "studentId", required = false) Integer studentId, RedirectAttributes redirectAttributes) {
+		Portofoliu portofoliu = portofoliuRepository.findById(id);
+		if (portofoliu == null) {
+			redirectAttributes.addFlashAttribute("error", "Portofoliul nu a fost găsit.");
+			return redirectTo(studentId);
+		}
+
+		String signaturePath = portofoliu.getCadruDidactic().getSemnatura() + "/signature.png";
+		File signatureFile = new File(signaturePath);
+
+		if (!signatureFile.exists()) {
+			redirectAttributes.addFlashAttribute("signCadruError", id);
+			return redirectTo(studentId);
+		}
+		portofoliu.setDataSemnarii(Date.valueOf(LocalDate.now()));
+		portofoliu.setSemnaturaCadruDidactic(true);
+
+		portofoliuRepository.save(portofoliu);
+		redirectAttributes.addFlashAttribute("success", "Semnătura cadrului didactic a fost înregistrată.");
+		return redirectTo(studentId);
+	}
+
+	private String redirectTo(Integer studentId) {
+		if (studentId != null) {
+			return "redirect:/student-portofoliu-read/" + studentId;
+		}
+		return "redirect:/portofoliu-read";
 	}
 }

@@ -93,7 +93,7 @@
 							</p>
 
 							<form th:if="${!portofoliu.semnaturaStudent}"
-								  th:action="@{/portofoliu/sign-student/{id}(id=${portofoliu.id})}"
+								  th:action="@{/student/sign/portofoliu/{id}(id=${portofoliu.id})}"
 								  method="post">
 								<button type="submit" class="btn btn-outline-success btn-sm">
 									Semnează
@@ -110,7 +110,7 @@
 							</p>
 
 							<form th:if="${!portofoliu.semnaturaTutore}"
-								  th:action="@{/portofoliu/sign-tutore/{id}(id=${portofoliu.id})}"
+								  th:action="@{/tutore/sign/portofoliu/{id}(id=${portofoliu.id})}"
 								  method="post">
 								<button type="submit" class="btn btn-outline-success btn-sm">
 									Semnează
@@ -127,7 +127,7 @@
 							</p>
 
 							<form th:if="${!portofoliu.semnaturaCadruDidactic}"
-								  th:action="@{/portofoliu/sign-cadru/{id}(id=${portofoliu.id})}"
+								  th:action="@{/cadruDidactic/sign/portofoliu/{id}(id=${portofoliu.id})}"
 								  method="post">
 								<button type="submit" class="btn btn-outline-success btn-sm">
 									Semnează

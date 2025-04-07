@@ -16,7 +16,16 @@
 </header>
 
 <div class="container mt-4">
-	<div th:replace="~{nav :: breadcrumb (currentPage='Editează Student')}"></div>
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb bg-light p-3 rounded shadow-sm">
+			<li class="breadcrumb-item">
+				<a href="/" class="text-primary text-decoration-none">
+					Acasă
+				</a>
+			</li>
+			<li class="breadcrumb-item active" aria-current="page">Modificare student</li>
+		</ol>
+	</nav>
 
 	<div class="card shadow-sm p-4 border-0 rounded-3">
 		<h2 class="mb-4">Editare Student</h2>
@@ -108,10 +117,16 @@
 			<form th:action="@{'/student/' + ${student.id} + '/upload-signature'}" method="post" enctype="multipart/form-data">
 				<label for="signature">Încarcă semnătura:</label>
 				<input type="file" name="signature" id="signature" accept="image/*" required>
-
-				<button type="submit">Încarcă semnătura</button>
+				<button type="submit" class="btn btn-outline-primary mt-2">Încarcă semnătura</button>
 			</form>
+
+			<div th:if="${student.semnatura != null}">
+				<label class="form-label">Semnătura curentă:</label>
+				<img th:src="@{'/' + ${student.semnatura} + '/signature.png'}"
+					 alt="Semnătura studentului" class="img-fluid" style="max-height: 100px;">
+			</div>
 		</div>
+
 		<a th:href="@{'/user/change-password/student/' + ${student.id}}" class="button">Change Password</a>
 	</div>
 </div>

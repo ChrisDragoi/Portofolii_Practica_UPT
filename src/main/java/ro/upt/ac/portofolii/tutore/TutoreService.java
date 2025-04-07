@@ -4,6 +4,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ro.upt.ac.portofolii.portofoliu.Portofoliu;
 import ro.upt.ac.portofolii.portofoliu.PortofoliuRepository;
+import ro.upt.ac.portofolii.security.Role;
+
 import java.io.File;
 import java.util.List;
 
@@ -22,6 +24,8 @@ public class TutoreService {
     public Tutore create(String tutoreEmail) {
         Tutore tutore = new Tutore();
         tutore.setEmail(tutoreEmail);
+        tutore.setPassword(passwordEncoder.encode("tutore"+tutore.getId()));
+        tutore.setRole(Role.TUTORE);
         return makeSign(tutoreRepository.save(tutore));
     }
 
@@ -37,9 +41,7 @@ public class TutoreService {
                 System.out.println("Eroare la crearea directorului 'tutori/tutore" + tutore.getId() + "'.");
             }
         }
-
         tutore.setSemnatura(baseDir);
-        tutore.setPassword(passwordEncoder.encode("tutore"+tutore.getId()));
 
         return tutoreRepository.save(tutore);
     }
