@@ -13,7 +13,7 @@
 <header class="py-3">
 	<div class="container d-flex justify-content-between align-items-center">
 		<h1 class="h3">Portofolii Practică UPT</h1>
-		<a href="/logout" class="text-white text-decoration-none">Logout</a>
+		<a href="/logout" class="logout-link">Logout</a>
 	</div>
 </header>
 
@@ -31,6 +31,7 @@
 
 	<h2 class="mb-4">Editează Cadru Didactic</h2>
 
+	<a th:href="@{'/user/change-password/cadruDidactic/' + ${cadruDidactic.id}}" class="button">Change Password</a>
 	<div class="card shadow-sm p-4 border-0 rounded-3">
 		<div class="card-body">
 			<form action="#" th:action="@{/cadruDidactic-update/{id}(id=${cadruDidactic.id})}" th:object="${cadruDidactic}" method="post">
@@ -82,7 +83,6 @@
 					<button type="submit" class="btn btn-primary">Salvează Modificările</button>
 					<a href="/cadruDidactic-read" class="btn btn-secondary">Anulează</a>
 				</div>
-				<a th:href="@{'/user/change-password/cadruDidactic/' + ${cadruDidactic.id}}" class="button">Change Password</a>
 			</form>
 			<div class="container mt-4">
 				<form th:action="@{'/cadruDidactic/' + ${cadruDidactic.id} + '/upload-signature'}" method="post" enctype="multipart/form-data">

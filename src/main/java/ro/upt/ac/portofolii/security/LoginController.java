@@ -134,22 +134,6 @@ public class LoginController {
         return "student-index";
     }
 
-    @GetMapping("/tutore/{id}/index")
-    @PreAuthorize("hasRole('TUTORE')")
-    public String tutoreIndex(@PathVariable int id, Authentication auth, Model model) {
-        String username = auth.getName();
-        User user = userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
-
-        if (user.getId() != id) {
-            return "redirect:/access-denied";
-        }
-
-        Tutore tutore = tutoreRepository.findById(id);
-        model.addAttribute("tutore", tutore);
-        return "tutore-index";
-    }
-
     @GetMapping("/cadru/{id}/index")
     @PreAuthorize("hasRole('CADRU_DIDACTIC')")
     public String cadruDidacticIndex(@PathVariable int id, Authentication auth, Model model) {
@@ -161,8 +145,34 @@ public class LoginController {
             return "redirect:/access-denied";
         }
 
-        CadruDidactic tutore = cadruDidacticRepository.findById(id);
-        model.addAttribute("cadru", tutore);
+        CadruDidactic cadru = cadruDidacticRepository.findById(id);
+        model.addAttribute("cadru", cadru);
         return "cadruDidactic-index";
+    }
+
+    @GetMapping("/tutore/{id}/index")
+    @PreAuthorize("hasRole('TUTORE')")
+    public String tutoreIndex(@PathVariable int id, Authentication auth, Model model) {
+        String username = auth.getName();
+        User user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+        System.out.println(user.getId() + "====" + id);
+        if (user.getId() != id) {
+            return "redirect:/access-denied";
+        }
+
+        Tutore tutore = tutoreRepository.findById(id);
+        if(tutore.getNume() == null && tutore.getPrenume() == null)
+            return "redirect:/tutore-edit/" + tutore.getId();
+        else {
+            model.addAttribute("tutore", tutore);
+            return "tutore-index";
+        }
+    }
+
+    @GetMapping("/access-denied")
+    public String accessDenied(@RequestParam(value = "error", required = false) String error, Model model) {
+        model.addAttribute("error", error);
+        return "access-denied";
     }
 }

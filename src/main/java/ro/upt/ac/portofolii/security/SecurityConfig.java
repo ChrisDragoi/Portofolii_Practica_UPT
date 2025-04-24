@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/portofoliu/sign-cadru/**").hasRole("ADMIN")
                         .requestMatchers("/portofoliu/sign-student/**").hasRole("STUDENT")
-                        .requestMatchers("/portofoliu/sign-tutore/**").hasRole("TUTOR")
+                        .requestMatchers("/portofoliu/sign-tutore/**").hasRole("TUTORE")
                         .requestMatchers("/portofoliu/sign-cadru/").hasRole("CADRU_DIDACTIC")
                         .anyRequest().authenticated()
                 )

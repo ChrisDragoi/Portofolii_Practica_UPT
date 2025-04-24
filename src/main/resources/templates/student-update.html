@@ -11,7 +11,7 @@
 <header class="py-3">
 	<div class="container d-flex justify-content-between align-items-center">
 		<h1 class="h3">Portofolii Practică UPT</h1>
-		<a href="/logout" class="text-white text-decoration-none">Logout</a>
+		<a href="/logout" class="logout-link">Logout</a>
 	</div>
 </header>
 
@@ -29,6 +29,8 @@
 
 	<div class="card shadow-sm p-4 border-0 rounded-3">
 		<h2 class="mb-4">Editare Student</h2>
+
+		<a th:href="@{'/user/change-password/student/' + ${student.id}}" class="button">Change Password</a>
 		<form th:action="@{'/student-update/' + ${student.id}}" th:object="${student}" method="post" class="needs-validation" novalidate>
 		<input type="hidden" th:field="*{id}" />
 
@@ -127,7 +129,6 @@
 			</div>
 		</div>
 
-		<a th:href="@{'/user/change-password/student/' + ${student.id}}" class="button">Change Password</a>
 	</div>
 </div>
 

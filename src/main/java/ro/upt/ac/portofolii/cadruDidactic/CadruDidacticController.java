@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ro.upt.ac.portofolii.admin.AdminService;
 import ro.upt.ac.portofolii.portofoliu.Portofoliu;
 import ro.upt.ac.portofolii.portofoliu.PortofoliuRepository;
+import ro.upt.ac.portofolii.student.Student;
 
 
 import java.io.File;
@@ -162,6 +163,23 @@ public class CadruDidacticController
 			return "redirect:/cadru-portofoliu-read/" + cid;
 		}
 		return "redirect:/portofoliu-read";
+	}
+
+	@GetMapping("cadru/{cid}/portofoliu-view/{pid}")
+	public String viewPortofoliu(@PathVariable("cid") int cid, @PathVariable("pid") int pid, Model model) {
+		Portofoliu portofoliu = portofoliuRepository.findById(pid);
+
+		if (portofoliu == null) {
+			model.addAttribute("errorMessage", "Portofoliul nu a fost găsit.");
+			return "redirect:/cadru-portofoliu-read/" + cid;
+		}
+
+		CadruDidactic prof = portofoliu.getCadruDidactic();
+
+		model.addAttribute("portofoliuId", pid);
+		model.addAttribute("cadru", prof);
+
+		return "cadru-vizualizare-portofoliu";
 	}
 
 }

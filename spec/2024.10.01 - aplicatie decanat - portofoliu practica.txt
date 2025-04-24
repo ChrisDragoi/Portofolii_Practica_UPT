@@ -1,7 +1,7 @@
 
 - se cere sa se scrie o aplicatie web utilizand tehnologiile
  - Java
- - Apache POI (pentru creare de fisiere DOCX)
+ - Apache -PDF
  - MySQL
  - SpringBoot
  - Thymeleaf

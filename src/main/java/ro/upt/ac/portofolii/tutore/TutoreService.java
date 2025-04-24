@@ -24,8 +24,8 @@ public class TutoreService {
     public Tutore create(String tutoreEmail) {
         Tutore tutore = new Tutore();
         tutore.setEmail(tutoreEmail);
-        tutore.setPassword(passwordEncoder.encode("tutore"+tutore.getId()));
         tutore.setRole(Role.TUTORE);
+        tutore.setPassword(passwordEncoder.encode("tutoreTEMP"));
         return makeSign(tutoreRepository.save(tutore));
     }
 
@@ -42,8 +42,9 @@ public class TutoreService {
             }
         }
         tutore.setSemnatura(baseDir);
-
-        return tutoreRepository.save(tutore);
+        tutore.setPassword(passwordEncoder.encode("tutore" + tutore.getId()));
+        Tutore t = tutoreRepository.save(tutore);
+        return t;
     }
 
     public void removeTutoreFromPortofolios(int id) {

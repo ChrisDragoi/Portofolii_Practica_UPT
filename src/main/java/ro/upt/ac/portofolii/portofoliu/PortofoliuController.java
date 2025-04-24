@@ -128,7 +128,7 @@ public class PortofoliuController
 		}
 		model.addAttribute("student", student);
 		model.addAttribute("portofolii", portfolioStudents);
-		return "student-portofolii-read";
+		return "student-portofoliu-read";
 	}
 
 	@GetMapping("/cadru-portofoliu-read/{id}")
@@ -151,12 +151,32 @@ public class PortofoliuController
 		return "cadru-portofoliu-read";
 	}
 
+	@GetMapping("/tutore-portofoliu-read/{id}")
+	public String readPortofoliuTutore(@PathVariable("id") int id, Model model)
+	{
+		Tutore tutore = tutoreRepository.findById(id);
+		if(tutore == null)
+		{
+			throw new RuntimeException("Student ID not found");
+		}
+		List<Portofoliu> portfolios = portofoliuRepository.findAll();
+		List<Portofoliu> portofolioTutore = new ArrayList<>();
+		for(Portofoliu p : portfolios){
+			if(p.getTutore().getId() == tutore.getId()){
+				portofolioTutore.add(p);
+			}
+		}
+		model.addAttribute("tutore", tutore);
+		model.addAttribute("portofolii", portofolioTutore);
+		return "tutore-portofoliu-read";
+	}
+
 	@GetMapping("/portofoliu-edit/{id}")
 	public String edit(@PathVariable("id") int id, Model model)
 	{
 	    Portofoliu portofoliu = portofoliuRepository.findById(id);
 	    model.addAttribute("portofoliu", portofoliu);
-
+		model.addAttribute("student", portofoliu.getStudent());
 		model.addAttribute("cadreDidactice", cadruDidacticRepository.findAll());
 
 	    return "portofoliu-update";
@@ -164,6 +184,7 @@ public class PortofoliuController
 
 	@PostMapping("/portofoliu-update/{id}")
 	public String update(@PathVariable("id") int id,
+						 @RequestParam("studentId") int studentId,
 						 @Validated Portofoliu portofoliu,
 						 @RequestParam("tutoreEmail") String tutoreEmail,
 						 BindingResult result,
@@ -174,9 +195,7 @@ public class PortofoliuController
 		}
 
 		Portofoliu existingPortofoliu = portofoliuRepository.findById(id);
-
 		portofoliu.setStudent(existingPortofoliu.getStudent());
-
 		Tutore existingTutore = existingPortofoliu.getTutore();
 		if (existingTutore == null) {
 			portofoliu.setTutore(tutoreService.create(tutoreEmail));
@@ -195,7 +214,7 @@ public class PortofoliuController
 		portofoliu.setId(id);
 		portofoliuRepository.save(portofoliu);
 
-		return "redirect:/portofoliu-read";
+		return "redirect:/student-portofoliu-read/" + studentId;
 	}
 
 

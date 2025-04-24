@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ro.upt.ac.portofolii.admin.AdminService;
+import ro.upt.ac.portofolii.cadruDidactic.CadruDidactic;
 import ro.upt.ac.portofolii.portofoliu.Portofoliu;
 import ro.upt.ac.portofolii.portofoliu.PortofoliuRepository;
 import ro.upt.ac.portofolii.security.UserRepository;
@@ -90,7 +91,7 @@ public class TutoreController
 		tutore.setRole(existingStudent.getRole());
 		
 	    tutoreRepository.save(tutore);
-	    return "redirect:/tutore-read";
+	    return "redirect:/tutore/" + tutore.getId() + "/index";
 	}
 
 	@GetMapping("/tutore-delete/{id}")
@@ -147,5 +148,22 @@ public class TutoreController
 		portofoliuRepository.save(portofoliu);
 		redirectAttributes.addFlashAttribute("success", "Semnătura tutorelui a fost înregistrată.");
 		return "redirect:/portofoliu-read";
+	}
+
+	@GetMapping("tutore/{tid}/portofoliu-view/{pid}")
+	public String viewPortofoliu(@PathVariable("tid") int tid, @PathVariable("pid") int pid, Model model) {
+		Portofoliu portofoliu = portofoliuRepository.findById(pid);
+
+		if (portofoliu == null) {
+			model.addAttribute("errorMessage", "Portofoliul nu a fost găsit.");
+			return "redirect:/cadru-portofoliu-read/" + tid;
+		}
+
+		Tutore tutore = portofoliu.getTutore();
+
+		model.addAttribute("portofoliuId", pid);
+		model.addAttribute("tutore", tutore);
+
+		return "tutore-vizualizare-portofoliu";
 	}
 }
