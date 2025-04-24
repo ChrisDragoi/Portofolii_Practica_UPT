@@ -33,12 +33,20 @@ public class DataInitializer {
     public CommandLineRunner initUsers() {
         return args -> {
             if (userRepository.count() == 0) {
-                User admin = Admin.builder().email("prodecan@upt.ro").password(passwordEncoder.encode("admin123")).role(Role.ADMIN).build();
+                User admin = Admin.adminBuilder()
+                        .email("prodecan@upt.ro")
+                        .password(passwordEncoder.encode("admin123"))
+                        .nume("Chirila")
+                        .prenume("Ciprian")
+                        .functie("Prodecan")
+                        .specializare("cti-ro")
+                        .telefon("0700123456")
+                        .build();
                 userRepository.save(admin);
 
                 CadruDidactic professor1 = CadruDidactic.builder()
                         .email("doru.todinca@upt.ro")
-                        .password(passwordEncoder.encode("profesor1"))
+                        //.password(passwordEncoder.encode("profesor2"))
                         .role(Role.CADRU_DIDACTIC)
                         .nume("Todinca")
                         .prenume("Doru")
@@ -50,7 +58,7 @@ public class DataInitializer {
 
                 CadruDidactic professor2 = CadruDidactic.builder()
                         .email("cosmin.cernazanu@upt.ro")
-                        .password(passwordEncoder.encode("profesor2"))
+                        //.password(passwordEncoder.encode("profesor3"))
                         .role(Role.CADRU_DIDACTIC)
                         .nume("Cernazanu")
                         .prenume("Cosmin")
@@ -62,7 +70,7 @@ public class DataInitializer {
 
                 CadruDidactic professor3 = CadruDidactic.builder()
                         .email("sorin.nanu@upt.ro")
-                        .password(passwordEncoder.encode("profesor3"))
+                        //.password(passwordEncoder.encode("profesor4"))
                         .role(Role.CADRU_DIDACTIC)
                         .nume("Nanu")
                         .prenume("Sorin")
@@ -74,7 +82,7 @@ public class DataInitializer {
 
                 CadruDidactic professor4 = CadruDidactic.builder()
                         .email("iosif.szeidert@upt.ro")
-                        .password(passwordEncoder.encode("profesor4"))
+                        //.password(passwordEncoder.encode("profesor5"))
                         .role(Role.CADRU_DIDACTIC)
                         .nume("Szeidert")
                         .prenume("Iosif")
@@ -86,7 +94,7 @@ public class DataInitializer {
 
                 CadruDidactic professor5 = CadruDidactic.builder()
                         .email("mihaela.crisan-vida@upt.ro")
-                        .password(passwordEncoder.encode("profesor5"))
+                        //.password(passwordEncoder.encode("profesor6"))
                         .role(Role.CADRU_DIDACTIC)
                         .nume("Crisan-Vida")
                         .prenume("Mihaela")

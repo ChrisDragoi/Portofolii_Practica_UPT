@@ -1,17 +1,18 @@
 package ro.upt.ac.portofolii.admin;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ro.upt.ac.portofolii.cadruDidactic.CadruDidacticRepository;
+import ro.upt.ac.portofolii.portofoliu.Portofoliu;
+import ro.upt.ac.portofolii.portofoliu.PortofoliuRepository;
 import ro.upt.ac.portofolii.student.Student;
 import ro.upt.ac.portofolii.student.StudentRepository;
-import ro.upt.ac.portofolii.student.StudentService;
-
 import java.io.IOException;
-import java.util.Scanner;
 
 @Controller
 @RequestMapping("/admin")
@@ -19,10 +20,14 @@ public class AdminController {
     private final AdminService adminService;
     private final StudentRepository studentRepository;
     private static final String UPLOAD_DIR = "upload";
+    private final CadruDidacticRepository cadruDidacticRepository;
+    @Autowired
+    private PortofoliuRepository portofoliuRepository;
 
-    public AdminController(AdminService adminService, StudentRepository studentRepository) {
+    public AdminController(AdminService adminService, StudentRepository studentRepository, CadruDidacticRepository cadruDidacticRepository) {
         this.adminService = adminService;
         this.studentRepository = studentRepository;
+        this.cadruDidacticRepository = cadruDidacticRepository;
     }
 
     @PostMapping(value = "/upload-students", consumes ={"multipart/form-data"})
@@ -63,5 +68,20 @@ public class AdminController {
 
         studentRepository.save(student);
         return "redirect:/student-read";
+    }
+    @PostMapping("/sign/{portofoliuId}")
+    public String semneazaPortofoliu(@PathVariable int portofoliuId) {
+        Portofoliu portofoliu = portofoliuRepository.findById(portofoliuId);
+        if(portofoliu == null){
+            return "redirect:/";
+        }
+        Admin admin = (Admin) cadruDidacticRepository.findById(1);
+        if (admin != null) {
+            portofoliu.setCadruDidactic(admin);
+            portofoliu.setSemnaturaCadruDidactic(true);
+            portofoliuRepository.save(portofoliu);
+        }
+
+        return "redirect:/";
     }
 }

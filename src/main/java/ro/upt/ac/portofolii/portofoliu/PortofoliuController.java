@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ro.upt.ac.portofolii.admin.Admin;
 import ro.upt.ac.portofolii.cadruDidactic.CadruDidactic;
 import ro.upt.ac.portofolii.cadruDidactic.CadruDidacticRepository;
 import ro.upt.ac.portofolii.student.Student;
@@ -36,17 +37,23 @@ public class PortofoliuController
     private TutoreRepository tutoreRepository;
 
 	@GetMapping("/")
-	public String root()
+	public String root(Model model)
 	{
+		Admin admin = (Admin) cadruDidacticRepository.findById(1);
+		model.addAttribute("admin", admin);
 		return "index";
 	}
 
 	@GetMapping("/portofoliu-create/{id}")
 	public String create(@PathVariable("id") int id, Portofoliu portofoliu, Model model)
 	{
+		Student student = studentRepository.findById(id);
+		if (student == null) {
+			throw new RuntimeException("Student inexistent cu ID: " + id);
+		}
 		model.addAttribute("portofoliu", portofoliu);
 		model.addAttribute("cadreDidactice", cadruDidacticRepository.findAll());
-		model.addAttribute("student", studentRepository.findById(id));
+		model.addAttribute("student", student);
 		return "portofoliu-create";
 	}
 
@@ -56,12 +63,19 @@ public class PortofoliuController
 							 @RequestParam("tutoreEmail") String tutoreEmail,
 							 BindingResult result,
 							 Model model) {
+		Student student = studentRepository.findById(studentId);
+		if (student == null) {
+			throw new RuntimeException("Student inexistent.");
+		}
+
 		if (result.hasErrors()) {
 			System.out.println("Validation errors: " + result.getAllErrors());
 			model.addAttribute("cadreDidactice", cadruDidacticRepository.findAll());
-			model.addAttribute("studenti", studentRepository.findAll());
+			model.addAttribute("student", student);
 			return "portofoliu-create";
 		}
+
+		portofoliu.setStudent(student);
 
 		if (portofoliu.getCadruDidactic() == null || portofoliu.getStudent() == null) {
 			model.addAttribute("cadreDidactice", cadruDidacticRepository.findAll());
@@ -70,20 +84,12 @@ public class PortofoliuController
 			return "portofoliu-create";
 		}
 
-		Student student = studentRepository.findById(studentId);
-		if (student == null) {
-			throw new RuntimeException("Student inexistent.");
-		}
-
-		portofoliu.setStudent(student);
-
 		CadruDidactic cadru = cadruDidacticRepository.findById(portofoliu.getCadruDidactic().getId());
 		if (cadru == null) {
 			throw new RuntimeException("Cadru didactic inexistent");
 		}
 
 		portofoliu.setCadruDidactic(cadru);
-		portofoliu.setStudent(student);
 
 		Tutore t = tutoreRepository.findByEmail(tutoreEmail);
 		if (t == null) {
@@ -123,6 +129,26 @@ public class PortofoliuController
 		model.addAttribute("student", student);
 		model.addAttribute("portofolii", portfolioStudents);
 		return "student-portofolii-read";
+	}
+
+	@GetMapping("/cadru-portofoliu-read/{id}")
+	public String readPortofoliuCadru(@PathVariable("id") int id, Model model)
+	{
+		CadruDidactic cadru = cadruDidacticRepository.findById(id);
+		if(cadru == null)
+		{
+			throw new RuntimeException("Student ID not found");
+		}
+		List<Portofoliu> portfolios = portofoliuRepository.findAll();
+		List<Portofoliu> portofolioProfs = new ArrayList<>();
+		for(Portofoliu p : portfolios){
+			if(p.getCadruDidactic().getId() == cadru.getId()){
+				portofolioProfs.add(p);
+			}
+		}
+		model.addAttribute("cadru", cadru);
+		model.addAttribute("portofolii", portofolioProfs);
+		return "cadru-portofoliu-read";
 	}
 
 	@GetMapping("/portofoliu-edit/{id}")

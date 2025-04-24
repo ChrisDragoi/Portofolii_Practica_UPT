@@ -27,12 +27,12 @@
     <h2>Bun venit, <span th:text="${cadru.nume + ' ' + cadru.prenume}">Nume Cadru</span>!</h2>
     <ul class="list-group">
         <li class="list-group-item">
-            <a th:href="@{'/cadru-portofolii/' + ${cadru.id}}">
-                Portofoliile mele coordonate
+            <a th:href="@{'/cadru-portofoliu-read/' + ${cadru.id}}">
+                Portofoliile coordonate de mine
             </a>
         </li>
         <li class="list-group-item">
-            <a th:href="@{'/cadru-edit/' + ${cadru.id}}">
+            <a th:href="@{'/cadruDidactic-edit/' + ${cadru.id}}">
                 Profilul meu
             </a>
         </li>

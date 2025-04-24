@@ -86,12 +86,20 @@
 			</form>
 			<div class="container mt-4">
 				<form th:action="@{'/cadruDidactic/' + ${cadruDidactic.id} + '/upload-signature'}" method="post" enctype="multipart/form-data">
-					<label for="signature">Încarcă semnătura:</label>
-					<input type="file" name="signature" id="signature" accept="image/*" required>
-
-					<button type="submit">Încarcă semnătura</button>
+					<div class="mb-3">
+						<label for="signature" class="form-label fw-bold">Încarcă semnătura:</label>
+						<input type="file" class="form-control" name="signature" id="signature" accept="image/*" required>
+					</div>
+					<button type="submit" class="btn btn-outline-primary">Încarcă semnătura</button>
 				</form>
+
+				<div class="mt-3" th:if="${cadruDidactic.semnatura != null}">
+					<label class="form-label">Semnătura curentă:</label>
+					<img th:src="@{'/' + ${cadruDidactic.semnatura} + '/signature.png'}"
+						 alt="Semnătura cadrului didactic" class="img-fluid" style="max-height: 100px;">
+				</div>
 			</div>
+
 		</div>
 	</div>
 </div>

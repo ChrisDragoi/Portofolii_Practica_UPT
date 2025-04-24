@@ -16,6 +16,7 @@ import ro.upt.ac.portofolii.admin.AdminService;
 import ro.upt.ac.portofolii.portofoliu.Portofoliu;
 import ro.upt.ac.portofolii.portofoliu.PortofoliuRepository;
 import ro.upt.ac.portofolii.security.UserRepository;
+import ro.upt.ac.portofolii.student.Student;
 
 import java.io.File;
 import java.io.IOException;
@@ -81,6 +82,13 @@ public class TutoreController
 	        tutore.setId(id);
 	        return "tutore-update";
 	    }
+
+		Tutore existingStudent = tutoreRepository.findById(id);
+
+		tutore.setPassword(existingStudent.getPassword());
+		tutore.setSemnatura(existingStudent.getSemnatura());
+		tutore.setRole(existingStudent.getRole());
+		
 	    tutoreRepository.save(tutore);
 	    return "redirect:/tutore-read";
 	}

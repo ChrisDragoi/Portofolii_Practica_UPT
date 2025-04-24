@@ -118,56 +118,79 @@ public class PdfGenerator {
         return table;
     }
 
-private static PdfPTable getPdfPTable2(Font boldFont, Font regularFont, Portofoliu portofoliu) {
-    Student student = portofoliu.getStudent();
-    CadruDidactic cadruDidactic = portofoliu.getCadruDidactic();
-    Tutore tutore = portofoliu.getTutore();
+    private static PdfPTable getPdfPTable2(Font boldFont, Font regularFont, Portofoliu portofoliu) {
+        Student student = portofoliu.getStudent();
+        CadruDidactic cadruDidactic = portofoliu.getCadruDidactic();
+        Tutore tutore = portofoliu.getTutore();
 
-    PdfPTable table = new PdfPTable(new float[]{2f, 2f, 2f, 2f});
-    table.setWidthPercentage(100);
-    table.setSpacingBefore(10f);
-    table.setSpacingAfter(10f);
+        PdfPTable table = new PdfPTable(new float[]{2f, 2f, 2f, 2f});
+        table.setWidthPercentage(100);
+        table.setSpacingBefore(10f);
+        table.setSpacingAfter(10f);
 
-    String[] headers = {"", "Cadru Didactic", "Tutore", "Student"};
-    rows(boldFont, table, headers);
-
-    String[][] rows = {
-            {"Nume și Prenume", cadruDidactic.getNume() + " " + cadruDidactic.getPrenume(), tutore.getNume() + " " + tutore.getPrenume(), student.getNume() + " " + student.getPrenume()},
-            {"Funcția", "Cadru Didactic", tutore.getFunctie(), "Student"},
-            {"Data", String.valueOf(portofoliu.getDataSemnarii()), String.valueOf(portofoliu.getDataSemnarii()), String.valueOf(portofoliu.getDataSemnarii())}
-    };
-
-    for (String[] row : rows) {
-        rows(regularFont, table, row);
-    }
-
-    PdfPCell labelCell = new PdfPCell(new Phrase("Semnătura", boldFont));
-    labelCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-    labelCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-    labelCell.setPadding(5);
-    table.addCell(labelCell);
-
-    String studentSignaturePath = student.getSemnatura() + "/signature.png";
-    String tutoreSignaturePath = tutore.getSemnatura() + "/signature.png";
-    String cadruSignaturePath = cadruDidactic.getSemnatura() + "/signature.png";
-
-    for (String signaturePath : new String[]{cadruSignaturePath, tutoreSignaturePath, studentSignaturePath}) {
-        Image signatureImage = getSignatureImage(signaturePath);
-        PdfPCell signatureCell;
-        if (signatureImage != null) {
-            signatureImage.scaleToFit(100, 50); // Redimensionăm imaginea
-            signatureCell = new PdfPCell(signatureImage);
-        } else {
-            signatureCell = new PdfPCell(new Phrase("")); // Celulă goală
+        // Header
+        String[] headers = {"", "Cadru Didactic", "Tutore", "Student"};
+        for (String header : headers) {
+            PdfPCell cell = new PdfPCell(new Phrase(header, boldFont));
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            cell.setPadding(5);
+            table.addCell(cell);
         }
-        signatureCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        signatureCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        signatureCell.setPadding(5);
-        table.addCell(signatureCell);
-    }
 
-    return table;
-}
+        // Nume și Prenume
+        table.addCell(new PdfPCell(new Phrase("Nume și Prenume", boldFont)));
+        table.addCell(new PdfPCell(new Phrase(cadruDidactic.getNume() + " " + cadruDidactic.getPrenume(), regularFont)));
+        table.addCell(new PdfPCell(new Phrase(tutore.getNume() + " " + tutore.getPrenume(), regularFont)));
+        table.addCell(new PdfPCell(new Phrase(student.getNume() + " " + student.getPrenume(), regularFont)));
+
+        // Funcția
+        table.addCell(new PdfPCell(new Phrase("Funcția", boldFont)));
+        table.addCell(new PdfPCell(new Phrase("Cadru Didactic", regularFont)));
+        table.addCell(new PdfPCell(new Phrase(tutore.getFunctie(), regularFont)));
+        table.addCell(new PdfPCell(new Phrase("Student", regularFont)));
+
+        // Data
+        table.addCell(new PdfPCell(new Phrase("Data", boldFont)));
+        table.addCell(new PdfPCell(new Phrase(String.valueOf(portofoliu.getDataSemnarii()), regularFont)));
+        table.addCell(new PdfPCell(new Phrase(String.valueOf(portofoliu.getDataSemnarii()), regularFont)));
+        table.addCell(new PdfPCell(new Phrase(String.valueOf(portofoliu.getDataSemnarii()), regularFont)));
+
+        // Semnătură
+        table.addCell(new PdfPCell(new Phrase("Semnătura", boldFont)));
+
+        // Cadru didactic
+        if (Boolean.TRUE.equals(portofoliu.getSemnaturaCadruDidactic())) {
+            Image img = getSignatureImage(cadruDidactic.getSemnatura() + "/signature.png");
+            assert img != null;
+            img.scaleToFit(100, 50);
+            table.addCell(new PdfPCell(img));
+        } else {
+            table.addCell(new PdfPCell(new Phrase("")));
+        }
+
+        // Tutore
+        if (Boolean.TRUE.equals(portofoliu.getSemnaturaTutore())) {
+            Image img = getSignatureImage(tutore.getSemnatura() + "/signature.png");
+            assert img != null;
+            img.scaleToFit(100, 50);
+            table.addCell(new PdfPCell(img));
+        } else {
+            table.addCell(new PdfPCell(new Phrase("")));
+        }
+
+        // Student
+        if (Boolean.TRUE.equals(portofoliu.getSemnaturaStudent())) {
+            Image img = getSignatureImage(student.getSemnatura() + "/signature.png");
+            assert img != null;
+            img.scaleToFit(100, 50);
+            table.addCell(new PdfPCell(img));
+        } else {
+            table.addCell(new PdfPCell(new Phrase("")));
+        }
+
+        return table;
+    }
 
 
     private static void rows(Font regularFont, PdfPTable table, String[] row) {
@@ -179,7 +202,6 @@ private static PdfPTable getPdfPTable2(Font boldFont, Font regularFont, Portofol
             table.addCell(cell);
         }
     }
-
 
     private static void addSection(Document document, int i, String title, String content, Font nrFont, Font titleFont, Font contentFont) throws DocumentException {
         Paragraph p = new Paragraph();

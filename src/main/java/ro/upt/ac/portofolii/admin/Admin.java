@@ -2,19 +2,19 @@ package ro.upt.ac.portofolii.admin;
 
 import jakarta.persistence.Entity;
 import lombok.*;
+import ro.upt.ac.portofolii.cadruDidactic.CadruDidactic;
 import ro.upt.ac.portofolii.security.Role;
-import ro.upt.ac.portofolii.security.User;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Admin extends User {
-    private String semnatura;
+public class Admin extends CadruDidactic {
 
-    @Builder
-    public Admin(String email, String password, Role role) {
-        super(email, password, role);
+    @Builder(builderMethodName = "adminBuilder")
+    public Admin(String email, String password, String nume, String prenume, String functie, String specializare, String telefon) {
+        super(email, password, Role.ADMIN, nume, prenume, functie, specializare, telefon);
+        super.setSemnatura("semnaturi/cadreDidactice/admin");
     }
 
 }

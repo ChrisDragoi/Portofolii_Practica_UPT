@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ro.upt.ac.portofolii.cadruDidactic.CadruDidactic;
 import ro.upt.ac.portofolii.security.Role;
-import ro.upt.ac.portofolii.security.User;
-import ro.upt.ac.portofolii.security.UserRepository;
 import ro.upt.ac.portofolii.student.Student;
 import ro.upt.ac.portofolii.student.StudentRepository;
 import ro.upt.ac.portofolii.student.StudentService;
@@ -29,9 +27,7 @@ import java.util.Objects;
 public class AdminService {
 
     private final StudentRepository studentRepository;
-    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final String baseStudentDir = "semnaturi/studenti/";
     private final StudentService studentService;
 
     public String saveStudentCsv(MultipartFile file, String UPLOAD_DIR) throws IOException {
@@ -143,6 +139,7 @@ public class AdminService {
 
     public void deleteStudentFolder(Student s) throws IOException {
         String folderName = "student" + s.getId();
+        String baseStudentDir = "semnaturi/studenti/";
         Path studentDir = Paths.get(baseStudentDir, folderName);
 
         if (Files.exists(studentDir) && Files.isDirectory(studentDir)) {
@@ -160,31 +157,35 @@ public class AdminService {
 
     public void deleteProfFolder(CadruDidactic c) throws IOException {
         String folderName = "cadruDidactic" + c.getId();
-        String baseProfDir = "semnaturi/cadreDidactice";
+        String baseProfDir = "src/main/resources/static/cadreDidactice";
         Path profDir = Paths.get(baseProfDir, folderName);
 
         if (Files.exists(profDir) && Files.isDirectory(profDir)) {
-            if(Objects.requireNonNull(profDir.toFile().listFiles()).length > 0){
-                System.out.println("Folderul contine semnatura si nu va fi sters.");
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(profDir)) {
+                for (Path file : stream) {
+                    Files.delete(file);
+                }
             }
             Files.delete(profDir);
-            System.out.println("Folder gol si șters: " + profDir);
+            System.out.println("Folder și conținut șters: " + profDir);
         } else {
             System.out.println("Folderul nu există sau nu este director: " + profDir);
         }
     }
 
     public void deleteTutoreFolder(Tutore t) throws IOException {
-        String baseTutoreDir = "semnaturi/tutori";
+        String baseTutoreDir = "src/main/resources/static/tutori";
         String folderName = baseTutoreDir + t.getId();
-        Path tutoreDir = Paths.get(baseTutoreDir, folderName);
+        Path tutoreDir = Paths.get("tutori", folderName);
 
         if (Files.exists(tutoreDir) && Files.isDirectory(tutoreDir)) {
-            if(Objects.requireNonNull(tutoreDir.toFile().listFiles()).length > 0){
-                System.out.println("Folderul contine semnatura si nu va fi sters.");
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(tutoreDir)) {
+                for (Path file : stream) {
+                    Files.delete(file);
+                }
             }
             Files.delete(tutoreDir);
-            System.out.println("Folder gol si sters: " + tutoreDir);
+            System.out.println("Folder și conținut șters: " + tutoreDir);
         } else {
             System.out.println("Folderul nu există sau nu este director: " + tutoreDir);
         }

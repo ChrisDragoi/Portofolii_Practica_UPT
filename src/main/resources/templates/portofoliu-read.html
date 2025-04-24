@@ -127,8 +127,9 @@
 							</p>
 
 							<form th:if="${!portofoliu.semnaturaCadruDidactic}"
-								  th:action="@{/cadruDidactic/sign/portofoliu/{id}(id=${portofoliu.id})}"
+								  th:action="@{/admin/sign/{id}(id=${portofoliu.id})}"
 								  method="post">
+								<!-- th:action="@{/cadruDidactic/sign/portofoliu/{id}(id=${portofoliu.id})}"-->
 								<button type="submit" class="btn btn-outline-success btn-sm">
 									Semnează
 								</button>

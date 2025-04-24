@@ -66,4 +66,14 @@ public class Portofoliu {
 
 	private boolean semnaturaCadruDidactic;
 
+    public Boolean getSemnaturaCadruDidactic() {
+        return  semnaturaCadruDidactic;
+    }
+    public boolean getSemnaturaStudent() {
+        return semnaturaStudent;
+    }
+
+    public Boolean getSemnaturaTutore() {
+        return semnaturaTutore;
+    }
 }

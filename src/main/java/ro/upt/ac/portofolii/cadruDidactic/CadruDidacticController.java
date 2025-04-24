@@ -1,7 +1,6 @@
 package ro.upt.ac.portofolii.cadruDidactic;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,9 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ro.upt.ac.portofolii.admin.AdminService;
 import ro.upt.ac.portofolii.portofoliu.Portofoliu;
 import ro.upt.ac.portofolii.portofoliu.PortofoliuRepository;
-import ro.upt.ac.portofolii.security.Role;
-import ro.upt.ac.portofolii.security.User;
-import ro.upt.ac.portofolii.security.UserRepository;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +23,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Controller
 public class CadruDidacticController
@@ -84,14 +80,14 @@ public class CadruDidacticController
 	        cadruDidactic.setId(id);
 	        return "cadruDidactic-update";
 	    }
-		CadruDidactic existingTutore = cadruDidacticRepository.findById(id);
+		CadruDidactic existingCadru = cadruDidacticRepository.findById(id);
 
-		if (cadruDidactic.getSemnatura() == null) {
-			cadruDidactic.setSemnatura(existingTutore.getSemnatura());
-		}
+		cadruDidactic.setPassword(existingCadru.getPassword());
+		cadruDidactic.setSemnatura(existingCadru.getSemnatura());
+		cadruDidactic.setRole(existingCadru.getRole());
 	        
 	    cadruDidacticRepository.save(cadruDidactic);
-	    return "redirect:/cadruDidactic-read";
+		return "redirect:/cadru/" + id + "/index";
 	}
 	
 	@GetMapping("/cadruDidactic-delete/{id}")
@@ -109,11 +105,15 @@ public class CadruDidacticController
 								  @RequestParam("signature") MultipartFile file,
 								  RedirectAttributes redirectAttributes) {
 		try {
-            String baseDir = "semnaturi/cadreDidactice";
-            Path profDir = Paths.get(baseDir, "cadruDidactic" + id);
+			CadruDidactic cadruDidactic = cadruDidacticRepository.findById(id);
+			if(cadruDidactic.getSemnatura() == null) {
+				return "redirect:/cadruDidactic-read";
+			}
+            String baseDir = cadruDidactic.getSemnatura();
+            Path profDir = Paths.get(baseDir);
 			if (!Files.exists(profDir)) {
 				redirectAttributes.addFlashAttribute("error", "Folderul cadrului didactic nu există!");
-				return "redirect:/cadruDidactic-read";
+				return "redirect:/cadru/" + id + "/index";
 			}
 
 			Path filePath = profDir.resolve("signature.png");
@@ -129,11 +129,14 @@ public class CadruDidacticController
 	}
 
 	@PostMapping("cadruDidactic/sign/portofoliu/{id}")
-	public String signCadru(@PathVariable int id, @RequestParam(value = "studentId", required = false) Integer studentId, RedirectAttributes redirectAttributes) {
+	public String signCadru(@PathVariable int id,
+							@RequestParam(value = "cid", required = false) Integer cid,
+							@RequestParam(value = "studentId", required = false) Integer studentId,
+							RedirectAttributes redirectAttributes) {
 		Portofoliu portofoliu = portofoliuRepository.findById(id);
 		if (portofoliu == null) {
 			redirectAttributes.addFlashAttribute("error", "Portofoliul nu a fost găsit.");
-			return redirectTo(studentId);
+			return redirectTo(studentId, cid);
 		}
 
 		String signaturePath = portofoliu.getCadruDidactic().getSemnatura() + "/signature.png";
@@ -141,20 +144,24 @@ public class CadruDidacticController
 
 		if (!signatureFile.exists()) {
 			redirectAttributes.addFlashAttribute("signCadruError", id);
-			return redirectTo(studentId);
+			return redirectTo(studentId, cid);
 		}
 		portofoliu.setDataSemnarii(Date.valueOf(LocalDate.now()));
 		portofoliu.setSemnaturaCadruDidactic(true);
 
 		portofoliuRepository.save(portofoliu);
 		redirectAttributes.addFlashAttribute("success", "Semnătura cadrului didactic a fost înregistrată.");
-		return redirectTo(studentId);
+		return redirectTo(studentId, cid);
 	}
 
-	private String redirectTo(Integer studentId) {
+	private String redirectTo(Integer studentId, Integer cid) {
 		if (studentId != null) {
 			return "redirect:/student-portofoliu-read/" + studentId;
 		}
+		if (cid != null) {
+			return "redirect:/cadru-portofoliu-read/" + cid;
+		}
 		return "redirect:/portofoliu-read";
 	}
+
 }

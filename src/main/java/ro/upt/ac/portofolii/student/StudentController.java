@@ -83,6 +83,12 @@ public class StudentController
 			return "student-update";
 		}
 
+		Student existingCadru = studentRepository.findById(id);
+
+		student.setPassword(existingCadru.getPassword());
+		student.setSemnatura(existingCadru.getSemnatura());
+		student.setRole(existingCadru.getRole());
+
 		studentRepository.save(student);
 		return "redirect:/student/"+id+"/index";
 	}
