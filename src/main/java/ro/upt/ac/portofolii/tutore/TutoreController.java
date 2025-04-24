@@ -133,7 +133,7 @@ public class TutoreController
 		Portofoliu portofoliu = portofoliuRepository.findById(id);
 		if (portofoliu == null) {
 			redirectAttributes.addFlashAttribute("error", "Portofoliul nu a fost găsit.");
-			return "redirect:/portofoliu-read";
+			return "redirect:/tutore-portofoliu-read/" + tid;
 		}
 
 		String signaturePath = portofoliu.getTutore().getSemnatura() + "/signature.png";
@@ -141,13 +141,13 @@ public class TutoreController
 
 		if (!signatureFile.exists()) {
 			redirectAttributes.addFlashAttribute("signTutoreError", id);
-			return "redirect:/tutore-portofoliu-read" + tid;
+			return "redirect:/tutore-portofoliu-read/" + tid;
 		}
 
 		portofoliu.setSemnaturaTutore(true);
 		portofoliuRepository.save(portofoliu);
 		redirectAttributes.addFlashAttribute("success", "Semnătura tutorelui a fost înregistrată.");
-		return "redirect:/tutore-portofoliu-read" + tid;
+		return "redirect:/tutore-portofoliu-read/" + tid;
 	}
 
 	@GetMapping("tutore/{tid}/portofoliu-view/{pid}")
