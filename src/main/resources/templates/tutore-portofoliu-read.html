@@ -78,7 +78,7 @@
                                 Semnătura tutorelui nu a fost încărcată!
                             </p>
                             <form th:if="${!portofoliu.semnaturaTutore}"
-                                  th:action="@{/tutore/sign/portofoliu/{id}(id=${portofoliu.id})}"
+                                  th:action="@{/tutore/{tid}/sign/portofoliu/{id}(id=${portofoliu.id}, tid=${tutore.id})}"
                                   method="post">
                                 <button type="submit" class="btn btn-outline-success btn-sm">
                                     Semnează

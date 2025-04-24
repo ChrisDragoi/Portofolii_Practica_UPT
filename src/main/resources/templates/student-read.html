@@ -75,7 +75,7 @@
 						<tr th:each="student : ${studenti}">
 							<td th:text="${student.id}"></td>
 							<td>
-								<a class="btn btn-outline-primary btn-sm" th:href="@{/admin-student-edit/{id}(id=${student.id})}">Editează</a>
+<!--								<a class="btn btn-outline-primary btn-sm" th:href="@{/admin-student-edit/{id}(id=${student.id})}">Editează</a>-->
 								<a class="btn btn-outline-danger btn-sm" th:href="@{/student-delete/{id}(id=${student.id})}">Șterge</a>
 							</td>
 							<td th:text="${student.nume}"></td>
@@ -99,7 +99,7 @@
 							</td>
 
 							<td>
-								<a class="btn btn-outline-dark btn-sm px-3 shadow-sm" th:href="@{/student-portofoliu-read/{id}(id=${student.id})}">
+								<a class="btn btn-outline-dark btn-sm px-3 shadow-sm" th:href="@{/student-portofoliu-read-prof/{id}(id=${student.id})}">
 									<i class="bi bi-folder2-open"></i> Portofolii
 								</a>
 

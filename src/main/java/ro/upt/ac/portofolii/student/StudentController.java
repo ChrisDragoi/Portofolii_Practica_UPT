@@ -167,4 +167,19 @@ public class StudentController
 
 		return "student-vizualizare-portofoliu";
 	}
+
+	@GetMapping("student/{sid}/portofoliu-delete/{id}")
+	public String deleteS(@PathVariable("id") int id, @PathVariable("sid") int sid, RedirectAttributes redirectAttributes)
+	{
+		Portofoliu portofoliu = portofoliuRepository.findById(id);
+		if (portofoliu == null) {
+			redirectAttributes.addFlashAttribute("errorMessage", "Portofoliul nu a fost găsit.");
+			return "redirect:/student-portofoliu-read/" + sid;
+		}
+		portofoliu.setStudent(null);
+		portofoliu.setTutore(null);
+		portofoliu.setCadruDidactic(null);
+		portofoliuRepository.delete(portofoliu);
+		return "redirect:/student-portofoliu-read/" + sid;
+	}
 }

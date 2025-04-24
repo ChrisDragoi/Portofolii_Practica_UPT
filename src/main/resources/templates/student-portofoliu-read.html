@@ -21,7 +21,6 @@
         <ol class="breadcrumb bg-light p-3 rounded shadow-sm">
             <li class="breadcrumb-item">
                 <a th:href="@{'/student/' + ${student.id} + '/index'}" class="text-primary text-decoration-none">Acasă</a>
-
             </li>
             <li class="breadcrumb-item active" aria-current="page">Portofoliile studentului</li>
         </ol>
@@ -72,7 +71,7 @@
                                 Vizualizare
                             </a>
 
-                            <a class="btn btn-outline-danger btn-sm" th:href="@{/portofoliu-delete/{id}(id=${portofoliu.id})}" onclick="return confirm('Ești sigur că vrei să ștergi acest portofoliu?');">Ștergere</a>
+                            <a class="btn btn-outline-danger btn-sm" th:href="@{/student/{sid}/portofoliu-delete/{id}(id=${portofoliu.id}, sid=${student.id})}" onclick="return confirm('Ești sigur că vrei să ștergi acest portofoliu?');">Ștergere</a>
                         </td>
                         <td th:text="${portofoliu.student.nume + ' ' + portofoliu.student.prenume}"></td>
                         <td>

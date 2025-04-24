@@ -1,6 +1,8 @@
 package ro.upt.ac.portofolii.cadruDidactic;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,9 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ro.upt.ac.portofolii.admin.AdminService;
 import ro.upt.ac.portofolii.portofoliu.Portofoliu;
 import ro.upt.ac.portofolii.portofoliu.PortofoliuRepository;
-import ro.upt.ac.portofolii.student.Student;
-
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -72,25 +71,40 @@ public class CadruDidacticController
 	    model.addAttribute("cadruDidactic", cadruDidactic);
 	    return "cadruDidactic-update";
 	}
-	
-	@PostMapping("/cadruDidactic-update/{id}")
-	public String update(@PathVariable("id") int id, @Validated CadruDidactic cadruDidactic, BindingResult result)
-	{
-	    if(result.hasErrors()) 
-	    {
-	        cadruDidactic.setId(id);
-	        return "cadruDidactic-update";
-	    }
-		CadruDidactic existingCadru = cadruDidacticRepository.findById(id);
 
-		cadruDidactic.setPassword(existingCadru.getPassword());
-		cadruDidactic.setSemnatura(existingCadru.getSemnatura());
-		cadruDidactic.setRole(existingCadru.getRole());
-	        
-	    cadruDidacticRepository.save(cadruDidactic);
+	@PostMapping("/cadruDidactic-update/{id}")
+	public String update(@PathVariable("id") int id,
+						 @Validated CadruDidactic formData,
+						 BindingResult result,
+						 Authentication auth) {
+
+		if (result.hasErrors()) {
+			formData.setId(id);
+			return "cadruDidactic-update" + id;
+		}
+
+		CadruDidactic existing = cadruDidacticRepository.findById(id);
+		if (existing == null) {
+			return "redirect:cadruDidactic-update" + id;
+		}
+
+		existing.setNume(formData.getNume());
+		existing.setPrenume(formData.getPrenume());
+		existing.setTelefon(formData.getTelefon());
+		existing.setEmail(formData.getEmail());
+		existing.setFunctie(formData.getFunctie());
+		existing.setSpecializare(formData.getSpecializare());
+
+		cadruDidacticRepository.save(existing); // Acum salvezi instanța corectă: poate fi și Admin
+
+		if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+			return "redirect:/";
+		}
+
 		return "redirect:/cadru/" + id + "/index";
 	}
-	
+
+
 	@GetMapping("/cadruDidactic-delete/{id}")
 	public String delete(@PathVariable("id") int id) throws IOException {
 	    CadruDidactic cadruDidactic = cadruDidacticRepository.findById(id);
@@ -98,22 +112,25 @@ public class CadruDidacticController
 		adminService.deleteProfFolder(cadruDidactic);
 		cadruDidacticService.removeProfFromPortofolios(id);
 	    cadruDidacticRepository.delete(cadruDidactic);
-	    return "redirect:/cadruDidactic-read";
+	    return "redirect:/cadru/" + id + "/index";
 	}
 
 	@PostMapping(value = "/cadruDidactic/{id}/upload-signature", consumes = {"multipart/form-data"})
 	public String uploadSignature(@PathVariable int id,
 								  @RequestParam("signature") MultipartFile file,
+								  Authentication auth,
 								  RedirectAttributes redirectAttributes) {
 		try {
 			CadruDidactic cadruDidactic = cadruDidacticRepository.findById(id);
 			if(cadruDidactic.getSemnatura() == null) {
-				return "redirect:/cadruDidactic-read";
+				if(auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) return "redirect:/";
+				return "redirect:/cadru/" + id + "/index";
 			}
             String baseDir = cadruDidactic.getSemnatura();
             Path profDir = Paths.get(baseDir);
 			if (!Files.exists(profDir)) {
 				redirectAttributes.addFlashAttribute("error", "Folderul cadrului didactic nu există!");
+				if(auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) return "redirect:/";
 				return "redirect:/cadru/" + id + "/index";
 			}
 
@@ -125,19 +142,18 @@ public class CadruDidacticController
 		} catch (IOException e) {
 			redirectAttributes.addFlashAttribute("error", "Eroare la salvarea semnăturii!");
 		}
-
-		return "redirect:/cadruDidactic-read";
+		if(auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) return "redirect:/";
+		return "redirect:/cadru/" + id + "/index";
 	}
 
 	@PostMapping("cadruDidactic/sign/portofoliu/{id}")
 	public String signCadru(@PathVariable int id,
 							@RequestParam(value = "cid", required = false) Integer cid,
-							@RequestParam(value = "studentId", required = false) Integer studentId,
 							RedirectAttributes redirectAttributes) {
 		Portofoliu portofoliu = portofoliuRepository.findById(id);
 		if (portofoliu == null) {
 			redirectAttributes.addFlashAttribute("error", "Portofoliul nu a fost găsit.");
-			return redirectTo(studentId, cid);
+			return redirectTo( cid);
 		}
 
 		String signaturePath = portofoliu.getCadruDidactic().getSemnatura() + "/signature.png";
@@ -145,20 +161,17 @@ public class CadruDidacticController
 
 		if (!signatureFile.exists()) {
 			redirectAttributes.addFlashAttribute("signCadruError", id);
-			return redirectTo(studentId, cid);
+			return redirectTo( cid);
 		}
 		portofoliu.setDataSemnarii(Date.valueOf(LocalDate.now()));
 		portofoliu.setSemnaturaCadruDidactic(true);
 
 		portofoliuRepository.save(portofoliu);
 		redirectAttributes.addFlashAttribute("success", "Semnătura cadrului didactic a fost înregistrată.");
-		return redirectTo(studentId, cid);
+		return redirectTo(cid);
 	}
 
-	private String redirectTo(Integer studentId, Integer cid) {
-		if (studentId != null) {
-			return "redirect:/student-portofoliu-read/" + studentId;
-		}
+	private String redirectTo(Integer cid) {
 		if (cid != null) {
 			return "redirect:/cadru-portofoliu-read/" + cid;
 		}

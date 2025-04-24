@@ -111,6 +111,26 @@ public class PortofoliuController
 	    return "portofoliu-read";
 	}
 
+	@GetMapping("/student-portofoliu-read-prof/{id}")
+	public String readPortofoliuStudentProf(@PathVariable("id") int id, Model model)
+	{
+		Student student = studentRepository.findById(id);
+		if(student == null)
+		{
+			throw new RuntimeException("Student ID not found");
+		}
+		List<Portofoliu> portfolios = portofoliuRepository.findAll();
+		List<Portofoliu> portfolioStudents = new ArrayList<>();
+		for(Portofoliu p : portfolios){
+			if(p.getStudent().getId() == student.getId()){
+				portfolioStudents.add(p);
+			}
+		}
+		model.addAttribute("student", student);
+		model.addAttribute("portofolii", portfolioStudents);
+		return "student-portofoliu-read-prof";
+	}
+
 	@GetMapping("/student-portofoliu-read/{id}")
 	public String readPortofoliuStudent(@PathVariable("id") int id, Model model)
 	{

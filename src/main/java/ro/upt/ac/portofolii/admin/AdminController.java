@@ -13,6 +13,8 @@ import ro.upt.ac.portofolii.portofoliu.PortofoliuRepository;
 import ro.upt.ac.portofolii.student.Student;
 import ro.upt.ac.portofolii.student.StudentRepository;
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
 
 @Controller
 @RequestMapping("/admin")
@@ -52,23 +54,6 @@ public class AdminController {
         return "admin-student-update";
     }
 
-    @PostMapping("/admin-student-update/{id}")
-    public String update(@PathVariable("id") int id, @Validated Student student, BindingResult result)
-    {
-        if(result.hasErrors())
-        {
-            student.setId(id);
-            return "admin-student-update";
-        }
-        Student existingTutore = studentRepository.findById(id);
-
-        if (student.getSemnatura() == null) {
-            student.setSemnatura(existingTutore.getSemnatura());
-        }
-
-        studentRepository.save(student);
-        return "redirect:/student-read";
-    }
     @PostMapping("/sign/{portofoliuId}")
     public String semneazaPortofoliu(@PathVariable int portofoliuId) {
         Portofoliu portofoliu = portofoliuRepository.findById(portofoliuId);
@@ -79,6 +64,7 @@ public class AdminController {
         if (admin != null) {
             portofoliu.setCadruDidactic(admin);
             portofoliu.setSemnaturaCadruDidactic(true);
+            portofoliu.setDataSemnarii(Date.valueOf(LocalDate.now()));
             portofoliuRepository.save(portofoliu);
         }
 
