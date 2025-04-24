@@ -128,8 +128,8 @@ public class TutoreController
 		return "redirect:/tutore-read";
 	}
 
-	@PostMapping("/tutore/sign/portofoliu/{id}")
-	public String signTutore(@PathVariable int id, RedirectAttributes redirectAttributes) {
+	@PostMapping("/tutore/{tid}/sign/portofoliu/{id}")
+	public String signTutore(@PathVariable int id, @PathVariable int tid, RedirectAttributes redirectAttributes) {
 		Portofoliu portofoliu = portofoliuRepository.findById(id);
 		if (portofoliu == null) {
 			redirectAttributes.addFlashAttribute("error", "Portofoliul nu a fost găsit.");
@@ -141,13 +141,13 @@ public class TutoreController
 
 		if (!signatureFile.exists()) {
 			redirectAttributes.addFlashAttribute("signTutoreError", id);
-			return "redirect:/portofoliu-read";
+			return "redirect:/tutore-portofoliu-read" + tid;
 		}
 
 		portofoliu.setSemnaturaTutore(true);
 		portofoliuRepository.save(portofoliu);
 		redirectAttributes.addFlashAttribute("success", "Semnătura tutorelui a fost înregistrată.");
-		return "redirect:/portofoliu-read";
+		return "redirect:/tutore-portofoliu-read" + tid;
 	}
 
 	@GetMapping("tutore/{tid}/portofoliu-view/{pid}")
