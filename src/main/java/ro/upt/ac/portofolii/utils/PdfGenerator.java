@@ -128,7 +128,6 @@ public class PdfGenerator {
         table.setSpacingBefore(10f);
         table.setSpacingAfter(10f);
 
-        // Header
         String[] headers = {"", "Cadru Didactic", "Tutore", "Student"};
         for (String header : headers) {
             PdfPCell cell = new PdfPCell(new Phrase(header, boldFont));
@@ -138,28 +137,28 @@ public class PdfGenerator {
             table.addCell(cell);
         }
 
-        // Nume și Prenume
         table.addCell(new PdfPCell(new Phrase("Nume și Prenume", boldFont)));
         table.addCell(new PdfPCell(new Phrase(cadruDidactic.getNume() + " " + cadruDidactic.getPrenume(), regularFont)));
         table.addCell(new PdfPCell(new Phrase(tutore.getNume() + " " + tutore.getPrenume(), regularFont)));
         table.addCell(new PdfPCell(new Phrase(student.getNume() + " " + student.getPrenume(), regularFont)));
 
-        // Funcția
         table.addCell(new PdfPCell(new Phrase("Funcția", boldFont)));
         table.addCell(new PdfPCell(new Phrase("Cadru Didactic", regularFont)));
         table.addCell(new PdfPCell(new Phrase(tutore.getFunctie(), regularFont)));
         table.addCell(new PdfPCell(new Phrase("Student", regularFont)));
 
-        // Data
         table.addCell(new PdfPCell(new Phrase("Data", boldFont)));
-        table.addCell(new PdfPCell(new Phrase(String.valueOf(portofoliu.getDataSemnarii()), regularFont)));
-        table.addCell(new PdfPCell(new Phrase(String.valueOf(portofoliu.getDataSemnarii()), regularFont)));
-        table.addCell(new PdfPCell(new Phrase(String.valueOf(portofoliu.getDataSemnarii()), regularFont)));
-
-        // Semnătură
+        if(portofoliu.getDataSemnarii() != null) {
+            table.addCell(new PdfPCell(new Phrase(String.valueOf(portofoliu.getDataSemnarii()), regularFont)));
+            table.addCell(new PdfPCell(new Phrase(String.valueOf(portofoliu.getDataSemnarii()), regularFont)));
+            table.addCell(new PdfPCell(new Phrase(String.valueOf(portofoliu.getDataSemnarii()), regularFont)));
+        } else {
+            table.addCell(new PdfPCell(new Phrase("", regularFont)));
+            table.addCell(new PdfPCell(new Phrase("", regularFont)));
+            table.addCell(new PdfPCell(new Phrase("", regularFont)));
+        }
         table.addCell(new PdfPCell(new Phrase("Semnătura", boldFont)));
 
-        // Cadru didactic
         if (Boolean.TRUE.equals(portofoliu.getSemnaturaCadruDidactic())) {
             Image img = getSignatureImage(cadruDidactic.getSemnatura() + "/signature.png");
             assert img != null;
@@ -169,7 +168,6 @@ public class PdfGenerator {
             table.addCell(new PdfPCell(new Phrase("")));
         }
 
-        // Tutore
         if (Boolean.TRUE.equals(portofoliu.getSemnaturaTutore())) {
             Image img = getSignatureImage(tutore.getSemnatura() + "/signature.png");
             assert img != null;
@@ -179,7 +177,6 @@ public class PdfGenerator {
             table.addCell(new PdfPCell(new Phrase("")));
         }
 
-        // Student
         if (Boolean.TRUE.equals(portofoliu.getSemnaturaStudent())) {
             Image img = getSignatureImage(student.getSemnatura() + "/signature.png");
             assert img != null;
@@ -190,17 +187,6 @@ public class PdfGenerator {
         }
 
         return table;
-    }
-
-
-    private static void rows(Font regularFont, PdfPTable table, String[] row) {
-        for (String cellValue : row) {
-            PdfPCell cell = new PdfPCell(new Phrase(cellValue, regularFont));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            cell.setPadding(5);
-            table.addCell(cell);
-        }
     }
 
     private static void addSection(Document document, int i, String title, String content, Font nrFont, Font titleFont, Font contentFont) throws DocumentException {

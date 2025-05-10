@@ -47,4 +47,63 @@ Interfata student
 
 - studetul isi va putea genera si descarca un fisier DOCX cu sau fara semnatura in functie de starea sa
 
+--features:
 
+- se cere sa se scrie o aplicatie web utilizand tehnologiile
+ - Java
+ - Apache -PDF
+ - MySQL
+ - SpringBoot
+ - Thymeleaf
+
+- se scrie aplicatie web ce gestioneaza portofoliile de practica a studentilor
+
+Interfata prodecan(admin)
+
+- login pe baza de email si parola
+
+- aplicatia trebuie sa poata incarca studentii pe baza de fisier CSV
+
+- studentii au nume, prenume, adresa de email, telefon, specializare (cti-ro, cti-en, ism info-zi, info-id) si alte date personale in acel fisier CSV
+
+- aplicatia trebuie sa poata crea parole aleatoare pentru fiecare student
+
+- aplicatia trebuie sa poata exporta fisier CSV cu nume, email si parola in clar
+
+- prodecanul trebuie sa vada lista de studenti cu portofolii
+
+- prodecanul trebuie sa poata vizualiza portofoliile, editate in prealabil de studenti
+
+- prodecanul trebuie sa poata semna acel portofoliu prin inserarea unei semnaturi png in documentul, la final, generat de aplicatie
+
+- prodecanul poate sterge/adauga manual studenti, tutori sau cadre didactice
+
+- prodecanul isi poate edita profilul precum si cele ale celorlalte cadre didactice
+
+Interfata student
+
+- login pe baza de email si parola generata
+
+- cand se completeaza numele si emailul al tutorelui, acesta este adaugat in baza de date si i se genereaza o parola aleatoare
+
+- studentul poate completa un formular si se genereaza un PDF in formatul portofoliului de practica
+
+- studentul va putea accesa formularul pentru al completa sau pentru al edita
+
+- studetul isi va putea genera si descarca un fisier PDF cu sau fara semnaturi in functie de starea sa
+
+- studentul poate semna documentul
+
+- studentul isi poate edita profilul
+
+Interfata tutore practica
+
+- similar cu student(se creeaza o parola unica, nealeatoare, in functie de id, care se poate edita ulterior)
+
+- poate doar vizualiza si semna portofoliul de practica
+
+Interfata cadru didactic
+
+- similar cu student(se creeaza o parola unica, nealeatoare, in functie de id, care se poate edita ulterior)
+
+- poate doar vizualiza si semna portofoliul de practica
