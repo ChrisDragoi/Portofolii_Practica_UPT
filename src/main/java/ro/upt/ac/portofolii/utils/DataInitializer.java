@@ -46,7 +46,6 @@ public class DataInitializer {
 
                 CadruDidactic professor1 = CadruDidactic.builder()
                         .email("doru.todinca@upt.ro")
-                        //.password(passwordEncoder.encode("profesor2"))
                         .role(Role.CADRU_DIDACTIC)
                         .nume("Todinca")
                         .prenume("Doru")
@@ -58,7 +57,6 @@ public class DataInitializer {
 
                 CadruDidactic professor2 = CadruDidactic.builder()
                         .email("cosmin.cernazanu@upt.ro")
-                        //.password(passwordEncoder.encode("profesor3"))
                         .role(Role.CADRU_DIDACTIC)
                         .nume("Cernazanu")
                         .prenume("Cosmin")
@@ -70,7 +68,6 @@ public class DataInitializer {
 
                 CadruDidactic professor3 = CadruDidactic.builder()
                         .email("sorin.nanu@upt.ro")
-                        //.password(passwordEncoder.encode("profesor4"))
                         .role(Role.CADRU_DIDACTIC)
                         .nume("Nanu")
                         .prenume("Sorin")
@@ -82,7 +79,6 @@ public class DataInitializer {
 
                 CadruDidactic professor4 = CadruDidactic.builder()
                         .email("iosif.szeidert@upt.ro")
-                        //.password(passwordEncoder.encode("profesor5"))
                         .role(Role.CADRU_DIDACTIC)
                         .nume("Szeidert")
                         .prenume("Iosif")
@@ -94,7 +90,6 @@ public class DataInitializer {
 
                 CadruDidactic professor5 = CadruDidactic.builder()
                         .email("mihaela.crisan-vida@upt.ro")
-                        //.password(passwordEncoder.encode("profesor6"))
                         .role(Role.CADRU_DIDACTIC)
                         .nume("Crisan-Vida")
                         .prenume("Mihaela")

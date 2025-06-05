@@ -1,7 +1,6 @@
 package ro.upt.ac.portofolii.tutore;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,18 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ro.upt.ac.portofolii.admin.AdminService;
-import ro.upt.ac.portofolii.cadruDidactic.CadruDidactic;
 import ro.upt.ac.portofolii.portofoliu.Portofoliu;
 import ro.upt.ac.portofolii.portofoliu.PortofoliuRepository;
-import ro.upt.ac.portofolii.security.UserRepository;
-import ro.upt.ac.portofolii.student.Student;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Optional;
 
 @Controller
 public class TutoreController
