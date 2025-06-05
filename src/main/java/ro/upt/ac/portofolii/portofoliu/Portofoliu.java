@@ -9,10 +9,6 @@ import ro.upt.ac.portofolii.cadruDidactic.CadruDidactic;
 import ro.upt.ac.portofolii.student.Student;
 import ro.upt.ac.portofolii.tutore.Tutore;
 
-/**
- * 
- */
-
 @Entity
 @NoArgsConstructor
 @Getter
@@ -34,7 +30,7 @@ public class Portofoliu {
 
     private String loculDesfasurarii;
 
-    private Integer durataPracticii;
+    private int durataPracticii;
 
     private Date dataInceput;
 

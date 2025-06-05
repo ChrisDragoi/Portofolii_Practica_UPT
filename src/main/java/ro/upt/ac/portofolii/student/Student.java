@@ -1,13 +1,7 @@
 package ro.upt.ac.portofolii.student;
 
 import java.sql.Date;
-import java.util.Collection;
-import java.util.Collections;
-
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

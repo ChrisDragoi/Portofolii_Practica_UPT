@@ -153,7 +153,7 @@ public class CadruDidacticController
 		Portofoliu portofoliu = portofoliuRepository.findById(id);
 		if (portofoliu == null) {
 			redirectAttributes.addFlashAttribute("error", "Portofoliul nu a fost găsit.");
-			return redirectTo( cid);
+			return redirectTo(cid);
 		}
 
 		String signaturePath = portofoliu.getCadruDidactic().getSemnatura() + "/signature.png";
@@ -161,7 +161,7 @@ public class CadruDidacticController
 
 		if (!signatureFile.exists()) {
 			redirectAttributes.addFlashAttribute("signCadruError", id);
-			return redirectTo( cid);
+			return redirectTo(cid);
 		}
 		portofoliu.setDataSemnarii(Date.valueOf(LocalDate.now()));
 		portofoliu.setSemnaturaCadruDidactic(true);

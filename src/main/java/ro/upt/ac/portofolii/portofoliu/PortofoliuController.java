@@ -103,7 +103,6 @@ public class PortofoliuController
 		return "redirect:/student-portofoliu-read/" + student.getId();
 	}
 
-
 	@GetMapping("/portofoliu-read")
 	public String read(Model model)
 	{
@@ -216,12 +215,6 @@ public class PortofoliuController
 
 		Portofoliu existingPortofoliu = portofoliuRepository.findById(id);
 		portofoliu.setStudent(existingPortofoliu.getStudent());
-		Tutore existingTutore = existingPortofoliu.getTutore();
-		if (existingTutore == null) {
-			portofoliu.setTutore(tutoreService.create(tutoreEmail));
-		} else {
-			portofoliu.setTutore(existingTutore);
-		}
 
 		CadruDidactic cadru = cadruDidacticRepository.findById(portofoliu.getCadruDidactic().getId());
 		if (cadru == null) {
@@ -230,6 +223,13 @@ public class PortofoliuController
 			return "portofoliu-update";
 		}
 		portofoliu.setCadruDidactic(cadru);
+
+		Tutore existingTutore = existingPortofoliu.getTutore();
+		if (existingTutore == null) {
+			portofoliu.setTutore(tutoreService.create(tutoreEmail));
+		} else {
+			portofoliu.setTutore(existingTutore);
+		}
 
 		portofoliu.setId(id);
 		portofoliuRepository.save(portofoliu);
