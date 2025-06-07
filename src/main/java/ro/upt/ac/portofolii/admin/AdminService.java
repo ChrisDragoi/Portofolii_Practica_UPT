@@ -190,4 +190,15 @@ public class AdminService {
             System.out.println("Folderul nu există sau nu este director: " + tutoreDir);
         }
     }
+
+    public void makeAdminSign(Admin admin) {
+        String baseDir = "semnaturi/cadreDidactice/admin";
+
+        File adminDir = new File(baseDir);
+        if (!adminDir.exists()) {
+            adminDir.mkdirs();
+        }
+
+        admin.setSemnatura(baseDir);
+    }
 }

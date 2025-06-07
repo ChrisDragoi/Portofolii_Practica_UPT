@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ro.upt.ac.portofolii.admin.Admin;
+import ro.upt.ac.portofolii.admin.AdminService;
 import ro.upt.ac.portofolii.cadruDidactic.CadruDidactic;
 import ro.upt.ac.portofolii.cadruDidactic.CadruDidacticRepository;
 import ro.upt.ac.portofolii.cadruDidactic.CadruDidacticService;
@@ -30,7 +31,7 @@ public class DataInitializer {
     }
 
     @Bean
-    public CommandLineRunner initUsers() {
+    public CommandLineRunner initUsers(AdminService adminService) {
         return args -> {
             if (userRepository.count() == 0) {
                 User admin = Admin.adminBuilder()
@@ -42,7 +43,8 @@ public class DataInitializer {
                         .specializare("cti-ro")
                         .telefon("0700123456")
                         .build();
-                userRepository.save(admin);
+                //userRepository.save(admin);
+                adminService.makeAdminSign((Admin) userRepository.save(admin));
 
                 CadruDidactic professor1 = CadruDidactic.builder()
                         .email("doru.todinca@upt.ro")

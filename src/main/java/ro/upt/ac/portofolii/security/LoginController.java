@@ -79,8 +79,6 @@ public class LoginController {
 
     @PostMapping("/user/change-password/{role}/{id}")
     public String changePassword(@PathVariable("role") String role,@PathVariable("id") int id, @RequestParam("newPassword") String newPassword, RedirectAttributes redirectAttributes) {
-        //String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        //.orElseThrow(() -> new IllegalArgumentException("Invalid student Id:" + id));
         Optional<User> user;
 
         switch (role) {
@@ -115,7 +113,6 @@ public class LoginController {
             redirectAttributes.addFlashAttribute("success", "Password updated successfully. Please login again.");
             return "redirect:/logout";
         }
-        //return "redirect:/student/change-password";
     }
 
     @GetMapping("/student/{id}/index")

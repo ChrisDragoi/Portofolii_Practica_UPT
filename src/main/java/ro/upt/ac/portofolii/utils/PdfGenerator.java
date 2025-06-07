@@ -143,7 +143,7 @@ public class PdfGenerator {
         table.addCell(new PdfPCell(new Phrase(student.getNume() + " " + student.getPrenume(), regularFont)));
 
         table.addCell(new PdfPCell(new Phrase("Funcția", boldFont)));
-        table.addCell(new PdfPCell(new Phrase("Cadru Didactic", regularFont)));
+        table.addCell(new PdfPCell(new Phrase(cadruDidactic.getFunctie(), regularFont)));
         table.addCell(new PdfPCell(new Phrase(tutore.getFunctie(), regularFont)));
         table.addCell(new PdfPCell(new Phrase("Student", regularFont)));
 

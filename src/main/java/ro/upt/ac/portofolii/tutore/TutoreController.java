@@ -108,7 +108,7 @@ public class TutoreController
 			Path tutoreDir = Paths.get(baseDir, "tutore" + id);
 			if (!Files.exists(tutoreDir)) {
 				redirectAttributes.addFlashAttribute("error", "Folderul tutorelui nu există!");
-				return "redirect:/tutore-read";
+				return "redirect:/tutore/" + id + "/index";
 			}
 
 			Path filePath = tutoreDir.resolve("signature.png");
@@ -120,7 +120,7 @@ public class TutoreController
 			redirectAttributes.addFlashAttribute("error", "Eroare la salvarea semnăturii!");
 		}
 
-		return "redirect:/tutore-read";
+		return "redirect:/tutore/" + id + "/index";
 	}
 
 	@PostMapping("/tutore/{tid}/sign/portofoliu/{id}")
