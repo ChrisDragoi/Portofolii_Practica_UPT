@@ -49,7 +49,6 @@ public class LoginController {
                 }
             break;
             }
-
             case "cadruDidactic":{
                     Optional<CadruDidactic> cadru = Optional.ofNullable(cadruDidacticRepository.findById(id));
 
@@ -59,7 +58,6 @@ public class LoginController {
                     }
             break;
             }
-
             case "tutore":{
                 Optional<Tutore> tutore = Optional.ofNullable(tutoreRepository.findById(id));
 
@@ -69,7 +67,6 @@ public class LoginController {
                 }
                 break;
             }
-
             default:
                 throw new IllegalArgumentException("Invalid role");
         }
@@ -78,7 +75,12 @@ public class LoginController {
     }
 
     @PostMapping("/user/change-password/{role}/{id}")
-    public String changePassword(@PathVariable("role") String role,@PathVariable("id") int id, @RequestParam("newPassword") String newPassword, RedirectAttributes redirectAttributes) {
+    public String changePassword(
+            @PathVariable("role") String role,
+            @PathVariable("id") int id,
+            @RequestParam("newPassword") String newPassword,
+            RedirectAttributes redirectAttributes
+    ) {
         Optional<User> user;
 
         switch (role) {

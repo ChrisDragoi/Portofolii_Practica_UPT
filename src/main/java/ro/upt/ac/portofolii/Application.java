@@ -24,14 +24,14 @@ import ro.upt.ac.portofolii.student.StudentRepository;
 @SpringBootApplication
 public class Application
 {
-	private static final Logger log = LoggerFactory.getLogger(Application.class);
+//	private static final Logger log = LoggerFactory.getLogger(Application.class);
 
-	@Autowired
-	StudentRepository studentRepository;
-	@Autowired
-	CadruDidacticRepository cadruDidacticRepository;
-	@Autowired
-	TutoreRepository tutoreRepository;
+//	@Autowired
+//	StudentRepository studentRepository;
+//	@Autowired
+//	CadruDidacticRepository cadruDidacticRepository;
+//	@Autowired
+//	TutoreRepository tutoreRepository;
 
 	public static void main(String[] args)
 	{
