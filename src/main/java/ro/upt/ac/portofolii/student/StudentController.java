@@ -68,7 +68,6 @@ public class StudentController
 	public String edit(@PathVariable("id") int id, Model model)
 	{
 		Student student = studentRepository.findById(id);
-		//.orElseThrow(() -> new IllegalArgumentException("Invalid student Id:" + id));
 
 		model.addAttribute("student", student);
 		return "student-update";
@@ -96,7 +95,6 @@ public class StudentController
 	@GetMapping("/student-delete/{id}")
 	public String delete(@PathVariable("id") int id) throws IOException {
 		Student student = studentRepository.findById(id);
-		//.orElseThrow(() -> new IllegalArgumentException("Invalid student Id:" + id));
 
 		studentService.deleteStudentsPortofolios(id);
 		adminService.deleteStudentFolder(student);
@@ -169,7 +167,7 @@ public class StudentController
 	}
 
 	@GetMapping("student/{sid}/portofoliu-delete/{id}")
-	public String deleteS(@PathVariable("id") int id, @PathVariable("sid") int sid, RedirectAttributes redirectAttributes)
+	public String portofoliuDelete(@PathVariable("id") int id, @PathVariable("sid") int sid, RedirectAttributes redirectAttributes)
 	{
 		Portofoliu portofoliu = portofoliuRepository.findById(id);
 		if (portofoliu == null) {

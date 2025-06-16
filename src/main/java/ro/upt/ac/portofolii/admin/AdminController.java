@@ -46,7 +46,6 @@ public class AdminController {
     public String edit(@PathVariable("id") int id, Model model)
     {
         Student student = studentRepository.findById(id);
-        //.orElseThrow(() -> new IllegalArgumentException("Invalid student Id:" + id));
 
         model.addAttribute("student", student);
         return "admin-student-update";

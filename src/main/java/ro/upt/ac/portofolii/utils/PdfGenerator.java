@@ -96,7 +96,6 @@ public class PdfGenerator {
         String[][] rows = {
                 {"Competențe", competente},
                 {"Modulul de pregătire", modPregatire},
-                //{"Locul de muncă", ""},
                 {"Activități planificate", activitatiPlanificate},
                 {"Observații", observatii}
         };

@@ -66,7 +66,6 @@ public class CadruDidacticController
 	public String edit(@PathVariable("id") int id, Model model) 
 	{
 	    CadruDidactic cadruDidactic = cadruDidacticRepository.findById(id);
-	    //.orElseThrow(() -> new IllegalArgumentException("Invalid cadruDidactic Id:" + id));
 	    
 	    model.addAttribute("cadruDidactic", cadruDidactic);
 	    return "cadruDidactic-update";

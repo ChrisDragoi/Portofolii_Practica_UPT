@@ -27,6 +27,5 @@ public abstract class User {
         this.role = role;
         this.password = password;
     }
-
 }
 

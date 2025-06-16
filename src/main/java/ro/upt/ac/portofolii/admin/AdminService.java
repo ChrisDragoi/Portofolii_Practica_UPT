@@ -107,7 +107,6 @@ public class AdminService {
 	        s.setSpecializare(record.get(11));
 	        s.setAnDeStudiu(Integer.parseInt(record.get(12)));
 	        s.setTelefon(record.get(14));
-			//s1.setSemnatura(record.get(15));
 
         studentService.makeSign(studentRepository.save(s));
 

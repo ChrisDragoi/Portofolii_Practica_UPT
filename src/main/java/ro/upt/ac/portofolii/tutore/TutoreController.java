@@ -64,7 +64,6 @@ public class TutoreController
 	public String edit(@PathVariable("id") int id, Model model)
 	{
 	    Tutore tutore = tutoreRepository.findById(id);
-	    //.orElseThrow(() -> new IllegalArgumentException("Invalid tutore Id:" + id));
 
 	    model.addAttribute("tutore", tutore);
 	    return "tutore-update";
@@ -79,11 +78,11 @@ public class TutoreController
 	        return "tutore-update";
 	    }
 
-		Tutore existingStudent = tutoreRepository.findById(id);
+		Tutore existingTutore = tutoreRepository.findById(id);
 
-		tutore.setPassword(existingStudent.getPassword());
-		tutore.setSemnatura(existingStudent.getSemnatura());
-		tutore.setRole(existingStudent.getRole());
+		tutore.setPassword(existingTutore.getPassword());
+		tutore.setSemnatura(existingTutore.getSemnatura());
+		tutore.setRole(existingTutore.getRole());
 		
 	    tutoreRepository.save(tutore);
 	    return "redirect:/tutore/" + tutore.getId() + "/index";
@@ -92,7 +91,6 @@ public class TutoreController
 	@GetMapping("/tutore-delete/{id}")
 	public String delete(@PathVariable("id") int id) throws IOException {
 	    Tutore tutore = tutoreRepository.findById(id);
-	    //.orElseThrow(() -> new IllegalArgumentException("Invalid tutore Id:" + id));
 		adminService.deleteTutoreFolder(tutore);
 		tutoreService.removeTutoreFromPortofolios(id);
 	    tutoreRepository.delete(tutore);

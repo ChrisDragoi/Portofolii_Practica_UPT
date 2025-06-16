@@ -43,7 +43,6 @@ public class DataInitializer {
                         .specializare("cti-ro")
                         .telefon("0700123456")
                         .build();
-                //userRepository.save(admin);
                 adminService.makeAdminSign((Admin) userRepository.save(admin));
 
                 CadruDidactic professor1 = CadruDidactic.builder()

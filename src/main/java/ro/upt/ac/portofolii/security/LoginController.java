@@ -155,7 +155,6 @@ public class LoginController {
         String username = auth.getName();
         User user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
-        System.out.println(user.getId() + "====" + id);
         if (user.getId() != id) {
             return "redirect:/access-denied";
         }
