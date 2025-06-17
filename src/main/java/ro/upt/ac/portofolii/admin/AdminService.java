@@ -136,6 +136,23 @@ public class AdminService {
 
     }
 
+    public void addStudentCredentialsToCSV(Student student, String rawPassword) throws IOException {
+        Path filePath = Paths.get("upload", "Students_Credentials.csv");
+
+        boolean fileExists = Files.exists(filePath);
+
+        try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
+            if (!fileExists) {
+                writer.write("Nume,Prenume,Email,Parola");
+                writer.newLine();
+            }
+
+            writer.write(String.join(",", student.getNume(), student.getPrenume(), student.getEmail(), rawPassword));
+            writer.newLine();
+        }
+    }
+
+
     public void deleteStudentFolder(Student s) throws IOException {
         String folderName = "student" + s.getId();
         String baseStudentDir = "semnaturi/studenti/";

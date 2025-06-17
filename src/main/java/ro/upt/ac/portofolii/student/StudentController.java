@@ -1,6 +1,8 @@
 package ro.upt.ac.portofolii.student;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +16,9 @@ import ro.upt.ac.portofolii.admin.AdminService;
 import ro.upt.ac.portofolii.portofoliu.Portofoliu;
 import ro.upt.ac.portofolii.portofoliu.PortofoliuRepository;
 import org.springframework.web.multipart.MultipartFile;
+import ro.upt.ac.portofolii.security.Role;
+import ro.upt.ac.portofolii.utils.PasswordGenerator;
+
 import java.io.*;
 
 import java.io.IOException;
@@ -47,9 +52,14 @@ public class StudentController
 		{
 			return "student-create";
 		}
+		PasswordGenerator passwordGenerator = new PasswordGenerator();
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String rawPassword = passwordGenerator.generateRandomPassword();
+		student.setPassword(passwordEncoder.encode(rawPassword));
+		student.setRole(Role.valueOf("STUDENT"));
 		studentService.makeSign(studentRepository.save(student));
 		try {
-			adminService.addStudentCredentialsToCSV(student);
+			adminService.addStudentCredentialsToCSV(student, rawPassword);
 		} catch (IOException e) {
 			model.addAttribute("error_message", "Eroare la salvarea în fișier CSV!");
 			return "student-create";

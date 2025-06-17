@@ -75,7 +75,6 @@
 						<tr th:each="student : ${studenti}">
 							<td th:text="${student.id}"></td>
 							<td>
-<!--								<a class="btn btn-outline-primary btn-sm" th:href="@{/admin-student-edit/{id}(id=${student.id})}">Editează</a>-->
 								<a class="btn btn-outline-danger btn-sm" th:href="@{/student-delete/{id}(id=${student.id})}">Șterge</a>
 							</td>
 							<td th:text="${student.nume}"></td>
