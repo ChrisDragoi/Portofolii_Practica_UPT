@@ -117,24 +117,23 @@ public class AdminService {
         return studentRepository.findAll();
     }
 
-    public void addStudentCredentialsToCSV(Student student) throws IOException {
-        Path filePath = Paths.get("upload", "Students_Credentials.csv");
-
-        boolean fileExists = Files.exists(filePath);
-
-        String password = new PasswordGenerator().generateRandomPassword();
-
-        try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
-            if (!fileExists) {
-                writer.write("Nume,Prenume,Email,Password");
-                writer.newLine();
-            }
-
-            writer.write(String.join(",", student.getNume(), student.getPrenume(), student.getEmail(), password));
-            writer.newLine();
-        }
-
-    }
+//    public void addStudentCredentialsToCSV(Student student) throws IOException {
+//        Path filePath = Paths.get("upload", "Students_Credentials.csv");
+//
+//        boolean fileExists = Files.exists(filePath);
+//
+//        String password = new PasswordGenerator().generateRandomPassword();
+//
+//        try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
+//            if (!fileExists) {
+//                writer.write("Nume,Prenume,Email,Password");
+//                writer.newLine();
+//            }
+//
+//            writer.write(String.join(",", student.getNume(), student.getPrenume(), student.getEmail(), password));
+//            writer.newLine();
+//        }
+//    }
 
     public void addStudentCredentialsToCSV(Student student, String rawPassword) throws IOException {
         Path filePath = Paths.get("upload", "Students_Credentials.csv");
@@ -151,7 +150,6 @@ public class AdminService {
             writer.newLine();
         }
     }
-
 
     public void deleteStudentFolder(Student s) throws IOException {
         String folderName = "student" + s.getId();
@@ -173,7 +171,7 @@ public class AdminService {
 
     public void deleteProfFolder(CadruDidactic c) throws IOException {
         String folderName = "cadruDidactic" + c.getId();
-        String baseProfDir = "src/main/resources/static/cadreDidactice";
+        String baseProfDir = "semnaturi/cadreDidactice";
         Path profDir = Paths.get(baseProfDir, folderName);
 
         if (Files.exists(profDir) && Files.isDirectory(profDir)) {
@@ -190,7 +188,7 @@ public class AdminService {
     }
 
     public void deleteTutoreFolder(Tutore t) throws IOException {
-        String baseTutoreDir = "src/main/resources/static/tutori";
+        String baseTutoreDir = "semnaturi/tutori";
         String folderName = baseTutoreDir + t.getId();
         Path tutoreDir = Paths.get("tutori", folderName);
 

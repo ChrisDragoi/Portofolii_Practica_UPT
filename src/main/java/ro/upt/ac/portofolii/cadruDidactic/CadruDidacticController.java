@@ -94,7 +94,7 @@ public class CadruDidacticController
 		existing.setFunctie(formData.getFunctie());
 		existing.setSpecializare(formData.getSpecializare());
 
-		cadruDidacticRepository.save(existing); // Acum salvezi instanța corectă: poate fi și Admin
+		cadruDidacticRepository.save(existing);
 
 		if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
 			return "redirect:/";
@@ -105,12 +105,13 @@ public class CadruDidacticController
 
 
 	@GetMapping("/cadruDidactic-delete/{id}")
-	public String delete(@PathVariable("id") int id) throws IOException {
+	public String delete(@PathVariable("id") int id, Authentication auth) throws IOException {
 	    CadruDidactic cadruDidactic = cadruDidacticRepository.findById(id);
 
 		adminService.deleteProfFolder(cadruDidactic);
 		cadruDidacticService.removeProfFromPortofolios(id);
 	    cadruDidacticRepository.delete(cadruDidactic);
+		if(auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) return "redirect:/";
 	    return "redirect:/cadru/" + id + "/index";
 	}
 

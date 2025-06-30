@@ -163,7 +163,7 @@ public class PortofoliuController
 		List<Portofoliu> portfolios = portofoliuRepository.findAll();
 		List<Portofoliu> portofolioProfs = new ArrayList<>();
 		for(Portofoliu p : portfolios){
-			if(p.getCadruDidactic().getId() == cadru.getId()){
+			if(p.getCadruDidactic() != null && p.getCadruDidactic().getId() == cadru.getId()){
 				portofolioProfs.add(p);
 			}
 		}
@@ -183,7 +183,7 @@ public class PortofoliuController
 		List<Portofoliu> portfolios = portofoliuRepository.findAll();
 		List<Portofoliu> portofolioTutore = new ArrayList<>();
 		for(Portofoliu p : portfolios){
-			if(p.getTutore().getId() == tutore.getId()){
+			if(p.getTutore() != null && p.getTutore().getId() == tutore.getId()){
 				portofolioTutore.add(p);
 			}
 		}
