@@ -36,10 +36,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/portofoliu/sign-cadru/**").hasRole("ADMIN")
-                        .requestMatchers("/portofoliu/sign-student/**").hasRole("STUDENT")
-                        .requestMatchers("/portofoliu/sign-tutore/**").hasRole("TUTORE")
-                        .requestMatchers("/portofoliu/sign-cadru/").hasRole("CADRU_DIDACTIC")
+                        .requestMatchers("/admin/sign/**").hasRole("ADMIN")
+                        .requestMatchers("/student/*/sign/portofoliu/**").hasRole("STUDENT")
+                        .requestMatchers("/tutore/*/sign/portofoliu/**").hasRole("TUTORE")
+                        .requestMatchers("/cadruDidactic/sign/portofoliu/**").hasRole("CADRU_DIDACTIC")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

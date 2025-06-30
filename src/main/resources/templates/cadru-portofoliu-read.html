@@ -60,9 +60,11 @@
                         </td>
                         <td th:text="${portofoliu.student.nume + ' ' + portofoliu.student.prenume}"></td>
                         <td>
-                            <span th:if="${portofoliu.tutore != null && portofoliu.tutore.prenume != null}" th:text="${portofoliu.tutore.nume + ' ' + portofoliu.tutore.prenume}"></span>
-                            <span th:if="${portofoliu.tutore.prenume == null}" th:text="${portofoliu.tutore.email}"></span>
                             <span th:if="${portofoliu.tutore == null}" class="text-muted">Tutore șters</span>
+                            <span th:if="${portofoliu.tutore != null}">
+                                <span th:if="${portofoliu.tutore.prenume != null}" th:text="${portofoliu.tutore.nume + ' ' + portofoliu.tutore.prenume}"></span>
+                                <span th:if="${portofoliu.tutore.prenume == null}" th:text="${portofoliu.tutore.email}"></span>
+                            </span>
                         </td>
                         <td>
                             <span th:if="${portofoliu.cadruDidactic != null}" th:text="${portofoliu.cadruDidactic.nume + ' ' + portofoliu.cadruDidactic.prenume}"></span>

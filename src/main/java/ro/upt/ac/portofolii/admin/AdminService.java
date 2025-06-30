@@ -189,8 +189,8 @@ public class AdminService {
 
     public void deleteTutoreFolder(Tutore t) throws IOException {
         String baseTutoreDir = "semnaturi/tutori";
-        String folderName = baseTutoreDir + t.getId();
-        Path tutoreDir = Paths.get("tutori", folderName);
+        String folderName = "tutore" + t.getId();
+        Path tutoreDir = Paths.get(baseTutoreDir, folderName);
 
         if (Files.exists(tutoreDir) && Files.isDirectory(tutoreDir)) {
             try (DirectoryStream<Path> stream = Files.newDirectoryStream(tutoreDir)) {
